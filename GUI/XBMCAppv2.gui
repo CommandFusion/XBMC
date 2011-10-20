@@ -208,8 +208,8 @@
     <theme type="button" name=".menu_playlist[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_playlist_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".btn_transparent[state='0']"><![CDATA[padding: 0px 0px 0px 0px; color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".btn_transparent[state='1']"><![CDATA[padding: 0px 0px 0px 0px; color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".home_btn_copy[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(home_btn_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".home_btn_copy[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(home_btn_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".power_btn[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(pwr_btn_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".power_btn[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(pwr_btn_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".settings_copy1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(settings_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".settings_copy1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(settings_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".cf_logo_copy[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(cf_logo.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
@@ -324,18 +324,18 @@
     <theme type="button" name=".list_menudrop_header_blank[state='1']"><![CDATA[padding: 0px 0px 0px 15px; background-image: url(btn_list_header_blank_on.png); color: White; font-size: 16px; font-family: 'Microsoft Sans Serif'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".list_content_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(list_content_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".list_content_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(list_content_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_movies_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_movies_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_movies_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_movies_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_music_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_music_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_music_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_music_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_shutdown[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_shutdown_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_shutdown[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_shutdown_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_hibernate[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_hibernate_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_hibernate[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_hibernate_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".mute_button[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(transports_grey_mute_off_25.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".mute_button[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(transports_grey_mute_on_25.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_playlist_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_playlist_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_playlist_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_playlist_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_tv_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_tv_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".menu_tv_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_tv_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".movie_play_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(movie_play_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".movie_play_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(movie_play_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_suspend[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_suspend_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_suspend[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_suspend_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_reboot[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_reboot_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_reboot[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_reboot_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_exit[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_exit_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_exit[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(main_menu_exit_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".settings_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(settings_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".settings_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(settings_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".top_btn_blank_center[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(top_btn_blank_center_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
@@ -520,11 +520,13 @@
     <script name="xbmcapp.js" />
     <script name="XBMCGUIapp.js" />
   </scripts>
-  <page name="TVShow" j="0" transition="" subtype="" time="0" ease="" start="1">
+  <page name="TVShow" j="0" transition="" subtype="" time="0" ease="">
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="MenuSearch" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSearch_blank" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <img x="675" y="110" w="186" h="29" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_search.png</img>
+      <input j="0" s="50" x="703" y="110" w="158" h="29" pass="0" autoFocus="0" f="0" t="search_black" changeCommand="Search_TVShow" l="0">(search TV Series)</input>
       <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="bg" x="0" y="147" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
@@ -537,12 +539,6 @@
       <subpage name="wifi" x="2" y="17" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="959" y="92" w="61" h="61" t="cf_logo" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
       <subpage name="TVShow_Series_List" x="10" y="191" j="3001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="TVShow_Episode_Details" x="416" y="191" j="4001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="TVShow_Season_List" x="10" y="191" j="3002" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
@@ -556,7 +552,6 @@
       </btn>
       <txt j="100" x="15" y="158" w="376" h="29" t="cfblue2_small_c_lighter" wrap="True" l="0">
       </txt>
-      <input j="0" s="50" x="703" y="108" w="158" h="29" pass="0" autoFocus="0" f="0" t="search_black" changeCommand="Search_TVShow" l="0">(search TV Series)</input>
       <subpage name="TVShow_DropMenu_Menu" x="670" y="80" j="20" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="TVShow_DropMenu_Order" x="670" y="80" j="21" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="TVShow_DropMenu_Ascending" x="670" y="80" j="22" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
@@ -570,9 +565,9 @@
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="MenuSearch" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSearch_blank" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="TopBar" x="0" y="0" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="bg" x="0" y="147" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <btn j="0" x="0" y="82" w="76" h="82" t="home_btn" flip="MainMenu" sim="1" l="1" s="1">
         <inactive s="0">
@@ -589,32 +584,27 @@
       <subpage name="wifi" x="2" y="17" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="959" y="92" w="61" h="61" t="cf_logo" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
       <subpage name="MovieWall_List" x="10" y="191" j="1002" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Movie_Details" x="416" y="191" j="1101" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="sbpage_right_blank" x="416" y="191" j="1102" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <txt j="300" x="15" y="158" w="376" h="29" t="cfblue2_small_c_lighter" wrap="True" l="0">MOVIES</txt>
-      <subpage name="Movie_DropMenu_Menu" x="670" y="80" j="30" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="1" l="1" />
+      <subpage name="Movie_DropMenu_Menu" x="670" y="80" j="30" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="Movie_DropMenu_Order" x="670" y="80" j="31" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="Movie_DropMenu_Ascending" x="670" y="80" j="32" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="Movie_DropMenu_Descending" x="670" y="80" j="33" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="0" />
-      <input j="0" s="51" x="703" y="108" w="158" h="30" pass="0" autoFocus="0" f="0" t="search_black" changeCommand="Search_Movies" l="0">(search Movies)</input>
       <subpage name="Movie_List" x="10" y="191" j="1001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Movie_RecentlyAddedMovie_List" x="10" y="191" j="1003" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Movie_Genre_Details_List" x="10" y="191" j="1005" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
-      <subpage name="Movie_DropMenu_Genre_List" x="670" y="80" j="1004" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="1" l="1" />
+      <subpage name="Movie_DropMenu_Genre_List" x="670" y="80" j="1004" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
+      <img x="675" y="110" w="186" h="29" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_search.png</img>
+      <input j="0" s="51" x="703" y="109" w="158" h="30" pass="0" autoFocus="0" f="0" t="search_black" changeCommand="Search_Movies" l="0">(search Movies)</input>
     </landscape>
   </page>
   <page name="Music" j="0" transition="" subtype="" time="0" ease="">
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="MenuSearch" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSearch_blank" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="bg" x="0" y="147" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
@@ -632,12 +622,6 @@
       </btn>
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="959" y="92" w="61" h="61" t="cf_logo" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
       <subpage name="Music_Artist_List" x="10" y="191" j="5001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
       <subpage name="Music_Album_List" x="10" y="191" j="5002" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
       <subpage name="Music_Song_List" x="10" y="191" j="5003" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
@@ -645,7 +629,6 @@
       <subpage name="Music_PlayFile" x="416" y="701" j="6101" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="sbpage_right_blank" x="416" y="191" j="6201" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <txt j="200" x="15" y="158" w="376" h="29" t="cfblue2_small_c_lighter" wrap="True" l="0">ARTIST</txt>
-      <input j="0" s="52" x="703" y="108" w="158" h="29" pass="0" autoFocus="0" f="0" t="search_black" changeCommand="Search_Artist" l="0">(search Artist)</input>
       <subpage name="Music_DropMenu_Menu" x="670" y="80" j="40" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Music_DropMenu_Order" x="670" y="80" j="41" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Music_DropMenu_Ascending" x="670" y="80" j="42" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
@@ -653,13 +636,15 @@
       <subpage name="transport_audio" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Music_RecentlyAddedAlbum_List" x="10" y="191" j="5004" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Music_RecentlyAddedSong_List" x="10" y="191" j="5005" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <img x="675" y="110" w="186" h="29" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_search.png</img>
+      <input j="0" s="52" x="703" y="110" w="158" h="29" pass="0" autoFocus="0" f="0" t="search_black" changeCommand="Search_Artist" l="0">(search Artist)</input>
     </landscape>
   </page>
   <page name="PlayingNow" j="0" transition="" subtype="" time="0" ease="">
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="MenuSearch" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSearch_blank" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="bg" x="0" y="147" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
@@ -678,12 +663,6 @@
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="959" y="92" w="61" h="61" t="cf_logo" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
       <img x="789" y="483" w="183" h="183" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">dev_arrowpad_bg_med.png</img>
       <btn j="0" x="767" y="462" w="91" h="91" t="dev_arrowTL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;home&quot;)">
         <inactive s="0">HOME</inactive>
@@ -773,7 +752,7 @@ Timer</active>
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="MenuSearch" x="0" y="92" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSearch_blank" x="0" y="92" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="TopBar" x="0" y="0" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="bg" x="0" y="147" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
@@ -792,12 +771,6 @@ Timer</active>
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="959" y="92" w="61" h="61" t="cf_logo" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
       <subpage name="Playlist_Audio_List" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="Playlist_Video_List" x="620" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <txt j="0" x="15" y="158" w="376" h="29" t="cfblue2_small_c_lighter" wrap="False" l="0">AUDIO PLAYLIST</txt>
@@ -815,10 +788,12 @@ ALL</active>
       </btn>
     </landscape>
   </page>
-  <page name="MainMenu" j="0" transition="" subtype="" time="0" ease="">
+  <page name="MainMenu" j="0" transition="" subtype="" time="0" ease="" start="1">
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
+      <subpage name="MenuSearch_blank" x="0" y="92" j="70" transition1="moveIn" subtype1="fromLeft" time1="1" ease1="easeIn" transition2="moveIn" subtype2="fromLeft" time2="0" ease2="easeOut" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuPowerSelection" x="0" y="92" j="70" transition1="moveIn" subtype1="fromLeft" time1="0" ease1="easeIn" transition2="moveIn" subtype2="fromLeft" time2="1" ease2="easeOut" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="bg" x="0" y="147" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <btn j="18" x="944" y="34" w="72" h="43" t="settings" flip="None" sim="2" l="1" s="1">
@@ -827,14 +802,7 @@ ALL</active>
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="959" y="92" w="61" h="61" t="cf_logo" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
       <subpage name="sbpage_full_blank" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="Menu_DropMenu_Settings" x="6" y="86" j="50" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <img x="12" y="32" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-system-icon.png</img>
       <txt j="0" x="67" y="20" w="98" h="71" t="cfblue2_title_c" wrap="True" l="0">SETTINGS</txt>
       <btn j="50" x="859" y="482" w="165" h="63" t="btn_transparent" flip="None" sim="2" l="0" s="1">
@@ -843,19 +811,18 @@ ALL</active>
         <active s="0">
         </active>
       </btn>
-      <subpage name="Menu_PopUpMenu_SystemActions" x="671" y="78" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
-      <img x="421" y="434" w="150" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">xbmc_logo3.png</img>
-      <img x="148" y="440" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-gnome-system-icon.png</img>
+      <img x="293" y="432" w="90" h="60" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">xbmc_logo3.png</img>
+      <img x="35" y="202" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-gnome-system-icon.png</img>
       <img x="284" y="209" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">document-movie-3-icon.png</img>
-      <img x="580" y="209" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-gnome-multimedia-icon.png</img>
-      <img x="723" y="436" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Apps-kaffeine-icon.png</img>
-      <img x="442" y="570" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-office-icon.png</img>
-      <txt j="0" x="137" y="569" w="178" h="51" t="MovieTitle" wrap="True" l="0">TV Shows</txt>
+      <img x="37" y="387" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-gnome-multimedia-icon.png</img>
+      <img x="36" y="559" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Apps-kaffeine-icon.png</img>
+      <img x="280" y="560" w="128" h="128" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-office-icon.png</img>
+      <txt j="0" x="24" y="325" w="178" h="51" t="MovieTitle" wrap="True" l="0">TV Shows</txt>
       <txt j="0" x="291" y="338" w="123" h="51" t="MovieTitle" wrap="True" l="0">Movies</txt>
-      <txt j="0" x="590" y="335" w="123" h="51" t="MovieTitle" wrap="True" l="0">Music</txt>
-      <txt j="0" x="689" y="565" w="204" h="51" t="MovieTitle" wrap="True" l="0">Playing Now</txt>
-      <txt j="0" x="447" y="699" w="124" h="51" t="MovieTitle" wrap="True" l="0">Playlist</txt>
-      <btn j="0" x="144" y="438" w="150" h="173" t="btn_transparent" flip="TVShow" sim="0" l="0" s="1" cmd="Page_TVShow">
+      <txt j="0" x="50" y="495" w="123" h="51" t="MovieTitle" wrap="True" l="0">Music</txt>
+      <txt j="0" x="17" y="682" w="204" h="51" t="MovieTitle" wrap="True" l="0">Playing Now</txt>
+      <txt j="0" x="285" y="689" w="124" h="51" t="MovieTitle" wrap="True" l="0">Playlist</txt>
+      <btn j="0" x="27" y="202" w="150" h="173" t="btn_transparent" flip="TVShow" sim="0" l="0" s="1" cmd="Page_TVShow">
         <inactive s="0">
         </inactive>
         <active s="0">
@@ -867,29 +834,51 @@ ALL</active>
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="569" y="214" w="150" h="173" t="btn_transparent" flip="Music" sim="0" l="0" s="1" cmd="Page_Music">
+      <btn j="0" x="25" y="380" w="150" h="173" t="btn_transparent" flip="Music" sim="0" l="0" s="1" cmd="Page_Music">
         <inactive s="0">
         </inactive>
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="682" y="441" w="205" h="173" t="btn_transparent" flip="PlayingNow" sim="0" l="0" s="1" cmd="Page_PlayingNow">
+      <btn j="0" x="13" y="558" w="205" h="173" t="btn_transparent" flip="PlayingNow" sim="0" l="0" s="1" cmd="Page_PlayingNow">
         <inactive s="0">
         </inactive>
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="429" y="572" w="150" h="173" t="btn_transparent" flip="Playlist" sim="0" l="0" s="1" cmd="Page_Playlist">
+      <btn j="0" x="267" y="562" w="150" h="173" t="btn_transparent" flip="Playlist" sim="0" l="0" s="1" cmd="Page_Playlist">
         <inactive s="0">
         </inactive>
         <active s="0">
         </active>
       </btn>
-      <btn j="50" x="9" y="24" w="152" h="64" t="btn_transparent" flip="None" sim="2" l="0" s="1">
+      <btn j="50" x="14" y="21" w="152" h="64" t="btn_transparent" flip="None" sim="2" l="0" s="1">
         <inactive s="0">
         </inactive>
         <active s="0">
         </active>
+      </btn>
+      <btn j="70" x="0" y="82" w="76" h="82" t="power_btn" flip="None" sim="2" l="1" s="1">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <subpage name="Menu_DropMenu_Settings" x="672" y="79" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
+      <subpage name="Main_RecentlyAddedMovie" x="588" y="396" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
+      <btn j="0" x="588" y="513" w="387" h="45" t="Opaque_L" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Recent Added Movies</inactive>
+        <active s="0">Recent Added Movies</active>
+      </btn>
+      <subpage name="Main_RecentlyAddedAlbum" x="588" y="583" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
+      <btn j="0" x="588" y="698" w="387" h="45" t="Opaque_L" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Recent Added Albums</inactive>
+        <active s="0">Recent Added Albums</active>
+      </btn>
+      <subpage name="Main_RecentlyAddedEpisodes" x="588" y="210" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
+      <btn j="0" x="588" y="325" w="387" h="45" t="Opaque_L" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Recent Added Episodes</inactive>
+        <active s="0">Recent Added Episodes</active>
       </btn>
     </landscape>
   </page>
@@ -897,7 +886,7 @@ ALL</active>
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="MenuSearch" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSearch_blank" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="bg" x="0" y="147" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
@@ -916,41 +905,9 @@ ALL</active>
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="959" y="92" w="61" h="61" t="cf_logo" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
       <subpage name="sbpage_right_blank" x="416" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Sources_FullList" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="Sources_List" x="416" y="191" j="9001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-    </landscape>
-  </page>
-  <page name="MainMenu_copy" j="0" transition="None" subtype="None" time="0" ease="">
-    <portrait />
-    <landscape>
-      <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="TopBar" x="0" y="0" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
-      <subpage name="bg" x="0" y="147" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <img x="137" y="97" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-system-icon.png</img>
-      <txt j="0" x="185" y="96" w="105" h="50" t="cfblue2_title_c" wrap="True" l="0">shutdown</txt>
-      <img x="297" y="97" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-system-icon.png</img>
-      <txt j="0" x="342" y="97" w="112" h="50" t="cfblue2_title_c" wrap="True" l="0">hibernate</txt>
-      <img x="458" y="97" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-system-icon.png</img>
-      <txt j="0" x="504" y="97" w="98" h="50" t="cfblue2_title_c" wrap="True" l="0">suspend</txt>
-      <img x="618" y="97" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-system-icon.png</img>
-      <txt j="0" x="813" y="97" w="61" h="50" t="cfblue2_title_c" wrap="True" l="0">quit</txt>
-      <img x="762" y="97" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-system-icon.png</img>
-      <txt j="0" x="668" y="97" w="84" h="50" t="cfblue2_title_c" wrap="True" l="0">reboot</txt>
-      <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <img x="914" y="19" w="110" h="72" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">xbmc_logo3.png</img>
-      <btn j="0" x="0" y="82" w="76" h="82" t="home_btn" flip="None" sim="1" l="1" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
-      </btn>
     </landscape>
   </page>
   <subpage name="bg" w="1024" h="621">
@@ -1001,9 +958,8 @@ ALL</active>
       </active>
     </btn>
   </subpage>
-  <subpage name="MenuSearch" w="903" h="61">
+  <subpage name="MenuSearch_blank" w="903" h="61">
     <img x="0" y="0" w="903" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_search_bg.png</img>
-    <img x="680" y="16" w="186" h="29" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_search.png</img>
   </subpage>
   <subpage name="transport_video" w="230" h="55">
     <btn j="0" x="9" y="6" w="65" h="43" t="transport_prev" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.skipPrevious(&quot;video&quot;)">
@@ -1034,8 +990,8 @@ ALL</active>
       <active s="0">
       </active>
     </btn>
-    <img x="49" y="27" w="175" h="11" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">vol_bar_bg.png</img>
-    <slider j="90" d="0" x="56" y="27" w="160" h="11" min="0" max="100" decimals="0" dragCmd="Volume" releaseCmd="Volume" unit="decimal" t="vol_bar" sim="1" l="0">
+    <img x="49" y="17" w="175" h="30" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">vol_bar_bg.png</img>
+    <slider j="90" d="0" x="56" y="17" w="160" h="30" min="0" max="100" decimals="0" dragCmd="Volume" releaseCmd="Volume" unit="decimal" t="vol_bar" sim="1" l="0">
       <indicator state="0" offsetX="0" offsetY="0" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
       <indicator state="1" offsetX="0" offsetY="0" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
     </slider>
@@ -1067,6 +1023,7 @@ ALL</active>
     <txt j="4010" x="367" y="313" w="214" h="21" t="nowplaying_lighter" wrap="True" l="1">Rating:</txt>
     <txt j="4009" x="367" y="294" w="214" h="21" t="nowplaying_lighter" wrap="True" l="1">First Aired:</txt>
     <txt j="4008" x="367" y="275" w="214" h="21" t="nowplaying_lighter" wrap="True" l="1">Runtime:</txt>
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
   <subpage name="TVShow_Series_Item" w="365" h="80">
     <btn j="0" x="0" y="53" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
@@ -1198,6 +1155,7 @@ ALL</active>
       <inactive s="0">Playlist</inactive>
       <active s="0">Playlist</active>
     </btn>
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
   <subpage name="Music_Artist_Item" w="365" h="81">
     <btn j="0" x="0" y="63" w="365" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
@@ -1273,6 +1231,7 @@ ALL</active>
     <txt j="6006" x="13" y="294" w="570" h="21" t="nowplaying_lighter" wrap="True" l="1">Artist:</txt>
     <txt j="6005" x="13" y="275" w="570" h="21" t="nowplaying_lighter" wrap="True" l="1">Album:</txt>
     <txt j="6008" x="309" y="313" w="275" h="21" t="nowplaying_lighter" wrap="True" l="1">Runtime:</txt>
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
   <subpage name="PlayList_Audio_Item" w="327" h="81">
     <btn j="1" x="85" y="3" w="356" h="54" t="cfblue2_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.selectPlaylistFile(list, listIndex, join)">
@@ -1461,8 +1420,9 @@ ALL</active>
   <subpage name="sbpage_right_blank" w="590" h="568">
     <img x="0" y="0" w="590" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
     <img x="1" y="0" w="588" h="333" j="10000" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
-  <subpage name="Setting_Network" w="387" h="568">
+  <subpage name="Setting_Network_not_used" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <txt j="0" x="4" y="3" w="21" h="83" t="" wrap="False" l="0">Text</txt>
     <txt j="0" x="29" y="15" w="74" h="26" t="cfblue2_small_c" wrap="True" l="0">system </txt>
@@ -1480,6 +1440,7 @@ ALL</active>
       <inactive s="0">TEST</inactive>
       <active s="0">TEST</active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Sort_Genre_not_used" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
@@ -2444,6 +2405,7 @@ ALL</active>
       <active s="0">
       </active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Sources_Item" w="550" h="60">
     <txt j="2" x="14" y="0" w="536" h="54" t="EpisodeNameLarge" wrap="True" l="1">File_Item</txt>
@@ -2637,7 +2599,7 @@ ALL</active>
     <txt j="3" x="75" y="32" w="276" h="26" t="nowplaying_lighter" wrap="True" l="0">Movie Genre Details</txt>
   </subpage>
   <subpage name="Menu_DropMenu_Settings" w="342" h="574">
-    <img x="0" y="0" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_settings_menu_l.png</img>
+    <img x="0" y="0" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
     <btn j="0" x="20" y="101" w="302" h="45" t="list_menudrop_header_blank" flip="None" sim="1" l="0" s="1">
       <inactive s="0">Description :</inactive>
       <active s="0">Description :</active>
@@ -2681,8 +2643,8 @@ ALL</active>
       <active s="2">Text</active>
     </btn>
   </subpage>
-  <subpage name="Main_RecentAddMovie_Item" w="92" h="120">
-    <img x="0" y="0" w="90" h="120" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
+  <subpage name="Main_RecentMovie_Item" w="80" h="98">
+    <img x="0" y="0" w="75" h="98" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
   </subpage>
   <subpage name="TVShow_DropMenu_Genre_Item" w="320" h="44">
     <btn j="1" x="0" y="0" w="320" h="44" t="list_menudrop_body_blank" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.searchTVShowsGenre(list, listIndex, join)">
@@ -2759,12 +2721,14 @@ ALL</active>
     <txt j="0" x="330" y="292" w="105" h="22" t="Small_Text" wrap="True" l="0">Seek Time : </txt>
     <txt j="8000" x="220" y="27" w="126" h="65" t="EpisodeNameLarge" wrap="True" l="0">(none)</txt>
     <txt j="0" x="23" y="24" w="217" h="68" t="MovieTagline" wrap="True" l="0">Current Active Player : </txt>
-    <img x="52" y="472" w="462" h="11" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">vol_bar_bg_long.png</img>
-    <slider j="8100" d="8100" x="59" y="472" w="452" h="11" min="0" max="100" decimals="0" pressCmd="AudioTimer_Stop" dragCmd="AudioTimer_Stop" releaseCmd="AudioTime_Seek" unit="decimal" t="scrub_bar" sim="1" l="0">
+    <img x="52" y="460" w="462" h="30" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">vol_bar_bg_long.png</img>
+    <slider j="8100" d="8100" x="59" y="460" w="448" h="30" min="0" max="100" decimals="0" pressCmd="AudioTimer_Stop" dragCmd="AudioTimer_Stop" releaseCmd="AudioTime_Seek" unit="decimal" t="scrub_bar" sim="1" l="0">
       <indicator state="0" offsetX="0" offsetY="0" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
+      <indicator state="1" offsetX="0" offsetY="0" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
     </slider>
     <txt j="8206" x="2" y="463" w="47" h="24" t="nowplaying_lighter" wrap="False" l="0">00:00</txt>
     <txt j="8207" x="524" y="463" w="49" h="24" t="nowplaying_lighter" wrap="False" l="0">00:00</txt>
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
   <subpage name="PlayingNow_Video2" w="590" h="568">
     <img x="0" y="0" w="590" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
@@ -2784,9 +2748,10 @@ ALL</active>
     </slider>
     <txt j="8310" x="440" y="248" w="99" h="29" t="Small_Text" wrap="True" l="0">00:00:00</txt>
     <txt j="0" x="353" y="248" w="99" h="26" t="Small_Text" wrap="True" l="0">Seek Time:</txt>
-    <img x="68" y="466" w="450" h="11" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">vol_bar_bg_long.png</img>
-    <slider j="8400" d="8400" x="73" y="466" w="445" h="11" min="0" max="100" decimals="0" pressCmd="VideoTimer_Stop" dragCmd="VideoTimer_Stop" releaseCmd="VideoTimer_Seek" unit="decimal" t="scrub_bar" sim="1" l="0">
+    <img x="62" y="455" w="462" h="30" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">vol_bar_bg_long.png</img>
+    <slider j="8400" d="8400" x="69" y="455" w="448" h="30" min="0" max="100" decimals="0" pressCmd="VideoTimer_Stop" dragCmd="VideoTimer_Stop" releaseCmd="VideoTimer_Seek" unit="decimal" t="scrub_bar" sim="1" l="0">
       <indicator state="0" offsetX="0" offsetY="1" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
+      <indicator state="1" offsetX="0" offsetY="0" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
     </slider>
     <btn j="0" x="284" y="501" w="82" h="43" t="transport_bg_c" flip="None" sim="1" l="1" s="0" js="XBMCMacMini.XBMC.Stop(&quot;video&quot;)">
       <inactive s="0">
@@ -2836,14 +2801,16 @@ ALL</active>
         <img x="18" y="0" w="43" h="43">transports_grey_fast_forward_on_20.png</img>
       </active>
     </btn>
-    <txt j="8306" x="4" y="457" w="59" h="24" t="nowplaying_lighter" wrap="True" l="0">00:00:00</txt>
-    <txt j="8307" x="527" y="457" w="63" h="24" t="nowplaying_lighter" wrap="True" l="0">00:00:00</txt>
+    <txt j="8306" x="0" y="457" w="59" h="24" t="nowplaying_lighter" wrap="True" l="0">00:00:00</txt>
+    <txt j="8307" x="529" y="457" w="61" h="24" t="nowplaying_lighter" wrap="True" l="0">00:00:00</txt>
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
   <subpage name="PlayingNow_blank" w="590" h="568">
     <img x="0" y="0" w="590" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
     <img x="0" y="0" w="588" h="114" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_menu_bg.png</img>
     <txt j="0" x="220" y="27" w="272" h="65" t="EpisodeNameLarge" wrap="True" l="0">No Media is Playing</txt>
     <txt j="0" x="23" y="24" w="217" h="68" t="MovieTagline" wrap="True" l="0">Current Active Player : </txt>
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
   <subpage name="Playlist_Library_List" w="342" h="574">
     <img x="0" y="0" w="342" h="574" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
@@ -2878,74 +2845,100 @@ ALL</active>
     </btn>
     <txt j="0" x="33" y="242" w="273" h="39" t="menu_dropdown_title_l" wrap="True" l="0">Video Library</txt>
   </subpage>
-  <subpage name="Menu_PopUpMenu_SystemActions" w="342" h="574">
-    <img x="0" y="0" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
-    <btn j="0" x="20" y="107" w="302" h="54" t="list_menudrop_header_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;shutdown&quot;)">
-      <inactive s="0">                  SHUTDOWN</inactive>
-      <active s="0">                  SHUTDOWN</active>
+  <subpage name="MenuPowerSelection" w="522" h="61">
+    <img x="0" y="0" w="522" h="61" j="11" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_selection_bg.png</img>
+    <btn j="0" x="156" y="0" w="61" h="61" t="menu_suspend" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;suspend&quot;)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
     </btn>
-    <btn j="0" x="20" y="161" w="302" h="54" t="list_menudrop_body_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;hibernate&quot;)">
-      <inactive s="0">                  HIBERNATE</inactive>
-      <active s="0">                  HIBERNATE</active>
+    <btn j="0" x="238" y="0" w="61" h="61" t="menu_hibernate" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;hibernate&quot;)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
     </btn>
-    <btn j="0" x="20" y="323" w="302" h="54" t="list_menudrop_footer_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;quit&quot;)">
-      <inactive s="0">                  QUIT</inactive>
-      <active s="0">                  QUIT</active>
+    <btn j="0" x="76" y="0" w="61" h="61" t="menu_shutdown" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;shutdown&quot;)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
     </btn>
-    <txt j="0" x="31" y="71" w="282" h="35" t="menu_dropdown_title_l" wrap="True" l="0">XBMC System Actions</txt>
-    <img x="41" y="109" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Actions-system-shutdown-icon.png</img>
-    <img x="41" y="162" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Actions-system-suspend-hibernate-icon.png</img>
-    <btn j="0" x="20" y="215" w="302" h="54" t="list_menudrop_body_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;suspend&quot;)">
-      <inactive s="0">                  SUSPEND</inactive>
-      <active s="0">                  SUSPEND</active>
+    <btn j="0" x="320" y="0" w="61" h="61" t="menu_reboot" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;reboot&quot;)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
     </btn>
-    <btn j="0" x="20" y="269" w="302" h="54" t="list_menudrop_body_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;reboot&quot;)">
-      <inactive s="0">                  REBOOT</inactive>
-      <active s="0">                  REBOOT</active>
+    <btn j="0" x="402" y="0" w="61" h="61" t="menu_exit" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;quit&quot;)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
     </btn>
-    <img x="41" y="218" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Actions-system-suspend-icon.png</img>
-    <img x="41" y="270" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Actions-system-reboot-icon.png</img>
-    <img x="41" y="325" w="50" h="50" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Actions-window-close-icon.png</img>
+  </subpage>
+  <subpage name="Main_RecentEpisode_Item" w="365" h="81">
+    <img x="0" y="0" w="110" h="81" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
+    <txt j="2" x="121" y="0" w="230" h="49" t="EpDetails" wrap="True" l="1">Episode Name</txt>
+    <btn j="1" x="0" y="6" w="359" h="69" t="btn_transparent" flip="TVShow" sim="1" l="1" s="1">
+      <actions>
+        <action>
+          <press delay="0" hold="0" repeat="0" js="XBMCMacMini.selectTVEpisode(list, listIndex, join)" />
+          <press delay="0" hold="2000" repeat="0" js="XBMCMacMini.XBMC.addEpisodePlaylist()" />
+        </action>
+      </actions>
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <txt j="3" x="121" y="52" w="232" h="18" t="nowplaying_lighter" wrap="True" l="0">TV Show + Season</txt>
   </subpage>
   <subpage name="TVShow_Series_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
-    <list j="3001" x="11" y="11" w="365" h="552" headerSub="" titleSub="" contentSub="TVShow_Series_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
+    <list j="3001" x="11" y="1" w="365" h="564" headerSub="" titleSub="" contentSub="TVShow_Series_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="TVShow_Season_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
-    <list j="3002" x="11" y="86" w="365" h="479" headerSub="" titleSub="" contentSub="TVShow_Season_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
-    <btn j="0" x="39" y="13" w="100" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.showSeries()">
+    <list j="3002" x="11" y="82" w="365" h="483" headerSub="" titleSub="" contentSub="TVShow_Season_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
+    <btn j="0" x="39" y="13" w="105" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.showSeries()">
       <inactive s="0">&lt; SERIES</inactive>
       <active s="0">&lt; SERIES</active>
     </btn>
-    <btn j="0" x="10" y="65" w="365" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
+    <btn j="0" x="11" y="65" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="TVShow_Episode_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
-    <list j="3003" x="11" y="86" w="365" h="479" headerSub="" titleSub="" contentSub="TVShow_Episode_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
-    <btn j="0" x="44" y="12" w="105" h="45" t="top_btn_single_stretch" flip="None" sim="0" l="1" s="1" js="XBMCMacMini.showSeason()">
+    <list j="3003" x="11" y="82" w="365" h="483" headerSub="" titleSub="" contentSub="TVShow_Episode_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
+    <btn j="0" x="39" y="13" w="105" h="45" t="top_btn_single_stretch" flip="None" sim="0" l="1" s="1" js="XBMCMacMini.showSeason()">
       <inactive s="0">&lt; SEASON</inactive>
       <active s="0">&lt; SEASON</active>
     </btn>
-    <btn j="0" x="10" y="64" w="365" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
+    <btn j="0" x="11" y="65" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="MovieWall_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="1002" x="12" y="1" w="365" h="563" headerSub="" titleSub="" contentSub="MovieWall_List_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Music_Artist_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="5001" x="11" y="2" w="365" h="566" headerSub="" titleSub="" contentSub="Music_Artist_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Music_Album_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
@@ -2960,6 +2953,7 @@ ALL</active>
       <active s="0">
       </active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Music_Song_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
@@ -2980,6 +2974,7 @@ ALBUMS</inactive>
       <active s="0">&lt; RECENTLY ADDED
 ALBUMS</active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Playlist_Audio_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
@@ -2998,6 +2993,7 @@ ALBUMS</active>
       <inactive s="0">CLEAR</inactive>
       <active s="0">CLEAR</active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Playlist_Video_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
@@ -3016,37 +3012,46 @@ ALBUMS</active>
       <inactive s="0">CLEAR</inactive>
       <active s="0">CLEAR</active>
     </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Sources_List" w="590" h="560">
     <list j="9001" x="20" y="12" w="556" h="538" headerSub="" titleSub="" contentSub="Sources_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
   <subpage name="Movie_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="1001" x="12" y="1" w="365" h="563" headerSub="" titleSub="" contentSub="Movie_List_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Movie_RecentlyAddedMovie_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="1003" x="11" y="8" w="365" h="560" headerSub="" titleSub="" contentSub="Movie_RecentlyAddedMovie_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="TVShow_RecentlyAddedEpisodes_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="3004" x="11" y="8" w="365" h="558" headerSub="" titleSub="" contentSub="TVShow_RecentlyaddedEpisode_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Music_RecentlyAddedAlbum_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="5004" x="11" y="7" w="365" h="561" headerSub="" titleSub="" contentSub="Music_RecentlyAddedAlbum_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Music_RecentlyAddedSong_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="5005" x="10" y="7" w="365" h="558" headerSub="" titleSub="" contentSub="Music_RecentlyAddedSong_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="TVShow_Genre_Details_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="3006" x="11" y="8" w="365" h="559" headerSub="" titleSub="" contentSub="TVShow_Genre_Details_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Movie_Genre_Details_List" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="1005" x="12" y="4" w="365" h="560" headerSub="" titleSub="" contentSub="Movie_Genre_Details_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Movie_DropMenu_Genre_List" w="342" h="574">
     <img x="0" y="0" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
@@ -3061,16 +3066,16 @@ ALBUMS</active>
     <list j="1004" x="12" y="64" w="318" h="494" headerSub="" titleSub="" contentSub="Movie_DropMenu_Genre_Item" footerSub="" orientation="v" l="0" swipedelete="1" />
   </subpage>
   <subpage name="Menu_RecentAddMovie_List" w="586" h="120">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentAddMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
+    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
   </subpage>
   <subpage name="Menu_RecentAddAlbum_List" w="586" h="120">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentAddMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
+    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
   </subpage>
   <subpage name="Menu_RecentAddEpisode_List" w="586" h="120">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentAddMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
+    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
   </subpage>
   <subpage name="Menu_RecentAddSong_List" w="586" h="120">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentAddMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
+    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
   </subpage>
   <subpage name="TVShow_DropMenu_Genre_List" w="342" h="574">
     <img x="0" y="0" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
@@ -3083,5 +3088,49 @@ ALBUMS</active>
       <active s="0">Edit</active>
     </btn>
     <list j="3005" x="12" y="64" w="318" h="494" headerSub="" titleSub="" contentSub="TVShow_DropMenu_Genre_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+  </subpage>
+  <subpage name="Main_RecentlyAddedMovie" w="387" h="160">
+    <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
+    <btn j="0" x="10" y="96" w="365" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <list j="9102" x="24" y="7" w="337" h="98" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="0" swipedelete="1" />
+  </subpage>
+  <subpage name="Main_RecentlyAddedAlbum" w="387" h="160">
+    <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
+    <btn j="0" x="10" y="96" w="365" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <list j="9103" x="24" y="22" w="333" h="80" headerSub="" titleSub="" contentSub="Main_RecentlyAlbum_Item" footerSub="" orientation="h" l="0" swipedelete="1" />
+  </subpage>
+  <subpage name="Main_RecentlyAddedEpisodes" w="387" h="160">
+    <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
+    <btn j="0" x="10" y="96" w="365" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <list j="9101" x="20" y="21" w="339" h="83" headerSub="" titleSub="" contentSub="Main_RecentEpisode_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
+  </subpage>
+  <subpage name="Main_RecentlyAlbum_Item" w="365" h="81">
+    <img x="0" y="0" w="80" h="80" j="1" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
+    <txt j="2" x="81" y="0" w="267" h="48" t="Album" wrap="False" l="0">(Album #)</txt>
+    <btn j="1" x="6" y="4" w="349" h="69" t="btn_transparent" flip="Music" sim="1" l="1" s="1" js="XBMCMacMini.selectMusicAlbum(list, listIndex, join)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <txt j="0" x="81" y="47" w="267" h="22" t="nowplaying_lighter" wrap="True" l="0">Recently Added Album</txt>
   </subpage>
 </gui>

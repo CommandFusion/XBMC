@@ -155,6 +155,9 @@ var XBMC_Controller = function(params) {
 
 	self.setup = function() {
 		self.URL = self.getURL();
+		
+		MovieslistArray = [];
+		TVSerieslistArray = [];
 	};
 
 	self.getURL = function() {
@@ -168,36 +171,6 @@ var XBMC_Controller = function(params) {
 			host = "http://" + self.url + ":" + self.port + "/";
 		}
 		return host;	
-	};
-	
-	self.getNetworkSettings = function(){
-			
-			// Get the values of all the IP Settings at once.
-			//s60 = System Name, s61 = Host Name / IP Add, s62 = port, s63 = username, s64 = password
-			CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
-				
-				CF.log("System name: " + joins.s60.value);
-				CF.log("Host name/IP address: " + joins.s61.value);
-				CF.log("Port: " + joins.s62.value);
-				CF.log("Username: " + joins.s63.value);
-				CF.log("Password: " + joins.s64.value);
-				
-				 	var in_sysname = joins.s60.value;
-					var in_url = joins.s61.value;
-					var in_port = joins.s62.value;
-				 	var in_username = joins.s63.value;
-					var in_password = joins.s64.value;
-				
-				//	Set all these values as global tokens and persist, use CF.setToken(CF.GlobalTokensJoin)
-				 	CF.setToken(CF.GlobalTokensJoin, "[inputSysName]", in_sysname);
-				 	CF.setToken(CF.GlobalTokensJoin, "[inputURL]", in_url);
-				 	CF.setToken(CF.GlobalTokensJoin, "[inputPort]", in_port);				
-				 	CF.setToken(CF.GlobalTokensJoin, "[inputUsername]", in_username);
-				 	CF.setToken(CF.GlobalTokensJoin, "[inputPassword]", in_password);
-				
-				// once changed all the settings, switch and connect to the new system.
-				//CF.setSystemProperties(sysname, { enabled: true, url: in_url, port: in_port, username: in_username, password: in_password});
-			});
 	};
 	
 	/*
@@ -1628,7 +1601,9 @@ var XBMC_Controller = function(params) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
-						var listArray = [];
+						var listArray = [];		//for TV Show Page
+						var listHomeArray = [];		//for Home Page
+						
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
 						// Loop through all returned playlist item
@@ -1652,9 +1627,22 @@ var XBMC_Controller = function(params) {
 							},
 							
 						});
+						
+						listHomeArray.push({
+							s1: thumbnail,
+							s2: label,
+							s3: "["+showtitle+"] "+"Season "+season,
+							d1: {
+								tokens: {
+								"[id]": episodeid
+								}
+							},
+							
+						});
 					}
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+baseJoin, listArray);
+					CF.listAdd("l9101", listHomeArray);
 				
 					CF.setJoin("s100", "RECENT ADDED EPISODES " + "(" + data.result.limits.total + ")" );
 				});	
@@ -1669,7 +1657,9 @@ var XBMC_Controller = function(params) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
-						var listArray = [];
+						var listArray = [];			// for Movie Page
+						var listHomeArray = [];		// for Home Page
+						
 						// Clear the list
 						CF.listRemove("l"+(baseJoin+2));
 						// Loop through all returned playlist item
@@ -1690,9 +1680,21 @@ var XBMC_Controller = function(params) {
 							},
 							
 						});
+						
+						listHomeArray.push({
+							s1: thumbnail,
+							s2: label,
+							d1: {
+								tokens: {
+								"[id]": movieid
+								}
+							},
+							
+						});
 					}
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+(baseJoin+2), listArray);
+					CF.listAdd("l9102", listHomeArray);
 				
 				CF.setJoin("s300", "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
 				});	
@@ -1707,7 +1709,9 @@ var XBMC_Controller = function(params) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
-						var listArray = [];
+						var listArray = [];			// for Music Page
+						var listHomeArray = [];		// for Home Page
+						
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
 						// Loop through all returned playlist item
@@ -1727,9 +1731,21 @@ var XBMC_Controller = function(params) {
 							},
 							
 						});
+						
+						listHomeArray.push({
+							s1: thumbnail,
+							s2: label,
+							d1: {
+								tokens: {
+								"[id]": albumid
+								}
+							},
+							
+						});
 					}
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+baseJoin, listArray);
+					CF.listAdd("l9103", listHomeArray);
 					
 				CF.setJoin("s200", "RECENT ADDED ALBUMS " + "(" + data.result.limits.total + ")" );
 				

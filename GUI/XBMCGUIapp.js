@@ -119,10 +119,10 @@ var XBMC_GUI = function(params) {
 		
 		//self.XBMC.getAudioPlaylist(self.joinCurrentAudioPlaylist);			// Audio Playlist
 		//self.XBMC.getVideoPlaylist(self.joinCurrentVideoPlaylist);			// Video Playlist
-		//self.XBMC.getRecentAlbums(self.joinRecentAddedAlbums);				// Recently Added Albums
-		//self.XBMC.getRecentEpisodes(self.joinRecentAddedEpisodes);			// Recently Added Episodes
-		//self.XBMC.getRecentMovies(self.joinRecentAddedMovies);				// Recently Added Movies
-		//self.XBMC.getRecentSongs(self.joinRecentAddedSongs);					// Recently Added Songs 
+		self.XBMC.getRecentAlbums(self.joinRecentAlbums);						// Recently Added Albums
+		self.XBMC.getRecentEpisodes(self.joinRecentEpisodes);					// Recently Added Episodes
+		self.XBMC.getRecentMovies(self.joinMovies, "", "");						// Recently Added Movies
+		
 		
 	};
 	
@@ -625,14 +625,38 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinMute, self.XBMC.currentMute);
 	};
 	
-	self.setIPSettings = function() {									// Gets the values of the IP settings
-		self.XBMC.getNetworkSettings();
-	};
-	
 	self.searchInstances = function() {									// Search for all XBMC instances in the bonjour network
 		self.XBMC.getXBMCBonjour();
 	};
 
+	self.setIPSettings = function() {									// Gets the values of the IP settings
+		// Get the values of all the IP Settings at once.
+		//s60 = System Name, s61 = Host Name / IP Add, s62 = port, s63 = username, s64 = password
+		CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
+			
+			CF.log("System name: " + joins.s60.value);
+			CF.log("Host name/IP address: " + joins.s61.value);
+			CF.log("Port: " + joins.s62.value);
+			CF.log("Username: " + joins.s63.value);
+			CF.log("Password: " + joins.s64.value);
+
+			//	Set all these values as global tokens and persist, use CF.setToken(CF.GlobalTokensJoin)
+			CF.setToken(CF.GlobalTokensJoin, "[inputSysName]", joins.s60.value);
+			CF.setToken(CF.GlobalTokensJoin, "[inputURL]", joins.s61.value);
+			CF.setToken(CF.GlobalTokensJoin, "[inputPort]", joins.s62.value);				
+			CF.setToken(CF.GlobalTokensJoin, "[inputUsername]", joins.s63.value);
+			CF.setToken(CF.GlobalTokensJoin, "[inputPassword]", joins.s64.value);
+				
+			
+			// once changed all the settings, switch and connect to the new system.
+			self.XBMC.url = joins.s61.value;
+			self.XBMC.port = joins.s62.value;
+			self.XBMC.username = joins.s63.value;
+			self.XBMC.password = joins.s64.value;
+			
+			self.setup();
+		});
+	};
 	
 	/*
 	// ------------------------------------------------
@@ -675,38 +699,38 @@ var newPassword;
 
 CF.userMain = function() {
 	
-		// On startup, check for global tokens via CF.getJoin(CF.GlobalTokensJoin)
-		// submit the value to the system via CF.setSystemProperties, updating the current IP address of the system
-		//so on startup you would get the global tokens via CF.getJoin(CF.GlobalTokensJoin) and apply the IP address
-		// then submit the value to the system via CF.setSystemProperties
+	// On startup, check for global tokens via CF.getJoin(CF.GlobalTokensJoin)
+	// submit the value to the system via CF.setSystemProperties, updating the current IP address of the system
+	//so on startup you would get the global tokens via CF.getJoin(CF.GlobalTokensJoin) and apply the IP address
+	// then submit the value to the system via CF.setSystemProperties
+	
+	//Get the global tokens values
+	 
+	CF.getJoin(CF.GlobalTokensJoin, function(join, values, tokens) {
+	
+		//Read the tokens
+		//newSysName = tokens["inputSysName"];
+		this.newURL = tokens["[inputURL]"] || "192.168.168.201";
+		this.newPort = tokens["[inputPort]"] || "8080";
+		this.newUsername = tokens["[inputUsername]"] || "xbmc";
+		this.newPassword = tokens["[inputPassword]"] || "xbmc";
 		
-		//Get the global tokens values
-		 
-			CF.getJoin(CF.GlobalTokensJoin, function(join, values, tokens) {
-			
-				//Read the tokens
-				//newSysName = tokens["inputSysName"];
-				newURL = tokens["inputURL"];
-				newPort = tokens["inputPort"];
-				newUsername = tokens["inputUsername"];
-				newPassword = tokens["inputPassword"];
-			
-			CF.log("newURL: " +newURL);
-			CF.log("newPort: " +newPort);
-			CF.log("newUsername: " +newUsername);
-			CF.log("newPassword: " +newPassword);
-		});
-		
-		
+		CF.setJoins([{join: "s60", value: this.newSysName}, {join: "s61", value: this.newURL}, {join: "s62", value: this.newPort}, {join: "s63", value: this.newUsername}, {join: "s64", value: this.newPassword}]);
+	
+		this.XBMCMacMini = new XBMC_GUI({username: this.newUsername, password: this.newPassword, url: this.newURL, port: this.newPort});
+		this.XBMCMacMini.setup();
+	});
+	
+	//XBMCMacMini = new XBMC_GUI({username: newUsername, password: newPassword, url: newURL, port: 8080});		//Office IP		
 				
-		//XBMCMacMini = new XBMC_GUI({username: newUsername, password: newPassword, url: "192.168.168.201", port: 8080});		//Office IP		
+		
 	
 	
 	
-	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.104", port:8080});		//Home IP - Notebook
+	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port:8080});		//Home IP - Notebook
 	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.1.5", port:8080});		//Home IP - HTPC
-	XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.168.201", port:8080});		//Office IP
+	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.168.201", port:8080});		//Office IP
 	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.168.208", port:8080});		//MacMini
 	
-	XBMCMacMini.setup();
+	//XBMCMacMini.setup();
 };
