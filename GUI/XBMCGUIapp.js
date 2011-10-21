@@ -82,6 +82,54 @@ var XBMC_GUI = function(params) {
 		
 	self.setup = function() {
 		
+		// Clear lists for new XBMC instance to load data
+		/*joinTVShows:				3001,
+		joinTVSeasons:				3002,
+		joinTVEpisodes:				3003,
+		joinRecentEpisodes:			3004,
+		joinTVShowsGenre:			3005,
+		joinTVShowsGenreDetails:	3006,
+		joinTVEpisodeDetails:		4001,
+		joinMute:					2999,
+		joinMovies:					1001,
+		joinMovieWall:				1002,
+		joinRecentMovies:			1003,
+		joinMoviesGenre:			1004,
+		joinMoviesGenreDetails:		1005,
+		joinMovieDetails:   		1101,
+		joinMusicArtist: 			5001,
+		joinMusicAlbum: 			5002,
+		joinMusicSong: 				5003,
+		joinRecentAlbums:			5004,
+		joinRecentSongs:			5005,
+		joinMusicDetails:			6001,
+		joinNowPlaying: 			8000,
+		joinCurrentAudioPlaylist: 	8001,
+		joinCurrentVideoPlaylist: 	8101,
+		joinRecentAddedEpisodes: 	9601,
+		joinRecentAddedMovies: 		9701,
+		joinRecentAddedAlbums: 		9801,
+		joinRecentAddedSongs: 		9901
+		*/
+		
+		CF.setJoins([
+			{join: "l"+self.joinTVShows, value: "0x"},
+			{join: "l"+self.joinTVSeasons, value: "0x"},
+			{join: "l"+self.joinTVEpisodes, value: "0x"},
+			{join: "l"+self.joinRecentEpisodes, value: "0x"},
+			{join: "l"+self.joinTVShowsGenreDetails, value: "0x"},
+			{join: "l"+self.joinMovies, value: "0x"},
+			{join: "l"+self.joinMovieWall, value: "0x"},
+			{join: "l"+self.joinRecentMovies, value: "0x"},
+			{join: "l"+self.joinMoviesGenre, value: "0x"},
+			{join: "l"+self.joinMusicArtist, value: "0x"},
+			{join: "l"+self.joinMusicAlbum, value: "0x"},
+			{join: "l"+self.joinMusicSong, value: "0x"},
+			{join: "l9101", value: "0x"},
+			{join: "l9102", value: "0x"},
+			{join: "l9103", value: "0x"}
+		]); 
+		
 		// Shows subpages automatically
 		CF.setJoin("d"+self.joinTVShows, 1);				// Show TV Show subpage
 		CF.setJoin("d"+self.joinTVSeasons, 0);				// Hide TV Seasons list
@@ -622,10 +670,16 @@ var XBMC_GUI = function(params) {
 	};
 
 	self.setMuteState = function() {									// Sets the feedback of the volume.
-		CF.setJoin("d"+self.joinMute, self.XBMC.currentMute);
+		if(self.XBMC.currentVol == 0) {		// this means volume level = 0, means muted state
+			CF.setJoin("d"+self.joinMute, 1);
+			CF.setJoin("a90", 0);
+		}else{
+			CF.setJoin("d"+self.joinMute, 0);
+			CF.setJoin("a90", Math.round((self.XBMC.currentVol/100)*65535));
+		}
 	};
 	
-	self.searchInstances = function() {									// Search for all XBMC instances in the bonjour network
+	self.searchInstances = function() {									// Search for all XBMC instances in the bonjour network : Still in progress
 		self.XBMC.getXBMCBonjour();
 	};
 
@@ -658,33 +712,6 @@ var XBMC_GUI = function(params) {
 		});
 	};
 	
-	/*
-	// ------------------------------------------------
-	// Set everything up on object creation
-	// ------------------------------------------------
-
-	// Watch the system for feedback processing
-	//\CF.watch(CF.FeedbackMatchedEvent, systemName, feedbackName, self.onIncomingData);
-
-	// Watch the system connection status
-	CF.watch(CF.ConnectionStatusChangeEvent, systemName, self.onConnectionChange, true);
-
-	// Create the zone array
-	for (var i = 1; i <= self.maxControllers; i++) {
-		for (var j = 0; j < self.controller.numZones; j++) {
-			self.zones["c"+i].push(new zone());
-		}
-	}
-
-	// Create the sources array
-	for (var i = 0; i <= self.controller.numSources; i++) {
-		self.sources.push(new source());
-	}
-	
-	
-	*/
-	
-	
 	self.XBMC = new XBMC_Controller(params);
 
 	return self;
@@ -699,18 +726,14 @@ var newPassword;
 
 CF.userMain = function() {
 	
-	// On startup, check for global tokens via CF.getJoin(CF.GlobalTokensJoin)
-	// submit the value to the system via CF.setSystemProperties, updating the current IP address of the system
-	//so on startup you would get the global tokens via CF.getJoin(CF.GlobalTokensJoin) and apply the IP address
-	// then submit the value to the system via CF.setSystemProperties
+	// On startup, check for global tokens via CF.getJoin(CF.GlobalTokensJoin) and get the values for all the paramaters.
 	
-	//Get the global tokens values
-	 
+	//Get the global tokens values. Can set the default value of the tokens via Global Token Manager.
 	CF.getJoin(CF.GlobalTokensJoin, function(join, values, tokens) {
 	
-		//Read the tokens
-		//newSysName = tokens["inputSysName"];
-		this.newURL = tokens["[inputURL]"] || "192.168.168.201";
+		//Read the tokens, if accidentally deleted the settings of the tokens then use default values.
+		this.newSysName = tokens["inputSysName"]|| "Test HTPC";
+		this.newURL = tokens["[inputURL]"] || "192.168.0.100";
 		this.newPort = tokens["[inputPort]"] || "8080";
 		this.newUsername = tokens["[inputUsername]"] || "xbmc";
 		this.newPassword = tokens["[inputPassword]"] || "xbmc";
@@ -721,14 +744,8 @@ CF.userMain = function() {
 		this.XBMCMacMini.setup();
 	});
 	
-	//XBMCMacMini = new XBMC_GUI({username: newUsername, password: newPassword, url: newURL, port: 8080});		//Office IP		
-				
-		
-	
-	
-	
 	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port:8080});		//Home IP - Notebook
-	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.1.5", port:8080});		//Home IP - HTPC
+	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.1.5", port:8080});			//Home IP - HTPC
 	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.168.201", port:8080});		//Office IP
 	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.168.208", port:8080});		//MacMini
 	

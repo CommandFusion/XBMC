@@ -11,6 +11,7 @@ LAST MOD:	08 June 2011
 Module Test Setup:
 - Windows XP Professional Edition 
 - Windows 7 Ultimate
+- MacMini 
 - XBMC Night Version Pre 11.0 Git: 20111005-288f496(Compiled October 6 2011)
 - Installer File: XBMCSetup-20111005-288f496-master.exe (dated 7 October)
 - Guidesigner 2.3.4.1
@@ -158,6 +159,7 @@ var XBMC_Controller = function(params) {
 		
 		MovieslistArray = [];
 		TVSerieslistArray = [];
+		ArtistlistArray = [];
 	};
 
 	self.getURL = function() {
@@ -616,6 +618,7 @@ var XBMC_Controller = function(params) {
 					if ((i+j) < MovieslistArray.length) {
 					
 					sub["s"+(j+1)]= MovieslistArray[i+j].s1;
+					sub["s"+(j+4)]= MovieslistArray[i+j].s2;
 					sub["d"+(j+1)] = { 
 										tokens : { 
 											"[id]": MovieslistArray[i+j].d1.tokens["[id]"]
@@ -1644,7 +1647,7 @@ var XBMC_Controller = function(params) {
 					CF.listAdd("l"+baseJoin, listArray);
 					CF.listAdd("l9101", listHomeArray);
 				
-					CF.setJoin("s100", "RECENT ADDED EPISODES " + "(" + data.result.limits.total + ")" );
+					//CF.setJoin("s100", "RECENT ADDED EPISODES " + "(" + data.result.limits.total + ")" );
 				});	
 	};
 	
@@ -1696,7 +1699,7 @@ var XBMC_Controller = function(params) {
 					CF.listAdd("l"+(baseJoin+2), listArray);
 					CF.listAdd("l9102", listHomeArray);
 				
-				CF.setJoin("s300", "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
+				//CF.setJoin("s300", "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
 				});	
 	};
 	
@@ -1747,7 +1750,7 @@ var XBMC_Controller = function(params) {
 					CF.listAdd("l"+baseJoin, listArray);
 					CF.listAdd("l9103", listHomeArray);
 					
-				CF.setJoin("s200", "RECENT ADDED ALBUMS " + "(" + data.result.limits.total + ")" );
+				//CF.setJoin("s200", "RECENT ADDED ALBUMS " + "(" + data.result.limits.total + ")" );
 				
 				});	
 				
@@ -1789,7 +1792,7 @@ var XBMC_Controller = function(params) {
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+baseJoin, listArray);
 				
-				CF.setJoin("s200", "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
+				//CF.setJoin("s200", "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
 				
 				});	
 	};
@@ -1876,10 +1879,10 @@ var XBMC_Controller = function(params) {
 		switch(media)
 		{
 			case "video":
-				self.rpc("Player.Forward", {"playerid":1}, self.logReplyData);
+				self.rpc("Player.Seek", {"playerid":1, "value": "smallforward"}, self.logReplyData);
 				break;
 			case "audio":
-				self.rpc("Player.Forward", {"playerid":0}, self.logReplyData);
+				self.rpc("Player.Seek", {"playerid":0, "value": "smallforward"}, self.logReplyData);
 				break;
 		}
 	};
@@ -1888,10 +1891,34 @@ var XBMC_Controller = function(params) {
 		switch(media)
 		{
 			case "video":
-				self.rpc("Player.Rewind", {"playerid":1}, self.logReplyData);
+				self.rpc("Player.Seek", {"playerid":1, "value": "smallbackward"}, self.logReplyData);
 				break;
 			case "audio":
-				self.rpc("Player.Rewind", {"playerid":0}, self.logReplyData);
+				self.rpc("Player.Seek", {"playerid":0, "value": "smallbackward"}, self.logReplyData);
+				break;
+		}
+	};
+	
+	self.BigForward = function(media) {			// Big Skip Forward - not used
+		switch(media)
+		{
+			case "video":
+				self.rpc("Player.Seek", {"playerid":1, "value": "bigforward"}, self.logReplyData);
+				break;
+			case "audio":
+				self.rpc("Player.Seek", {"playerid":0, "value": "bigforward"}, self.logReplyData);
+				break;
+		}
+	};
+	
+	self.BigRewind = function(media) {				// Big Skip Rewind - not used
+		switch(media)
+		{
+			case "video":
+				self.rpc("Player.Seek", {"playerid":1, "value": "bigbackward"}, self.logReplyData);
+				break;
+			case "audio":
+				self.rpc("Player.Seek", {"playerid":0, "value": "bigbackward"}, self.logReplyData);
 				break;
 		}
 	};
@@ -1900,10 +1927,10 @@ var XBMC_Controller = function(params) {
 		switch(media)
 		{
 			case "video":
-				self.rpc("Player.SkipNext", {"playerid":1}, self.logReplyData);
+				self.rpc("Player.GoNext", {"playerid":1}, self.logReplyData);		//Have bug - go next will go to audio playlist
 				break;
 			case "audio":
-				self.rpc("Player.SkipNext", {"playerid":0}, self.logReplyData);
+				self.rpc("Player.GoNext", {"playerid":0}, self.logReplyData);
 				break;
 		}
 	};
@@ -1911,11 +1938,11 @@ var XBMC_Controller = function(params) {
 	self.skipPrevious = function(media) {		// Skip Previous
 		switch(media)
 		{
-			case "video":
-				self.rpc("Player.SkipPrevious", {"playerid":1}, self.logReplyData);
+			case "video":															//Have bug - go next will go to audio playlist
+				self.rpc("Player.GoPrevious", {"playerid":1}, self.logReplyData);
 				break;
 			case "audio":
-				self.rpc("Player.SkipPrevious", {"playerid":0}, self.logReplyData);
+				self.rpc("Player.GoPrevious", {"playerid":0}, self.logReplyData);
 				break;
 		}
 	};
@@ -2001,18 +2028,13 @@ var XBMC_Controller = function(params) {
 	// Get the current level of the volume
 	self.volGet = function(callback) {
 		
-		//Sample Query: {"jsonrpc": "2.0", "method": "Application.GetProperties", "params": { "properties": ["volume", "muted", "name", "version"] }, "id": "1"}
+		// Sample Query: {"jsonrpc": "2.0", "method": "Application.GetProperties", "params": { "properties": ["volume", "muted", "name", "version"] }, "id": "1"}
 		// Reply : {"id":"1","jsonrpc":"2.0","result":{"muted":false,"name":"XBMC",
 		//           "version":{"major":11,"minor":0,"revision":"20111005-288f496","tag":"alpha"},"volume":100}}
 		
 		self.rpc("Application.GetProperties", {"properties":["volume", "muted"]}, function(data) {							//Previous XBMC.Get Volume
 			self.currentVol = data.result.volume;
-			self.currentMute = (data.result.muted == 0) ? 1 : 0;
-			
-			
-			//show the volume feedback on the volume slider
-			self.VolumeLevel = Math.round((self.currentVol/100)*(100));
-			CF.setJoin("a90", self.VolumeLevel);
+			self.currentMute = data.result.muted;
 			
 			callback();
 		});
@@ -2027,7 +2049,7 @@ var XBMC_Controller = function(params) {
 	self.volDown = function(callback) {
 		self.rpc("Application.setVolume", {"value": Math.max(self.currentVol - 2, 0)}, function(data) {
 			self.currentVol = data.result;
-			self.currentMute = (data.result.muted == 0) ? 1 : 0;
+			//self.currentMute = (data.result == 0) ? 1 : 0;
 			callback();
 		});
 	};
@@ -2036,7 +2058,7 @@ var XBMC_Controller = function(params) {
 	self.volUp = function(callback) {
 		self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 2, 100)}, function(data) {
 			self.currentVol = data.result;
-			self.currentMute = (data.result.muted == 0) ? 1 : 0;
+			//self.currentMute = (data.result == 0) ? 1 : 0;
 			callback();
 		});
 	};
@@ -2044,14 +2066,14 @@ var XBMC_Controller = function(params) {
 	// Mute toggle the volume
 	self.volMute = function(callback) {
 		self.rpc("Application.ToggleMute", {}, function(data) {			//Previous XBMC.ToggleMute
-			self.currentMute = (data.result.muted == 0) ? 1 : 0;
+			self.currentVol = data.result;
 			callback();
 		});
 	};
 
-	self.introspect = function() {
-		self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 1, 100)}, self.logReplyData);		//Previous XBMC.setVolume
-	};
+	//self.introspect = function() {
+	//	self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 1, 100)}, self.logReplyData);		//Previous XBMC.setVolume
+	//};
 
 	self.logReplyData = function(data) {
 		CF.logObject(data);
