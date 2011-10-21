@@ -1299,6 +1299,7 @@ var XBMC_Controller = function(params) {
 	
 	//------------------------------------------------------------------------------------------------------------------------------
 	// Files and Sources : Get a list of sources from XBMC according to media : ["video", "music", "pictures", "files", "programs"]
+	//  *possible bug in current XBMC test version - doesn't give back the file path, previous version have. Cannot bring forward the path to use File.GetDirectory
 	//------------------------------------------------------------------------------------------------------------------------------
 	
 	/**
@@ -1314,8 +1315,8 @@ var XBMC_Controller = function(params) {
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
 			
-			var label = data.result.shares[i].label;
-			var source = data.result.shares[i].file;
+			var label = data.result.sources[i].label;				// previously data.result.shares[i].label;
+			var source = data.result.sources[i].file;
 			
 			// Add to array to add to list in one go later
 				listArray.push({
@@ -1342,8 +1343,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.shares[i].label;
-				var source = data.result.shares[i].file;
+				var label = data.result.sources[i].label;
+				var source = data.result.sources[i].file;
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1369,8 +1370,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.shares[i].label;
-				var source = data.result.shares[i].file;
+				var label = data.result.sources[i].label;
+				var source = data.result.sources[i].file;
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1396,8 +1397,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.shares[i].label;
-				var source = data.result.shares[i].file;
+				var label = data.result.sources[i].label;
+				var source = data.result.sources[i].file;
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1423,8 +1424,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.shares[i].label;
-				var source = data.result.shares[i].file;
+				var label = data.result.sources[i].label;
+				var source = data.result.sources[i].file;
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,

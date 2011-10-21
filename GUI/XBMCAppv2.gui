@@ -606,8 +606,10 @@
     <portrait />
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
-      <subpage name="TopBar" x="0" y="0" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="bg" x="0" y="147" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSearch_Artist" x="114" y="92" j="0" transition1="moveIn" subtype1="fromLeft" time1="1" ease1="easeIn" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="TopBar" x="0" y="0" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="1" topmost="0" v="1" l="1" />
+      <subpage name="bg" x="0" y="147" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="1" topmost="0" v="1" l="1" />
       <btn j="40" x="944" y="34" w="72" h="43" t="settings" flip="None" sim="2" l="1" s="1">
         <inactive s="0">
         </inactive>
@@ -630,8 +632,6 @@
       <subpage name="transport_audio" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Music_RecentlyAddedAlbum_List" x="10" y="191" j="5004" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Music_RecentlyAddedSong_List" x="10" y="191" j="5005" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
-      <subpage name="MenuSearch_Artist" x="114" y="92" j="0" transition1="moveIn" subtype1="fromLeft" time1="1" ease1="easeIn" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="MenuSelection" x="0" y="92" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <btn j="0" x="0" y="82" w="76" h="82" t="home_btn" flip="MainMenu" sim="1" l="1" s="1">
         <inactive s="0">
         </inactive>
@@ -720,7 +720,8 @@
       <btn j="0" x="771" y="544" w="86" h="44" t="arrow_up" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
-            <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
+            <press delay="0" hold="0" repeat="0" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
+            <press delay="0" hold="500" repeat="100" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
           </action>
         </actions>
         <inactive s="0">
@@ -831,6 +832,7 @@ ALL</active>
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="File_FullList" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="File_List" x="416" y="191" j="9001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <txt j="0" x="14" y="158" w="381" h="29" t="cfblue2_small_c_lighter" wrap="True" l="0">MEDIA TYPE</txt>
     </landscape>
   </page>
   <subpage name="bg" w="1024" h="621">
@@ -2200,41 +2202,77 @@ ALL</active>
   </subpage>
   <subpage name="File_FullList" w="387" h="568">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
-    <btn j="0" x="11" y="113" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
+    <btn j="0" x="11" y="94" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
-    <btn j="0" x="11" y="226" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
+    <btn j="0" x="11" y="206" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
-    <btn j="0" x="11" y="339" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
+    <img x="32" y="11" w="100" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-other-icon.png</img>
+    <txt j="0" x="142" y="8" w="185" h="88" t="Season" wrap="True" l="0">Video</txt>
+    <txt j="0" x="145" y="119" w="186" h="85" t="Season" wrap="True" l="0">Audio</txt>
+    <btn j="0" x="33" y="11" w="322" h="79" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getVideoSource()">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
-    <img x="3" y="7" w="160" h="160" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_movies.png</img>
-    <img x="24" y="140" w="130" h="130" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_music.png</img>
-    <txt j="0" x="160" y="7" w="167" h="102" t="Season" wrap="True" l="0">VIDEO SOURCES</txt>
-    <txt j="0" x="160" y="131" w="167" h="102" t="Season" wrap="True" l="0">AUDIO SOURCES</txt>
-    <btn j="0" x="14" y="11" w="358" h="101" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getVideoSource()">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <btn j="0" x="14" y="134" w="358" h="101" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getMusicSource()">
+    <btn j="0" x="31" y="118" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getMusicSource()">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
     <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
+    <img x="32" y="121" w="100" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-other-icon.png</img>
+    <btn j="0" x="11" y="318" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <txt j="0" x="145" y="227" w="186" h="85" t="Season" wrap="True" l="0">Pictures</txt>
+    <img x="32" y="234" w="100" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-other-icon.png</img>
+    <btn j="0" x="11" y="429" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <txt j="0" x="145" y="335" w="186" h="85" t="Season" wrap="True" l="0">Files</txt>
+    <img x="32" y="345" w="100" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-other-icon.png</img>
+    <btn j="0" x="11" y="541" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <txt j="0" x="145" y="458" w="186" h="85" t="Season" wrap="True" l="0">Programs</txt>
+    <img x="32" y="457" w="100" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-other-icon.png</img>
+    <btn j="0" x="31" y="233" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getPictureSource()">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <btn j="0" x="30" y="344" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getFileSource()">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <btn j="0" x="30" y="451" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getProgramSource()">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
   </subpage>
   <subpage name="File_Item" w="550" h="60">
     <btn j="1" x="0" y="0" w="550" h="53" t="btn_plaingrey_bigtext_l" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectVideoDirectory(list, listIndex, join)">
