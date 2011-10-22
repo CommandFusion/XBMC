@@ -73,6 +73,33 @@ OK these two commits (especially the first one) are a huge step in the current j
     Replace "value" parameter in "Player.SeekTime" with time struct parameters
     Merge SeekTime, SeekPercentage and (Small|Big)Skip(Forward|Backward) into Seek in Player namespace
     Add Player.SetAudioStream, Player.SetSubtitle and the properties "currentaudiostream", "audiostreams", "subtitleenabled", "currentsubtitle" and "subtitles" to Player.GetProperties
+	
+
+(http://forum.xbmc.org/showthread.php?t=68263&page=130)
+	
+OK here is another set of final tweaks to clean up the API:
+
+Saturday, October 8th 2011:
+Commits: 845288d417d40dea22f6, c2d1e992fdd64f380d67, 6c9af5c7c0ae8075c0f8, c00ff2defb35333206f2, 253dd7e808d1e7a83682
+
+    renamed "value" parameter of Application.Setvolume to "volume"
+    refactored Application.ToggleMute into Application.SetMute which takes the following parameters: true, false, "toggle"
+    removed optional parameter "albums" from AudioLibrary.GetRecentlyAddedAlbums (use the "limits" parameter to limit the number of returned items (maximum is 25))
+    renamed parameter "albums" from AudioLibrary.GetRecentlyAddedSongs to "albumlimit"
+    refactored (Audio|Video)Library.Export parameters using union types to better distinguish between single and multi file export
+	=> need to upgrade to the latest nightly build
+
+(http://forum.xbmc.org/showthread.php?t=68263&page=132)
+Friday, October 14th 2011:
+Commit: 53ee2724ede510a8a3a0
+
+    Refactored Files.Download into Files.PrepareDownload and Files.Download. Using jsonrpc over HTTP Files.PrepareDownload does, what Files.Download did until now. 
+	It provides a URL which can be called to download the file (beware the answer format has changed). The idea behind the changes is that some transport layers will 
+	support direct download through Files.Download while others (like HTTP) will not and in that case the method name "Download" may be confusing. That's why we split 
+	the functionality into Files.PrepareDownload (which will be available over HTTP) and Files.Download (which will not be available over HTTP because it's not supported).
+
+
+
 =========================================================================
 */
 
