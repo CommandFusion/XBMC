@@ -67,16 +67,11 @@ var XBMC_GUI = function(params) {
 		joinNowPlaying: 			8000,
 		joinCurrentAudioPlaylist: 	8001,
 		joinCurrentVideoPlaylist: 	8101,
-		//joinNowPlayingAudio: 		8002,
-		//joinNowPlayingVideoEpisode:8003,
-		//joinNowPlayingVideoMovie:	8004,
-		joinFileList: 				9001
-		//joinRecentAdded: 			9501,
-		//joinRecentAddedEpisodes: 	9601,
-		//joinRecentAddedMovies: 		9701,
-		//joinRecentAddedAlbums: 		9801,
-		//joinRecentAddedSongs: 		9901
-		
+		joinFileList: 				9001,
+		joinRecentEpisodesMain:		9101,
+		joinRecentMoviesMain:		9102,
+		joinRecentAlbumsMain:		9103,
+		joinRecentSongsMain:		9104
 	};
 
 		
@@ -165,11 +160,12 @@ var XBMC_GUI = function(params) {
 		// Artists function (subpage join, sort order, method). Default sorting is ascending and by label
 		self.XBMC.getMusicArtist(self.joinMusicArtist, "ascending", "label");	
 		
-		//self.XBMC.getAudioPlaylist(self.joinCurrentAudioPlaylist);			// Audio Playlist
-		//self.XBMC.getVideoPlaylist(self.joinCurrentVideoPlaylist);			// Video Playlist
-		self.XBMC.getRecentAlbums(self.joinRecentAlbums);						// Recently Added Albums
-		self.XBMC.getRecentEpisodes(self.joinRecentEpisodes);					// Recently Added Episodes
-		self.XBMC.getRecentMovies(self.joinMovies, "", "");						// Recently Added Movies
+		self.XBMC.getRecentEpisodes(self.joinRecentEpisodes, self.joinRecentEpisodesMain);		// Recently Added Episodes
+		self.XBMC.getRecentMovies(self.joinRecentMovies, self.joinRecentMoviesMain);			// Recently Added Movies
+		
+		CF.setJoin("d"+self.joinRecentAlbumsMain, 1);		// Show Recent Albums list on the Main Page
+		CF.setJoin("d"+self.joinRecentSongsMain, 0);				// Hide Recent Songs list on the Main Page
+		self.XBMC.getRecentAlbums(self.joinRecentAlbums, self.joinRecentAlbumsMain);										// Recently Added Albums
 		
 		
 	};
@@ -289,6 +285,13 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinTVShowsGenreDetails, 1);		// Show Genre detail's subpage
 		
 			self.XBMC.getTVShowsGenreDetails(t["[genre]"], self.joinTVShowsGenreDetails);				
+		});
+	};
+	
+	// Play the selected file
+	self.playRecentEpisode = function(list, listIndex, join){
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.playFile(t["[file]"]);				
 		});
 	};
 	
@@ -418,6 +421,14 @@ var XBMC_GUI = function(params) {
 		});
 	};
 	
+	// Play the selected file
+	self.playRecentMovie = function(list, listIndex, join){
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.playFile(t["[file]"]);				
+		});
+	};
+	
+	
 	//--------------------------------------------------------------------------------------------------
 	// Toggling subpages & Selection for Music
 	//--------------------------------------------------------------------------------------------------
@@ -535,7 +546,26 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
 		CF.setJoin("d"+self.joinRecentSongs, 1);			// Show Recently Added Songs subpage
 		
-		self.XBMC.getRecentSongs(self.joinRecentSongs);		
+		self.XBMC.getRecentSongs(self.joinRecentSongs);
+		self.XBMC.labelRecentSongs();		
+	};
+	
+	// Displays a list of Songs when Album item is selected
+	self.selectRecentAlbum = function(list, listIndex, join) {
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			
+			CF.setJoin("d"+self.joinRecentAlbumsMain, 0);		// Show Recent Albums list on the Main Page
+			CF.setJoin("d"+self.joinRecentSongsMain, 1);				// Hide Recent Songs list on the Main Page
+			
+			// Get Music Song list
+			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], self.joinRecentSongsMain);
+		});
+	};
+	
+	// This is for dropdown Menu button "Songs"
+	self.showRecentAlbums = function() {
+		CF.setJoin("d"+self.joinRecentAlbumsMain, 1);		// Show Recent Albums list on the Main Page
+		CF.setJoin("d"+self.joinRecentSongsMain, 0);				// Hide Recent Songs list on the Main Page
 	};
 	
 		

@@ -513,6 +513,10 @@ var XBMC_Controller = function(params) {
 		self.rpc("Playlist.Add", { "playlistid":1, "item":{"file": file}}, self.logReplyData);	
 	};
 	
+	self.playFile = function(file) {
+		self.rpc("Player.Open", {"item": {"file": file}}, self.logReplyData);
+	};
+	
 	/*
 	 * Function: Search the array list of TV shows and get the results that matches exactly/contain the characters in the search string
 	 */
@@ -1598,11 +1602,6 @@ var XBMC_Controller = function(params) {
 		self.rpc("Player.Open", { "item":{"file": file} }, self.logReplyData);
 	};
 	
-	// Add audio files into audio playlist only
-	//self.addMusicPlaylist = function(file) {
-	//	self.rpc("Playlist.Add", { "playlistid":0, "item":{"file": file}}, self.logReplyData);	
-	//};
-	
 	// Clear audio playlist only
 	self.clearAudioPlaylist = function(baseJoin) {
 		self.rpc("Playlist.Clear", {"playlistid":0}, self.logReplyData);	
@@ -1627,22 +1626,26 @@ var XBMC_Controller = function(params) {
 	// Recently Added Items
 	//--------------------------------------------------------------------------------------------------
 	
-
+	var RecentEpisodelistArray = new Array();
+	var RecentMovieslistArray = new Array();
+	var RecentAlbumlistArray = new Array();
+	var RecentSonglistArray = new Array();
 	
 	/**
 	 * Function: Get Recently Added Episodes list from XBMC
 	 */
-	self.getRecentEpisodes = function(baseJoin) {
+	self.getRecentEpisodes = function(baseJoin, baseJoinMainPage) {
 	
 		self.rpc("VideoLibrary.GetRecentlyAddedEpisodes", {"properties":["thumbnail", "season", "showtitle", "file"]}, function(data) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
-						var listArray = [];		//for TV Show Page
-						var listHomeArray = [];		//for Home Page
-						
+						RecentEpisodelistArray = [];		//for TV Show Page
+												
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
+						CF.listRemove("l"+baseJoinMainPage);
+						
 						// Loop through all returned playlist item
 						for (var i = 0; i<data.result.limits.total; i++) {
 						var episodeid = data.result.episodes[i].episodeid ;
@@ -1650,159 +1653,148 @@ var XBMC_Controller = function(params) {
 						var label = data.result.episodes[i].label;
 						var season = data.result.episodes[i].season;
 						var showtitle = data.result.episodes[i].showtitle;
+						var file = data.result.episodes[i].file;
 						
 						
 						// Add to array to add to list in one go later
-						listArray.push({
+						RecentEpisodelistArray.push({
 							s1: thumbnail,
 							s2: label,
 							s3: "["+showtitle+"] "+"Season "+season,
 							d1: {
 								tokens: {
-								"[id]": episodeid
+								"[id]": episodeid,
+								"[file]": file
 								}
 							},
 							
 						});
 						
-						listHomeArray.push({
-							s1: thumbnail,
-							s2: label,
-							s3: "["+showtitle+"] "+"Season "+season,
-							d1: {
-								tokens: {
-								"[id]": episodeid
-								}
-							},
-							
-						});
 					}
 					// Use the array to push all new list items in one go
-					CF.listAdd("l"+baseJoin, listArray);
-					CF.listAdd("l9101", listHomeArray);
+					CF.listAdd("l"+baseJoin, RecentEpisodelistArray);
+					CF.listAdd("l"+baseJoinMainPage, RecentEpisodelistArray);
 				
-					//CF.setJoin("s100", "RECENT ADDED EPISODES " + "(" + data.result.limits.total + ")" );
+					CF.setJoin("s700", "RECENT ADDED EPISODES " + "(" + data.result.limits.total + ")" );
 				});	
+	};
+	
+	self.labelRecentEpisodes = function(){
+		CF.setJoin("s100", "RECENT ADDED EPISODES " + "(" + RecentEpisodelistArray.length + ")" );
 	};
 	
 	/**
 	 * Function: Get Recently Added Movies list from XBMC
 	 */
-	self.getRecentMovies = function(baseJoin) {
+	self.getRecentMovies = function(baseJoin, baseJoinMainPage) {
 	
-		self.rpc("VideoLibrary.GetRecentlyAddedMovies", {"properties":["thumbnail"]}, function(data) {
+		self.rpc("VideoLibrary.GetRecentlyAddedMovies", {"properties":["thumbnail", "file"]}, function(data) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
-						var listArray = [];			// for Movie Page
-						var listHomeArray = [];		// for Home Page
-						
+						RecentMovieslistArray = [];			// for Movie Page
+					
 						// Clear the list
-						CF.listRemove("l"+(baseJoin+2));
+						CF.listRemove("l"+baseJoin);
+						CF.listRemove("l"+baseJoinMainPage);
+						
 						// Loop through all returned playlist item
 						for (var i = 0; i<data.result.limits.total; i++) {
 						
 						var movieid = data.result.movies[i].movieid ;
 						var thumbnail = self.URL + "vfs/"+data.result.movies[i].thumbnail;
 						var label = data.result.movies[i].label;
+						var filepath = data.result.movies[i].file;
 						
 						// Add to array to add to list in one go later
-						listArray.push({
+						RecentMovieslistArray.push({
 							s1: thumbnail,
 							s2: label,
 							d1: {
 								tokens: {
-								"[id]": movieid
-								}
-							},
-							
-						});
-						
-						listHomeArray.push({
-							s1: thumbnail,
-							s2: label,
-							d1: {
-								tokens: {
-								"[id]": movieid
+								"[id]": movieid,
+								"[file]": filepath
 								}
 							},
 							
 						});
 					}
 					// Use the array to push all new list items in one go
-					CF.listAdd("l"+(baseJoin+2), listArray);
-					CF.listAdd("l9102", listHomeArray);
+					CF.listAdd("l"+baseJoin, RecentMovieslistArray);
+					CF.listAdd("l"+baseJoinMainPage, RecentMovieslistArray);
 				
-				//CF.setJoin("s300", "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
+				CF.setJoin("s701", "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
 				});	
+	};
+	
+	self.labelRecentMovies = function(){
+		CF.setJoin("s300", "RECENT ADDED MOVIES " + "(" + RecentMovieslistArray.length + ")" );
 	};
 	
 	/**
 	 * Function: Get Recently Added Albums list from XBMC
 	 */
-	self.getRecentAlbums = function(baseJoin) {
+	self.getRecentAlbums = function(baseJoin, baseJoinMainPage) {
 	
-		self.rpc("AudioLibrary.GetRecentlyAddedAlbums", {"properties":["thumbnail"]}, function(data) {
+		self.rpc("AudioLibrary.GetRecentlyAddedAlbums", {"properties":["thumbnail", "artist"]}, function(data) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
-						var listArray = [];			// for Music Page
-						var listHomeArray = [];		// for Home Page
-						
+						RecentAlbumlistArray = [];			// for Music Page
+												
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
+						CF.listRemove("l"+baseJoinMainPage);
+						
 						// Loop through all returned playlist item
 						for (var i = 0; i<data.result.limits.total; i++) {
 						var albumid = data.result.albums[i].albumid ;
 						var thumbnail = self.URL + "vfs/"+data.result.albums[i].thumbnail;
 						var label = data.result.albums[i].label;
+						var artist = data.result.albums[i].artist;
 						
 						// Add to array to add to list in one go later
-						listArray.push({
+						RecentAlbumlistArray.push({
 							s1: thumbnail,
 							s2: label,
 							d1: {
 								tokens: {
-								"[id]": albumid
+								"[id]": albumid,
+								"[artist]": artist,
+								"[title]": label
 								}
 							},
 							
 						});
 						
-						listHomeArray.push({
-							s1: thumbnail,
-							s2: label,
-							d1: {
-								tokens: {
-								"[id]": albumid
-								}
-							},
-							
-						});
 					}
 					// Use the array to push all new list items in one go
-					CF.listAdd("l"+baseJoin, listArray);
-					CF.listAdd("l9103", listHomeArray);
-					
-				//CF.setJoin("s200", "RECENT ADDED ALBUMS " + "(" + data.result.limits.total + ")" );
-				
+					CF.listAdd("l"+baseJoin, RecentAlbumlistArray);
+					CF.listAdd("l"+baseJoinMainPage, RecentAlbumlistArray);
+										
+				CF.setJoin("s702", "RECENT ADDED ALBUMS " + "(" + data.result.limits.total + ")" );
 				});	
-				
-				
+		};
+		
+		self.labelRecentAlbums = function(){
+		CF.setJoin("s200", "RECENT ADDED ALBUMS " + "(" + RecentAlbumlistArray.length + ")"  );
 	};
 	
 	/**
 	 * Function: Get Recently Added Songs list from XBMC
 	 */
-	self.getRecentSongs = function(baseJoin) {
+	self.getRecentSongs = function(baseJoin, baseJoinMainPage) {
 	
 		self.rpc("AudioLibrary.GetRecentlyAddedSongs", {"properties":["thumbnail", "file"]}, function(data) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
-						var listArray = [];
+						RecentSonglistArray = [];
+						
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
+						CF.listRemove("l"+baseJoinMainPage);
+						
 						// Loop through all returned playlist item
 						for (var i = 0; i<data.result.limits.total; i++) {
 						var songid = data.result.songs[i].songid ;
@@ -1811,7 +1803,7 @@ var XBMC_Controller = function(params) {
 						var songfile = data.result.songs[i].file;
 						
 						// Add to array to add to list in one go later
-						listArray.push({
+						RecentSonglistArray.push({
 							s1: thumbnail,
 							s2: label,
 							d1: {
@@ -1824,13 +1816,17 @@ var XBMC_Controller = function(params) {
 						});
 					}
 					// Use the array to push all new list items in one go
-					CF.listAdd("l"+baseJoin, listArray);
-				
-				//CF.setJoin("s200", "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
-				
+					CF.listAdd("l"+baseJoin, RecentSonglistArray);
+					CF.listAdd("l"+baseJoinMainPage, RecentSonglistArray);
+					
+					//CF.setJoin("s702", "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
+					
 				});	
 	};
 	
+	self.labelRecentSongs = function(){
+		CF.setJoin("s200", "RECENT ADDED SONGS " + "(" + RecentSonglistArray.length + ")" );
+	};
 	
 	//--------------------------------------------------------------------------------------------------
 	// Basic Transport Commands

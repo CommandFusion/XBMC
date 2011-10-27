@@ -516,7 +516,7 @@
     <theme type="text" name=".Smallest_Text_copy"><![CDATA[ text-shadow: rgba(0,0,0,0.78) 1px 1px 1px; color: White; font-size: 8px; font-family: 'Futura'; text-align: left; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
   </themes>
   <tokens>
-    <token name="[inputURL]" value="192.168.168.201" persist="1" />
+    <token name="[inputURL]" value="192.168.0.100" persist="1" />
     <token name="[inputPort]" value="8080" persist="1" />
     <token name="[inputUsername]" value="xbmc" persist="1" />
     <token name="[inputPassword]" value="xbmc" persist="1" />
@@ -795,7 +795,7 @@ ALL</active>
       </btn>
       <subpage name="Menu_DropMenu_Settings" x="0" y="0" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="Main_RecentMovie_List" x="352" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="Main_RecentAlbum_List" x="689" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="Main_RecentAlbum_List" x="689" y="191" j="9103" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Main_RecentEpisode_List" x="14" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="MenuSearch_power" x="114" y="92" j="70" transition1="moveIn" subtype1="fromLeft" time1="0" ease1="easeIn" transition2="moveIn" subtype2="fromLeft" time2="1" ease2="easeOut" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="MenuSelection_MainPage" x="0" y="92" j="0" transition1="moveIn" subtype1="fromLeft" time1="2" ease1="easeIn" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
@@ -805,12 +805,13 @@ ALL</active>
         <active s="0">
         </active>
       </btn>
-      <txt j="0" x="689" y="158" w="318" h="29" t="cfblue2_small_c_lighter" wrap="True" l="1">Recently Added Albums</txt>
-      <txt j="0" x="352" y="158" w="318" h="29" t="cfblue2_small_c_lighter" wrap="True" l="1">Recently Added Movies</txt>
-      <txt j="0" x="14" y="158" w="318" h="29" t="cfblue2_small_c_lighter" wrap="True" l="1">Recently Added Episodes</txt>
+      <txt j="702" x="689" y="158" w="318" h="29" t="cfblue2_small_c_lighter" wrap="True" l="1">Recently Added Albums</txt>
+      <txt j="701" x="352" y="158" w="318" h="29" t="cfblue2_small_c_lighter" wrap="True" l="1">Recently Added Movies</txt>
+      <txt j="700" x="14" y="158" w="318" h="29" t="cfblue2_small_c_lighter" wrap="True" l="1">Recently Added Episodes</txt>
       <subpage name="wifi" x="2" y="17" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_blank" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
+      <subpage name="Main_RecentSong_List" x="689" y="191" j="9104" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
     </landscape>
   </page>
   <page name="File" j="0" transition="" subtype="" time="0" ease="">
@@ -2520,7 +2521,7 @@ ALL</active>
   <subpage name="Main_RecentMovie_Item" w="320" h="98" clip="1">
     <img x="4" y="0" w="79" h="92" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
     <txt j="2" x="91" y="0" w="213" h="71" t="Album" wrap="True" l="1">(Movie Title)</txt>
-    <btn j="1" x="0" y="0" w="320" h="83" t="btn_transparent" flip="None" sim="0" l="1" s="1">
+    <btn j="1" x="0" y="0" w="320" h="83" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.playRecentMovie(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -2752,14 +2753,11 @@ ALL</active>
     </btn>
     <txt j="0" x="703" y="320" w="273" h="39" t="menu_dropdown_title_l" wrap="True" l="1">Video Library</txt>
   </subpage>
-  <subpage name="MenuPowerSelection" w="522" h="61" clip="1">
-    <img x="0" y="0" w="522" h="61" j="11" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_selection_bg.png</img>
-  </subpage>
   <subpage name="Main_RecentEpisode_Item" w="320" h="81" clip="1">
     <txt j="2" x="101" y="0" w="201" h="49" t="EpDetails" wrap="True" l="0">Episode Name</txt>
     <txt j="3" x="100" y="38" w="202" h="18" t="nowplaying_lighter" wrap="True" l="0">Recently Added Episodes</txt>
     <img x="12" y="0" w="83" h="63" j="1" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
-    <btn j="1" x="6" y="0" w="307" h="63" t="btn_transparent" flip="None" sim="1" l="0" s="1">
+    <btn j="1" x="6" y="0" w="307" h="63" t="btn_transparent" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.playRecentEpisode(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -2769,7 +2767,7 @@ ALL</active>
   <subpage name="Main_RecentAlbum_Item" w="320" h="81" clip="1">
     <img x="5" y="0" w="73" h="73" j="1" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
     <txt j="2" x="81" y="0" w="226" h="33" t="Album" wrap="False" l="0">(Album #)</txt>
-    <btn j="1" x="0" y="5" w="320" h="51" t="btn_transparent" flip="None" sim="1" l="1" s="1">
+    <btn j="1" x="0" y="5" w="320" h="51" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectRecentAlbum(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -2843,89 +2841,6 @@ ALL</active>
       </active>
     </btn>
     <btn j="15" x="484" y="0" w="61" h="61" t="menu_file" flip="File" sim="0" l="0" s="1" cmd="Page_File">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-  </subpage>
-  <subpage name="Main_RecentAlbum_Item_copy_not_used" w="320" h="81" clip="1">
-    <btn j="0" x="0" y="54" w="320" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <img x="14" y="2" w="60" h="60" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
-    <txt j="2" x="81" y="0" w="226" h="33" t="Album" wrap="False" l="0">(Album #)</txt>
-    <btn j="1" x="0" y="5" w="320" h="51" t="btn_transparent" flip="Music" sim="1" l="1" s="1">
-      <actions>
-        <action>
-          <press delay="3000" hold="0" repeat="0" js="XBMCMacMini.selectMusicAlbum(list, listIndex, join)" />
-        </action>
-      </actions>
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <txt j="3" x="81" y="31" w="223" h="22" t="nowplaying_lighter" wrap="True" l="0">Recently Added Album</txt>
-  </subpage>
-  <subpage name="Main_RecentEpisode_Item_copy_not_used" w="320" h="81" clip="1">
-    <txt j="2" x="101" y="0" w="201" h="49" t="EpDetails" wrap="True" l="0">Episode Name</txt>
-    <txt j="3" x="100" y="38" w="202" h="18" t="nowplaying_lighter" wrap="True" l="0">Recently Added Episodes</txt>
-    <btn j="0" x="0" y="54" w="320" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <img x="12" y="0" w="83" h="63" j="1" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
-    <btn j="1" x="6" y="0" w="307" h="63" t="btn_transparent" flip="TVShow" sim="1" l="0" s="1">
-      <actions>
-        <action>
-          <press delay="1000" hold="0" repeat="0" js="XBMCMacMini.RecentAddedEpisodes()" />
-        </action>
-      </actions>
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <btn j="0" x="0" y="54" w="320" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <btn j="0" x="0" y="54" w="320" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <btn j="0" x="0" y="54" w="320" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-  </subpage>
-  <subpage name="Main_RecentMovie_Item_copy_not_used" w="320" h="98" clip="1">
-    <btn j="0" x="0" y="71" w="320" h="27" t="list_content" flip="None" sim="0" l="1" s="1">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
-    <img x="15" y="0" w="68" h="80" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
-    <txt j="2" x="91" y="0" w="213" h="71" t="Album" wrap="True" l="1">(Movie Title)</txt>
-    <btn j="1" x="0" y="0" w="320" h="83" t="btn_transparent" flip="Movie" sim="0" l="1" s="1">
-      <actions>
-        <action>
-          <press delay="1000" hold="0" repeat="0" js="XBMCMacMini.selectMovie(list, listIndex, join)" />
-        </action>
-      </actions>
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -3279,18 +3194,6 @@ ALBUMS</active>
     </btn>
     <list j="1004" x="682" y="142" w="318" h="494" headerSub="" titleSub="" contentSub="Movie_DropMenu_Genre_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
   </subpage>
-  <subpage name="Menu_RecentAddMovie_List" w="586" h="120" clip="1">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
-  </subpage>
-  <subpage name="Menu_RecentAddAlbum_List" w="586" h="120" clip="1">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
-  </subpage>
-  <subpage name="Menu_RecentAddEpisode_List" w="586" h="120" clip="1">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
-  </subpage>
-  <subpage name="Menu_RecentAddSong_List" w="586" h="120" clip="1">
-    <list j="1201" x="0" y="0" w="586" h="120" headerSub="" titleSub="" contentSub="Main_RecentMovie_Item" footerSub="" orientation="h" l="1" swipedelete="1" />
-  </subpage>
   <subpage name="TVShow_DropMenu_Genre_List" w="1024" h="768" clip="1">
     <img x="670" y="78" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
     <btn j="0" x="691" y="106" w="54" h="29" t="list_dropmenu_btn_back" flip="None" sim="1" l="1" s="1" cmd="DropMenu_TVShow_Main">
@@ -3318,5 +3221,31 @@ ALBUMS</active>
     <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
     <list j="9101" x="0" y="1" w="318" h="564" headerSub="" titleSub="" contentSub="Main_RecentEpisode_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
     <img x="0" y="0" w="318" h="24" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_main1_top_shadow.png</img>
+  </subpage>
+  <subpage name="Main_RecentSong_Item" w="320" h="81" clip="0">
+    <img x="5" y="0" w="73" h="73" j="1" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
+    <txt j="2" x="84" y="3" w="172" h="45" t="MovieTagline" wrap="True" l="0">Song</txt>
+    <btn j="1" x="8" y="5" w="230" h="61" t="btn_transparent" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.selectMusicSong(list, listIndex, join)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <txt j="3" x="83" y="47" w="171" h="19" t="nowplaying_lighter" wrap="True" l="0">(Track Number)</txt>
+    <btn j="1" x="253" y="8" w="61" h="61" t="menu_playlist" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.addSongPlaylist(list, listIndex, join)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+  </subpage>
+  <subpage name="Main_RecentSong_List" w="318" h="568" clip="0">
+    <img x="0" y="0" w="318" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_main3_bg.png</img>
+    <list j="9104" x="0" y="75" w="318" h="490" headerSub="" titleSub="" contentSub="Main_RecentSong_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+    <btn j="0" x="43" y="9" w="240" h="56" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.showRecentAlbums()">
+      <inactive s="0">&lt; RECENTLY ADDED ALBUMS&gt;</inactive>
+      <active s="0">&lt; RECENTLY ADDED ALBUMS&gt;</active>
+    </btn>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
 </gui>
