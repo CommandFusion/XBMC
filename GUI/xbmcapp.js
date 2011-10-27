@@ -310,7 +310,6 @@ var XBMC_Controller = function(params) {
 					d1: {
 						tokens: {
 							"[id]": showID,
-							"[showname]": title,
 							"[fanart]": fanart
 						}
 					}
@@ -319,8 +318,11 @@ var XBMC_Controller = function(params) {
 			CF.listAdd("l"+listJoin, TVSerieslistArray);
 		
 		CF.setJoin("s100", "TV SHOWS" + " (" + data.result.limits.total + ")");
-		
 		});
+	};
+	
+	self.labelTVShow = function(){
+		CF.setJoin("s100", "TV SHOWS" + " (" + TVSerieslistArray.length + ")");
 	};
 	
 	/*
@@ -362,8 +364,10 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of Seasons for a particular show from XBMC
 	 * @Param {integer} ID of the TV show from the XBMC database
 	 */
-	 
-	self.getTVSeasons = function(id, showname, fanart, listJoin) {
+	
+	var TVSeasonsArray = new Array();		//for labelling purpose only
+	
+	self.getTVSeasons = function(id, fanart, listJoin) {
 	
 		CF.setJoin("d"+(listJoin+1100-1), 1);				// Show Blank subpage
 		CF.setJoin("d"+(listJoin+1000-1), 0);				// Hide TVShow Details subpage
@@ -375,10 +379,11 @@ var XBMC_Controller = function(params) {
 			
 			// Create array to push all new items in
 			var listArray = [];
+			TVSeasonsArray = [];
+			
 			// Clear the list
 			CF.listRemove("l"+listJoin);
-			// Sort seasons correctly - sort methods in XBMC JSON implementation dont work for seasons when you have more than 9
-			data.result.seasons.sort(function(a,b) { return parseInt(a.season) - parseInt(b.season) } );
+			
 			// Loop through all returned TV Seasons
 			for (var i = 0; i<data.result.limits.total; i++) {
 				
@@ -401,12 +406,26 @@ var XBMC_Controller = function(params) {
 						}
 					}
 				});
+				
+				TVSeasonsArray.push(showtitle);
 			}
 			// Use the array to push all new list items in one go
 			CF.listAdd("l"+listJoin, listArray);
 		
-		CF.setJoin("s100", showname + " (" + data.result.limits.total+ " Seasons)");
+			if(data.result.limits.total == 1){
+			CF.setJoin("s100", "["+showtitle+"]" + " (" + data.result.limits.total+ " Season)");
+			}else{
+			CF.setJoin("s100", "["+showtitle+"]" + " (" + data.result.limits.total+ " Seasons)");
+			}
 		});
+	};
+	
+	self.labelTVSeason = function(){
+		if(TVSeasonsArray.length == 1){
+			CF.setJoin("s100", "[" + TVSeasonsArray[0] + "]" + " (" + TVSeasonsArray.length + " Season)");
+			}else{
+			CF.setJoin("s100", "[" + TVSeasonsArray[0] + "]" + " (" + TVSeasonsArray.length + " Seasons)");
+			}
 	};
 
 	/**
@@ -885,10 +904,16 @@ var XBMC_Controller = function(params) {
 		});
 	};
 	
+	self.labelArtist = function(){
+		CF.setJoin("s200", "ARTIST " + "(" + ArtistlistArray.length + ")" );
+	};
+	
 	/**
 	 * Function: Get a list of Albums for a particular Artist from XBMC
 	 * @Param {integer} ID of the Album from the XBMC database
 	 */
+	 var MusicAlbumArray = new Array();
+	 
 	self.getMusicAlbum = function(id, artist, fanart, listJoin) {
 	
 		CF.setJoin("d"+(listJoin+1100-1), 0);				// Hide Song Details subpage
@@ -902,6 +927,8 @@ var XBMC_Controller = function(params) {
 			
 			// Create array to push all new items in
 			var listArray = [];
+			MusicAlbumArray = [];
+			
 			CF.listRemove("l"+listJoin);
 			
 			// Loop through all returned Albums
@@ -924,17 +951,28 @@ var XBMC_Controller = function(params) {
 						}
 					}
 				});
+				
+				MusicAlbumArray.push(artist);
 			}
 			// Use the array to push all new list items in one go
 			CF.listAdd("l"+listJoin, listArray);
 			
+			//More for language purpose, to differentiate singular and plural items
 			if(data.result.limits.total == 1)
 			{
-			CF.setJoin("s200", artist + " (" + data.result.limits.total + " album)" );
+			CF.setJoin("s200", artist + " (" + data.result.limits.total + " Album)" );
 			}else{
-			CF.setJoin("s200", artist + " (" + data.result.limits.total + " albums)" );
+			CF.setJoin("s200", artist + " (" + data.result.limits.total + " Albums)" );
 			}
 		});
+	};
+	
+	self.labelAlbum = function(){
+		if(MusicAlbumArray.length == 1){
+			CF.setJoin("s200", "[" + MusicAlbumArray[0] + "]" + " (" + MusicAlbumArray.length + " Album)");
+			}else{
+			CF.setJoin("s200", "[" + MusicAlbumArray[0] + "]" + " (" + MusicAlbumArray.length + " Albums)");
+			}
 	};
 	
 	/**
@@ -946,7 +984,6 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("d"+(listJoin+1100-2), 0);				// Hide Song Details subpage
 		CF.setJoin("d"+(listJoin+1200-2), 1);				// Show Blank subpage
 		CF.setJoin("s200", "["+artist+"] " + albumtitle);
-		
 		
 		self.currentAlbumID = parseInt(id);
 		self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"order": "ascending", "method": "track"}, "properties": ["thumbnail", "title", "track", "file"]}, function(data) {
@@ -1761,12 +1798,11 @@ var XBMC_Controller = function(params) {
 								tokens: {
 								"[id]": albumid,
 								"[artist]": artist,
-								"[title]": label
+								"[albumtitle]": label
 								}
 							},
 							
 						});
-						
 					}
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+baseJoin, RecentAlbumlistArray);
@@ -1776,7 +1812,7 @@ var XBMC_Controller = function(params) {
 				});	
 		};
 		
-		self.labelRecentAlbums = function(){
+	self.labelRecentAlbums = function(){
 		CF.setJoin("s200", "RECENT ADDED ALBUMS " + "(" + RecentAlbumlistArray.length + ")"  );
 	};
 	

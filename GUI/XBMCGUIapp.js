@@ -164,8 +164,8 @@ var XBMC_GUI = function(params) {
 		self.XBMC.getRecentMovies(self.joinRecentMovies, self.joinRecentMoviesMain);			// Recently Added Movies
 		
 		CF.setJoin("d"+self.joinRecentAlbumsMain, 1);		// Show Recent Albums list on the Main Page
-		CF.setJoin("d"+self.joinRecentSongsMain, 0);				// Hide Recent Songs list on the Main Page
-		self.XBMC.getRecentAlbums(self.joinRecentAlbums, self.joinRecentAlbumsMain);										// Recently Added Albums
+		CF.setJoin("d"+self.joinRecentSongsMain, 0);		// Hide Recent Songs list on the Main Page
+		self.XBMC.getRecentAlbums(self.joinRecentAlbums, self.joinRecentAlbumsMain);			// Recently Added Albums
 		
 		
 	};
@@ -184,7 +184,7 @@ var XBMC_GUI = function(params) {
 			//CF.setJoin("d"+self.joinTVShowsGenre, 0);			// Hide Genre list's subpage
 			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);	// Hide Genre detail's subpage
 			
-			self.XBMC.getTVSeasons(t["[id]"],t["[showname]"], t["[fanart]"], self.joinTVSeasons); 	// Get TV Seasons
+			self.XBMC.getTVSeasons(t["[id]"],t["[fanart]"], self.joinTVSeasons); 	// Get TV Seasons
 		});
 	};
 
@@ -211,6 +211,8 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
 		//CF.setJoin("d"+self.joinTVShowsGenre, 0);					// Hide Genre list's subpage
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		
+		self.XBMC.labelTVShow();		// This is to label the top part of the subpage
 	};
 	
 	// This is for the "Season" button (to go back to previous list) in the Episode list; dropdown Menu button "Season"
@@ -221,6 +223,8 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
 		//CF.setJoin("d"+self.joinTVShowsGenre, 0);					// Hide Genre list's subpage
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		
+		self.XBMC.labelTVSeason(); // This is to label the top part of the subpage
 	};
 	
 	// This is for the dropdown Menu button "Episode" 
@@ -259,7 +263,8 @@ var XBMC_GUI = function(params) {
 		//CF.setJoin("d"+self.joinTVShowsGenre, 0);					// Show Genre list's subpage
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Show Genre detail's subpage
 		
-		self.XBMC.getRecentEpisodes(self.joinRecentEpisodes);	
+		self.XBMC.getRecentEpisodes(self.joinRecentEpisodes);
+		self.XBMC.labelRecentEpisodes();	
 	};
 	
 	// Shows a list of all the Genre categories (for TV Shows only)
@@ -485,6 +490,8 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
 		CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
 		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+		
+		self.XBMC.labelArtist();							// This is for labelling on the top of the subpage
 	};
 	
 	// This is for the "Album" button (to go back to previous list) in the Song list; dropdown Menu button "Album"
@@ -494,6 +501,8 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
 		CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
 		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+		
+		self.XBMC.labelAlbum();							// This is for labelling on the top of the subpage
 	};
 	
 	// This is for dropdown Menu button "Songs"
@@ -535,7 +544,8 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentAlbums, 1);			// Show Recently Added Albums subpage
 		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
 		
-		self.XBMC.getRecentAlbums(self.joinRecentAlbums);				
+		self.XBMC.getRecentAlbums(self.joinRecentAlbums);
+		self.XBMC.labelRecentAlbums();		
 	};
 	
 	// Shows a list of all the Recently Added Songs 
@@ -559,6 +569,7 @@ var XBMC_GUI = function(params) {
 			
 			// Get Music Song list
 			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], self.joinRecentSongsMain);
+			
 		});
 	};
 	
