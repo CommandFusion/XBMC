@@ -652,17 +652,13 @@ var XBMC_GUI = function(params) {
 	//--------------------------------------------------------------------------------------------------
 	// Basic Control
 	//--------------------------------------------------------------------------------------------------
-		
+	
+	self.playStatusGet = function() {											// Get the current state of muting for volume
+		self.XBMC.playPauseStatus();
+	};
+	
 	self.volGet = function() {											// Get the current state of muting for volume
 		self.XBMC.volGet(self.setMuteState);
-	};
-
-	self.volUp = function() {											// Increase volume
-		self.XBMC.volUp(self.setMuteState);
-	};
-
-	self.volDown = function() {											// Decrease volume
-		self.XBMC.volDown(self.setMuteState);
 	};
 
 	self.volMute = function() {											// Mutes the volume
@@ -670,12 +666,12 @@ var XBMC_GUI = function(params) {
 	};
 
 	self.setMuteState = function() {									// Sets the feedback of the volume.
-		if(self.XBMC.currentVol == 0) {		// this means volume level = 0, means muted state
+		if(self.XBMC.currentMute == true) {		// this means volume level = 0, means muted state
 			CF.setJoin("d"+self.joinMute, 1);
 			CF.setJoin("a90", 0);
 		}else{
 			CF.setJoin("d"+self.joinMute, 0);
-			CF.setJoin("a90", Math.round((self.XBMC.currentVol/100)*65535));
+			self.XBMC.volGet();
 		}
 	};
 	

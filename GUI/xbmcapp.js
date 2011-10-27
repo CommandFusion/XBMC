@@ -98,7 +98,11 @@ Commit: 53ee2724ede510a8a3a0
 	support direct download through Files.Download while others (like HTTP) will not and in that case the method name "Download" may be confusing. That's why we split 
 	the functionality into Files.PrepareDownload (which will be available over HTTP) and Files.Download (which will not be available over HTTP because it's not supported).
 
+22nd October:
+Installed the latest nightly build from http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111020-59dec96-master.exe to test the latest changes. 
 
+27th October:
+No mention of any more changes to the JSON protocol since Oct 14th. http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe dated 26th Oct. 
 
 =========================================================================
 */
@@ -1323,7 +1327,7 @@ var XBMC_Controller = function(params) {
 		
 		setTimeout(function(){self.startVideoPlayerTime();}, 1000);
 	};
-	
+		
 	//------------------------------------------------------------------------------------------------------------------------------
 	// Files and Sources : Get a list of sources from XBMC according to media : ["video", "music", "pictures", "files", "programs"]
 	//  *possible bug in current XBMC test version - doesn't give back the file path, previous version have. Cannot bring forward the path to use File.GetDirectory
@@ -1622,13 +1626,15 @@ var XBMC_Controller = function(params) {
 	//--------------------------------------------------------------------------------------------------
 	// Recently Added Items
 	//--------------------------------------------------------------------------------------------------
-		
+	
+
+	
 	/**
 	 * Function: Get Recently Added Episodes list from XBMC
 	 */
 	self.getRecentEpisodes = function(baseJoin) {
 	
-		self.rpc("VideoLibrary.GetRecentlyAddedEpisodes", {"properties":["thumbnail", "season", "showtitle"]}, function(data) {
+		self.rpc("VideoLibrary.GetRecentlyAddedEpisodes", {"properties":["thumbnail", "season", "showtitle", "file"]}, function(data) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
@@ -1642,8 +1648,8 @@ var XBMC_Controller = function(params) {
 						var episodeid = data.result.episodes[i].episodeid ;
 						var thumbnail = self.URL + "vfs/"+data.result.episodes[i].thumbnail;
 						var label = data.result.episodes[i].label;
-						var season = data.result.episodes[i].season ;
-						var showtitle = data.result.episodes[i].showtitle ;
+						var season = data.result.episodes[i].season;
+						var showtitle = data.result.episodes[i].showtitle;
 						
 						
 						// Add to array to add to list in one go later
@@ -1830,7 +1836,22 @@ var XBMC_Controller = function(params) {
 	// Basic Transport Commands
 	//--------------------------------------------------------------------------------------------------
 	
-	self.playPause = function(media) {				// Play/Pause										
+	self.playPauseStatus = function(media) {				// Play/Pause										
+		switch(media)
+		{
+			case "video":
+				// previously self.rpc("Player.PlayPause", {}, self.logReplyData);		
+				self.rpc("Player.GetProperties", {"playerid":1, "properties": ["speed"]}, self.logReplyData);		
+				break;
+			case "audio":
+				self.rpc("Player.GetProperties", {"playerid":0, "properties": ["speed"]}, self.logReplyData);		
+				break;
+		}
+		self.playStatus = data.result.speed;
+		callback();
+	};
+	
+	self.playPause = function(media, callback) {				// Play/Pause										
 		switch(media)
 		{
 			case "video":
@@ -1841,6 +1862,8 @@ var XBMC_Controller = function(params) {
 				self.rpc("Player.PlayPause", {"playerid":0}, self.logReplyData);		
 				break;
 		}
+		self.playStatus = data.result.speed;
+		callback();
 	};
 	
 	self.Stop = function(media) {						// Stop									
@@ -1961,6 +1984,7 @@ var XBMC_Controller = function(params) {
 				self.rpc("Player.GoNext", {"playerid":0}, self.logReplyData);
 				break;
 		}
+		
 	};
 	
 	self.skipPrevious = function(media) {		// Skip Previous
@@ -2064,37 +2088,25 @@ var XBMC_Controller = function(params) {
 			self.currentVol = data.result.volume;
 			self.currentMute = data.result.muted;
 			
+			CF.setJoin("a90", Math.round((self.currentVol/100)*65535));
+			
 			callback();
 		});
 	};
 
+	// self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 2, 100)}, function(data) {			previous night version
+	// "value" replace with volume
+	
 	// set the volume level
 	self.setVolume = function(level) {
-		self.rpc("Application.setVolume", {"value": Math.round((level/100)*(100))},{}); 		//Previous XBMC.setVolume
-	};
-	
-	// Reduce the volume level
-	self.volDown = function(callback) {
-		self.rpc("Application.setVolume", {"value": Math.max(self.currentVol - 2, 0)}, function(data) {
-			self.currentVol = data.result;
-			//self.currentMute = (data.result == 0) ? 1 : 0;
-			callback();
-		});
-	};
-
-	// Increase the volume level
-	self.volUp = function(callback) {
-		self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 2, 100)}, function(data) {
-			self.currentVol = data.result;
-			//self.currentMute = (data.result == 0) ? 1 : 0;
-			callback();
-		});
+		self.rpc("Application.setVolume", {"volume": Math.round((level/100)*100)},{}); 		//Previous XBMC.setVolume
 	};
 
 	// Mute toggle the volume
 	self.volMute = function(callback) {
-		self.rpc("Application.ToggleMute", {}, function(data) {			//Previous XBMC.ToggleMute
-			self.currentVol = data.result;
+		//self.rpc("Application.ToggleMute", {}, function(data) {			//previous Oct 3 night version, previously XBMC.ToggleMute
+		self.rpc("Application.SetMute", {"mute": "toggle"}, function(data) {			//Latest night version
+			self.currentMute = data.result;
 			callback();
 		});
 	};
