@@ -2138,7 +2138,26 @@ var XBMC_Controller = function(params) {
 			callback();
 		});
 	};
+	
+	// Reduce the volume level
+	self.volDown = function(callback) {
+		self.rpc("Application.setVolume", {"volume": Math.max(self.currentVol - 5, 0)}, function(data) {
+			self.currentVol = data.result;
+			//self.currentMute = (data.result == 0) ? 1 : 0;
+			callback();
+		});
+	};
 
+	// Increase the volume level
+	self.volUp = function(callback) {
+		self.rpc("Application.setVolume", {"volume": Math.min(self.currentVol + 5, 100)}, function(data) {
+			self.currentVol = data.result;
+			//self.currentMute = (data.result == 0) ? 1 : 0;
+			callback();
+		});
+	};
+	
+	
 	//self.introspect = function() {
 	//	self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 1, 100)}, self.logReplyData);		//Previous XBMC.setVolume
 	//};
