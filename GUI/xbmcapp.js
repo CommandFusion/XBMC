@@ -1133,7 +1133,7 @@ var XBMC_Controller = function(params) {
 					CF.setJoin("s"+baseJoin, "AUDIO");		// Show player status : AUDIO
 					CF.setJoin("d"+(baseJoin+2), 1);		// Show Now Playing Audio subpage
 					CF.setJoin("d"+(baseJoin+3), 0);		// Hide Now Playing Video subpage
-					CF.setJoin("d"+(baseJoin+4), 0);		// Hide Now Playing blank subpage
+					
 					//Get the latest details
 					self.getNowPlayingAudioItem(baseJoin);
 					//Initiate the playing timer
@@ -1144,22 +1144,18 @@ var XBMC_Controller = function(params) {
 				CF.setJoin("s"+baseJoin, "VIDEO");			// Show player status : VIDEO
 				CF.setJoin("d"+(baseJoin+2), 0);			// Hide Now Playing Audio subpage
 				CF.setJoin("d"+(baseJoin+3), 1);			// Show Now Playing Video subpage
-				CF.setJoin("d"+(baseJoin+4), 0);		// Hide Now Playing blank subpage
+				
 				//Get the latest details
 				self.getNowPlayingVideoItem(baseJoin);
 				//Initiate the playing timer
 				self.startVideoPlayerTime();
+			}else if(self.currentPlayer == undefined){
+				//Hide both subpages
+				CF.setJoin("d"+(baseJoin+2), 0);			// Hide Now Playing Audio subpage
+				CF.setJoin("d"+(baseJoin+3), 0);			// Show Now Playing Video subpage
 			}
-			else 
-			{
-			CF.log("data.result.length = "+data.result[0].length);
-			CF.setJoin("s"+baseJoin, "No Media is Playing")	// Show player status : VIDEO
-			CF.setJoin("d"+(baseJoin+2), 0);				// Hide Now Playing Audio subpage
-			CF.setJoin("d"+(baseJoin+3), 0);				// Hide Now Playing Video subpage
-			CF.setJoin("d"+(baseJoin+4), 1);				// Show Now Playing blank subpage
-			}
+			
 		});
-	
 	};
 	
 	/**
@@ -2073,7 +2069,7 @@ var XBMC_Controller = function(params) {
 		case "reboot":
 				self.rpc("System.Reboot", {}, self.logReplyData);  // XBMC System : Reboot 
 				break;
-		case "quit":
+		case "exit":
 				self.rpc("Application.Quit", {}, self.logReplyData);  // XBMC System : Quit 
 				break;
 		}								
