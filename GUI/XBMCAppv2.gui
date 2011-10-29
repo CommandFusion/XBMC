@@ -549,6 +549,8 @@
     <theme type="background" name=".bg_portrait"><![CDATA[ background-image: url(bg_portrait.png); background-repeat: no-repeat;]]></theme>
     <theme type="button" name=".btn_info[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_info.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".btn_info[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_info.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_212x43[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_212x43_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_212x43[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_212x43_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
   </themes>
   <tokens>
     <token name="[inputURL]" value="192.168.0.100" persist="1" />
@@ -694,28 +696,24 @@
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="711" y="516" w="91" h="91" t="dev_arrowTL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;home&quot;)">
+      <btn j="0" x="711" y="518" w="91" h="91" t="dev_arrowTL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;home&quot;)">
         <inactive s="0">HOME</inactive>
         <active s="0">HOME</active>
       </btn>
-      <btn j="0" x="826" y="516" w="91" h="91" t="dev_arrowTR_med" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
+      <btn j="0" x="826" y="518" w="91" h="91" t="dev_arrowTR_med" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">text</inactive>
+        <active s="0">text</active>
       </btn>
-      <btn j="0" x="711" y="624" w="91" h="91" t="dev_arrowBL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)">
+      <btn j="0" x="711" y="626" w="91" h="91" t="dev_arrowBL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)">
         <inactive s="0">BACK</inactive>
         <active s="0">BACK</active>
       </btn>
-      <btn j="0" x="826" y="624" w="91" h="91" t="dev_arrowBR_med" flip="None" sim="1" l="0" s="1">
-        <inactive s="0">
-        </inactive>
-        <active s="0">
-        </active>
+      <btn j="0" x="826" y="626" w="91" h="91" t="dev_arrowBR_med" flip="None" sim="1" l="0" s="1">
+        <inactive s="0">text</inactive>
+        <active s="0">text</active>
       </btn>
-      <img x="737" y="540" w="154" h="155" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">btn_arrowpad_bg.png</img>
-      <btn j="0" x="771" y="649" w="86" h="44" t="arrow_down" flip="None" sim="1" l="0" s="1">
+      <img x="737" y="542" w="154" h="155" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">btn_arrowpad_bg.png</img>
+      <btn j="0" x="771" y="651" w="86" h="44" t="arrow_down" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;down&quot;)" />
@@ -726,13 +724,13 @@
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="782" y="584" w="66" h="67" t="arrow_ok" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)">
+      <btn j="0" x="782" y="586" w="66" h="67" t="arrow_ok" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)">
         <inactive s="0">
         </inactive>
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="742" y="574" w="44" h="86" t="arrow_left" flip="None" sim="1" l="0" s="1">
+      <btn j="0" x="742" y="576" w="44" h="86" t="arrow_left" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;left&quot;)" />
@@ -743,7 +741,7 @@
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="845" y="574" w="44" h="86" t="arrow_right" flip="None" sim="1" l="0" s="1">
+      <btn j="0" x="845" y="576" w="44" h="86" t="arrow_right" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;right&quot;)" />
@@ -754,7 +752,7 @@
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="771" y="544" w="86" h="44" t="arrow_up" flip="None" sim="1" l="0" s="1">
+      <btn j="0" x="771" y="546" w="86" h="44" t="arrow_up" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="0" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
@@ -770,6 +768,44 @@
       <subpage name="PlayingNow_Video" x="10" y="191" j="8003" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
       <subpage name="transport_audio" x="51" y="28" j="8002" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <img x="951" y="92" w="61" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">cf_logo_grey.png</img>
+      <btn j="0" x="619" y="272" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Subtitles</inactive>
+        <active s="0">Subtitles</active>
+      </btn>
+      <btn j="0" x="818" y="272" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Lyrics</inactive>
+        <active s="0">Lyrics</active>
+      </btn>
+      <btn j="0" x="619" y="325" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Video Settings</inactive>
+        <active s="0">Video Settings</active>
+      </btn>
+      <btn j="0" x="818" y="325" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Visualization</inactive>
+        <active s="0">Visualization</active>
+      </btn>
+      <btn j="0" x="619" y="378" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Audio Settings</inactive>
+        <active s="0">Audio Settings</active>
+      </btn>
+      <btn j="0" x="818" y="378" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Visualization
+Presets</inactive>
+        <active s="0">Visualization
+Presets</active>
+      </btn>
+      <btn j="0" x="619" y="430" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">Bookmarks</inactive>
+        <active s="0">Bookmarks</active>
+      </btn>
+      <btn j="0" x="818" y="430" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+        <inactive s="0">DirectX Spectrum
+Settings</inactive>
+        <active s="0">DirectX Spectrum
+Settings</active>
+      </btn>
+      <txt j="0" x="619" y="233" w="186" h="40" t="cfblue2_small_c_lighter" wrap="True" l="0">Video Player Options</txt>
+      <txt j="0" x="818" y="233" w="186" h="40" t="cfblue2_small_c_lighter" wrap="True" l="0">Audio Player Options</txt>
     </landscape>
   </page>
   <page name="Playlist" j="0" transition="" subtype="" time="0" ease="">
@@ -830,45 +866,6 @@ ALL</active>
   </page>
   <page name="MainMenu" j="0" transition="" subtype="" time="0" ease="" start="1">
     <portrait t="bg_portrait">
-      <gesture name="ArrowLeft" type="swipe" direction="left" touches="1">
-        <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;left&quot;)" />
-      </gesture>
-      <gesture name="ArrowRight" type="swipe" direction="right" touches="1">
-        <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;right&quot;)" />
-      </gesture>
-      <gesture name="ArrowUp" type="swipe" direction="up" touches="1">
-        <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
-      </gesture>
-      <gesture name="ArrowDown" type="swipe" direction="down" touches="1">
-        <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;down&quot;)" />
-      </gesture>
-      <gesture name="Enter" type="tap" taps="1" touches="1">
-        <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)" />
-      </gesture>
-      <gesture name="Back" type="tap" taps="2" touches="1">
-        <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;back&quot;)" />
-      </gesture>
-      <gesture name="Home" type="tap" taps="1" touches="2">
-        <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;home&quot;)" />
-      </gesture>
-      <gesture name="Rewind" type="swipe" direction="left" touches="2">
-        <action phase="begin" js="XBMCMacMini.XBMC.Rewind(&quot;audio&quot;)" />
-        <action phase="begin" js="XBMCMacMini.XBMC.Rewind(&quot;video&quot;)" />
-      </gesture>
-      <gesture name="Forward" type="swipe" direction="right" touches="2">
-        <action phase="begin" js="XBMCMacMini.XBMC.Forward(&quot;audio&quot;)" />
-        <action phase="begin" js="XBMCMacMini.XBMC.Forward(&quot;video&quot;)" />
-      </gesture>
-      <gesture name="Volume Up" type="swipe" direction="up" touches="2">
-        <action phase="begin" js="XBMCMacMini.XBMC.volUp()" />
-      </gesture>
-      <gesture name="Volume Down" type="swipe" direction="down" touches="2">
-        <action phase="begin" js="XBMCMacMini.XBMC.volDown()" />
-      </gesture>
-      <gesture name="Play/Pause" type="tap" taps="2" touches="2">
-        <action phase="begin" js="XBMCMacMini.XBMC.playPause(&quot;audio&quot;)" />
-        <action phase="begin" js="XBMCMacMini.XBMC.playPause(&quot;video&quot;)" />
-      </gesture>
       <subpage name="Main_Gestures_list" x="0" y="0" j="45" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="1" topmost="0" v="1" l="1" />
       <btn j="45" x="728" y="10" w="30" h="30" t="btn_info" flip="None" sim="2" l="0" s="1">
         <inactive s="0">
@@ -2668,6 +2665,81 @@ Are you sure you want to proceed?</txt>
       <active s="0">NO</active>
     </btn>
   </subpage>
+  <subpage name="Main_Gestures_list" w="768" h="1024" clip="1">
+    <gesture name="ArrowLeft" type="swipe" direction="left" touches="1">
+      <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;left&quot;)" />
+    </gesture>
+    <gesture name="ArrowRight" type="swipe" direction="right" touches="1">
+      <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;right&quot;)" />
+    </gesture>
+    <gesture name="ArrowUp" type="swipe" direction="up" touches="1">
+      <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
+    </gesture>
+    <gesture name="ArrowDown" type="swipe" direction="down" touches="1">
+      <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;down&quot;)" />
+    </gesture>
+    <gesture name="Enter" type="tap" taps="1" touches="1">
+      <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)" />
+    </gesture>
+    <gesture name="Back" type="tap" taps="2" touches="1">
+      <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;back&quot;)" />
+    </gesture>
+    <gesture name="Home" type="tap" taps="1" touches="2">
+      <action phase="begin" js="XBMCMacMini.XBMC.InputAction(&quot;home&quot;)" />
+    </gesture>
+    <gesture name="Rewind" type="swipe" direction="left" touches="2">
+      <action phase="begin" js="XBMCMacMini.XBMC.Rewind(&quot;audio&quot;)" />
+      <action phase="begin" js="XBMCMacMini.XBMC.Rewind(&quot;video&quot;)" />
+    </gesture>
+    <gesture name="Forward" type="swipe" direction="right" touches="2">
+      <action phase="begin" js="XBMCMacMini.XBMC.Forward(&quot;audio&quot;)" />
+      <action phase="begin" js="XBMCMacMini.XBMC.Forward(&quot;video&quot;)" />
+    </gesture>
+    <gesture name="VolumeUp" type="swipe" direction="up" touches="2">
+      <action phase="begin" js="XBMCMacMini.XBMC.volUp()" />
+    </gesture>
+    <gesture name="VolumeDown" type="swipe" direction="down" touches="2">
+      <action phase="begin" js="XBMCMacMini.XBMC.volDown()" />
+    </gesture>
+    <gesture name="PlayPause" type="tap" taps="2" touches="2">
+      <action phase="begin" js="XBMCMacMini.XBMC.playPause(&quot;audio&quot;)" />
+      <action phase="begin" js="XBMCMacMini.XBMC.playPause(&quot;video&quot;)" />
+    </gesture>
+    <img x="0" y="0" w="768" h="1024" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay_portrait.png</img>
+    <img x="112" y="113" w="544" h="638" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window_gesture.png</img>
+    <img x="138" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_left.png</img>
+    <img x="266" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_right.png</img>
+    <img x="393" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_up.png</img>
+    <img x="521" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_down.png</img>
+    <txt j="0" x="254" y="115" w="259" h="45" t="text_sample" wrap="False" l="1">Gestures</txt>
+    <txt j="0" x="138" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Left</txt>
+    <txt j="0" x="266" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Right</txt>
+    <txt j="0" x="393" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Up</txt>
+    <txt j="0" x="521" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Down</txt>
+    <img x="138" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_left.png</img>
+    <img x="266" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_right.png</img>
+    <img x="393" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_up.png</img>
+    <img x="521" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_down.png</img>
+    <txt j="0" x="138" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Rewind</txt>
+    <txt j="0" x="266" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Forward</txt>
+    <txt j="0" x="393" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Volume Up</txt>
+    <txt j="0" x="521" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Volume Down</txt>
+    <img x="138" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_1finger.png</img>
+    <img x="266" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_2finger.png</img>
+    <img x="393" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_rotate.png</img>
+    <img x="521" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_pinch.png</img>
+    <txt j="0" x="138" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">Back</txt>
+    <txt j="0" x="266" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">Play/Pause</txt>
+    <txt j="0" x="393" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">(Action TBD)</txt>
+    <txt j="0" x="521" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">(Action TBD)</txt>
+    <txt j="0" x="122" y="763" w="524" h="135" t="Small_Text_copy1" wrap="True" l="0">[Additional Gestures to be added]
+
+1 Finger, 1 Tap : Enter
+
+1 Finger, 2 Tap : Back
+
+2 Finger, 1 Tap : Home</txt>
+  </subpage>
   <subpage name="TVShow_Series_List" w="387" h="568" clip="1">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <list j="3001" x="11" y="1" w="365" h="564" headerSub="" titleSub="" contentSub="TVShow_Series_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
@@ -2856,41 +2928,5 @@ ALBUMS</active>
       <active s="0">&lt; RECENTLY ADDED ALBUMS&gt;</active>
     </btn>
     <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
-  </subpage>
-  <subpage name="Main_Gestures_list" w="768" h="1024" clip="1">
-    <img x="0" y="0" w="768" h="1024" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay_portrait.png</img>
-    <img x="112" y="113" w="544" h="638" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window_gesture.png</img>
-    <img x="138" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_left.png</img>
-    <img x="266" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_right.png</img>
-    <img x="393" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_up.png</img>
-    <img x="521" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_down.png</img>
-    <txt j="0" x="254" y="115" w="259" h="45" t="text_sample" wrap="False" l="1">Gestures</txt>
-    <txt j="0" x="138" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Left</txt>
-    <txt j="0" x="266" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Right</txt>
-    <txt j="0" x="393" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Up</txt>
-    <txt j="0" x="521" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Down</txt>
-    <img x="138" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_left.png</img>
-    <img x="266" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_right.png</img>
-    <img x="393" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_up.png</img>
-    <img x="521" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_down.png</img>
-    <txt j="0" x="138" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Rewind</txt>
-    <txt j="0" x="266" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Forward</txt>
-    <txt j="0" x="393" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Volume Up</txt>
-    <txt j="0" x="521" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Volume Down</txt>
-    <img x="138" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_1finger.png</img>
-    <img x="266" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_2finger.png</img>
-    <img x="393" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_rotate.png</img>
-    <img x="521" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_pinch.png</img>
-    <txt j="0" x="138" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">Back</txt>
-    <txt j="0" x="266" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">Play/Pause</txt>
-    <txt j="0" x="393" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">(Action TBD)</txt>
-    <txt j="0" x="521" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">(Action TBD)</txt>
-    <txt j="0" x="122" y="763" w="524" h="135" t="Small_Text_copy1" wrap="True" l="0">[Additional Gestures to be added]
-
-1 Finger, 1 Tap : Enter
-
-1 Finger, 2 Tap : Back
-
-2 Finger, 1 Tap : Home</txt>
   </subpage>
 </gui>
