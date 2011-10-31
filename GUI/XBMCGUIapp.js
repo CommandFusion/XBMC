@@ -725,7 +725,7 @@ CF.userMain = function() {
 	CF.getJoin(CF.GlobalTokensJoin, function(join, values, tokens) {
 	
 		//Read the tokens, if accidentally deleted the settings of the tokens then use default values.
-		this.newSysName = tokens["inputSysName"]|| "Test HTPC";
+		this.newSysName = tokens["inputSysName"]|| "HTPC";
 		this.newURL = tokens["[inputURL]"] || "192.168.0.100";
 		this.newPort = tokens["[inputPort]"] || "8080";
 		this.newUsername = tokens["[inputUsername]"] || "xbmc";
@@ -734,6 +734,10 @@ CF.userMain = function() {
 		CF.setJoins([{join: "s60", value: this.newSysName}, {join: "s61", value: this.newURL}, {join: "s62", value: this.newPort}, {join: "s63", value: this.newUsername}, {join: "s64", value: this.newPassword}]);
 	
 		this.XBMCMacMini = new XBMC_GUI({username: this.newUsername, password: this.newPassword, url: this.newURL, port: this.newPort});
+		
+		//Manually assign IP address and settings of the system
+		//this.XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port: 8080});
+		
 		this.XBMCMacMini.setup();
 	});
 	
