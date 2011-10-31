@@ -579,50 +579,6 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentSongsMain, 0);				// Hide Recent Songs list on the Main Page
 	};
 	
-		
-	/*
-	self.toggleMusicArtist = function(forceMode) {
-		if (forceMode !== undefined) {
-			// Use the forceMode to set a specific placement of the subpage
-			if (forceMode == 1) {
-				// Show the subpage
-				CF.setProperties({join: "d"+self.joinMusicArtist, x: 0}, 0, 0.33, CF.AnimationCurveEaseOut);
-				// Hide the browse bar
-				CF.setProperties({join: "d"+(self.joinMusicArtist+100), opacity: 0.0}, 0, 0.33);
-				// Move the episode details subpage over
-				CF.setProperties({join: "d"+self.joinMusicDetails, x: 501}, 0.2, 0.15, CF.AnimationCurveEaseOut);
-			} else {
-				// Hide the subpage
-				CF.setProperties({join: "d"+self.joinMusicArtist, x: -450}, 0, 0.33, CF.AnimationCurveEaseOut);
-				// Show the browse bar
-				CF.setProperties({join: "d"+(self.joinMusicArtist+100), opacity: 1.0}, 0, 0.33);
-				// Move the episode details subpage back
-				CF.setProperties({join: "d"+self.joinMusicDetails, x: 473}, 0, 0.33, CF.AnimationCurveEaseOut);
-			}
-		} else {
-			// Automatically toggle the subpage location
-			CF.getProperties("d"+self.joinMusicArtist, function(j) {
-				if (j.x < 0) {
-					// Item is off the page, so bring it back on
-					CF.setProperties({join: j.join, x: 0}, 0, 0.33, CF.AnimationCurveEaseOut);
-					// Hide the browse bar
-					CF.setProperties({join: "d"+(self.joinMusicArtist+100), opacity: 0.0}, 0, 0.33);
-					// Move the episode details subpage over
-					CF.setProperties({join: "d"+self.joinMusicDetails, x: 501}, 0.2, 0.15, CF.AnimationCurveEaseOut);
-				} else {
-					// Item is on the page, so push it back off
-					CF.setProperties({join: j.join, x: -450}, 0, 0.33, CF.AnimationCurveEaseOut);
-					// Show the browse bar
-					CF.setProperties({join: "d"+(self.joinMusicArtist+100), opacity: 1.0}, 0, 0.33);
-					// Move the episode details subpage back
-					CF.setProperties({join: "d"+self.joinMusicDetails, x: 473}, 0, 0.33, CF.AnimationCurveEaseOut);
-				}
-			});
-		}
-	};
-
-	*/
-
 	//--------------------------------------------------------------------------------------------------
 	// Selection for Playlists & Sources
 	//--------------------------------------------------------------------------------------------------
@@ -781,10 +737,4 @@ CF.userMain = function() {
 		this.XBMCMacMini.setup();
 	});
 	
-	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port:8080});		//Home IP - Notebook
-	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.1.5", port:8080});			//Home IP - HTPC
-	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.168.201", port:8080});		//Office IP
-	//XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.168.208", port:8080});		//MacMini
-	
-	//XBMCMacMini.setup();
 };

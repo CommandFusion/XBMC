@@ -1,20 +1,21 @@
 /*  module for CommandFusion
 ===============================================================================
 
-AUTHOR:		Jarrod Bell, CommandFusion
+AUTHOR:		Terence & Jarrod Bell, CommandFusion
 CONTACT:	support@commandfusion.com
 URL:		https://github.com/CommandFusion/
 VERSION:	v0.0.1
-LAST MOD:	08 June 2011
+LAST MOD:	
 
 =========================================================================
 Module Test Setup:
 - Windows XP Professional Edition 
 - Windows 7 Ultimate
 - MacMini 
-- XBMC Night Version Pre 11.0 Git: 20111005-288f496(Compiled October 6 2011)
+- XBMC Night Version Pre 11.0 Git: 20111005-288f496(Compiled October 6 2011).
+	*Please use the latest nightlies : http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe version was used for the latest testing.
 - Installer File: XBMCSetup-20111005-288f496-master.exe (dated 7 October)
-- Guidesigner 2.3.4.1
+- Guidesigner 2.3.5.2
 - iViewer TF v4.0.6
 
 HELP:
@@ -76,7 +77,7 @@ OK these two commits (especially the first one) are a huge step in the current j
 	
 
 (http://forum.xbmc.org/showthread.php?t=68263&page=130)
-	
+
 OK here is another set of final tweaks to clean up the API:
 
 Saturday, October 8th 2011:
@@ -102,7 +103,8 @@ Commit: 53ee2724ede510a8a3a0
 Installed the latest nightly build from http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111020-59dec96-master.exe to test the latest changes. 
 
 27th October:
-No mention of any more changes to the JSON protocol since Oct 14th. http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe dated 26th Oct. 
+No mention of any more changes to the JSON protocol since Oct 14th. Using the latest nightlies:
+http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe dated 26th Oct. 
 
 =========================================================================
 */
@@ -260,7 +262,7 @@ var XBMC_Controller = function(params) {
 		return compare_string.match(newRegX);
 	};
 	
-	// maths function - rounding number (from Jarrod)
+	// maths function - rounding number
 	function round(n,dec) {
 		n = parseFloat(n);
 			if(!isNaN(n)){
@@ -2122,7 +2124,7 @@ var XBMC_Controller = function(params) {
 		});
 	};
 
-	// self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 2, 100)}, function(data) {			previous night version
+	// self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 2, 100)}, function(data) {			//previous night version
 	// "value" replace with volume
 	
 	// set the volume level
@@ -2143,7 +2145,6 @@ var XBMC_Controller = function(params) {
 	self.volDown = function(callback) {
 		self.rpc("Application.setVolume", {"volume": Math.max(self.currentVol - 5, 0)}, function(data) {
 			self.currentVol = data.result;
-			//self.currentMute = (data.result == 0) ? 1 : 0;
 			callback();
 		});
 	};
@@ -2152,7 +2153,6 @@ var XBMC_Controller = function(params) {
 	self.volUp = function(callback) {
 		self.rpc("Application.setVolume", {"volume": Math.min(self.currentVol + 5, 100)}, function(data) {
 			self.currentVol = data.result;
-			//self.currentMute = (data.result == 0) ? 1 : 0;
 			callback();
 		});
 	};
@@ -2196,13 +2196,8 @@ sort {"jsonrpc": "2.0", "method": "AudioLibrary.GetRecentlyAddedAlbums", "params
     "sorttitle", "productioncode", "songrating", "mpaarating", "videoruntime", "studio", "fullpath",
                   "lastplayed", "unsorted", "max" ]
 				  
-for clock formatting var elapsedString = ("00"+Math.floor((elapsed/1000) / 60)).slice(-2) + ":" + ("00"+(Math.ceil(elapsed/1000)% 60)).slice(-2);
+Clock formatting var elapsedString = ("00"+Math.floor((elapsed/1000) / 60)).slice(-2) + ":" + ("00"+(Math.ceil(elapsed/1000)% 60)).slice(-2);
 
 volume control/seek - output formatting
-
-- set slider to 0-1000, then use math to round it down
-- add this function to your script:
-
-- then use something like: {"value": round(sliderval/10, 1)}
 
 */

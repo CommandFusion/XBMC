@@ -14,7 +14,7 @@
     </devices>
   </properties>
   <systems>
-    <system name="Loopback" ip="127.0.0.1" port="10210" protocol="tcp" alwayson="1" accept="1" acceptBroadcasts="0" ssl="0" maxconnections="0" heartbeatRx="" heartbeatTx="" heartbeatMode="-1" eom="" connectionStatus="0" disconnectionStatus="0">
+    <system name="Loopback" ip="127.0.0.1" port="10210" protocol="tcp" alwayson="1" accept="0" acceptBroadcasts="0" ssl="0" maxconnections="0" heartbeatRx="" heartbeatTx="" heartbeatMode="-1" eom="" connectionStatus="0" disconnectionStatus="0">
       <cmd name="Show Statusbar" target="d17931" value="1">1</cmd>
       <cmd name="Volume" js="XBMCMacMini.XBMC.setVolume(data)" jsSendsCommand="True">[sliderval]</cmd>
       <cmd name="AudioTime_Seek" js="XBMCMacMini.XBMC.seekAudioPlayerTime(data)" jsSendsCommand="True">[sliderval]</cmd>
@@ -49,6 +49,11 @@
       <cmd name="DropMenu_Movie_CloseAll">menu=35</cmd>
       <cmd name="DropMenu_Music_CloseAll">menu=45</cmd>
       <cmd name="MainMenu_CancelAllPrompt">menu=85</cmd>
+      <cmd name="Close_Prompt_Exit" target="d84" value="0">0</cmd>
+      <cmd name="Close_Prompt_Hibernate" target="d82" value="0">0</cmd>
+      <cmd name="Close_Prompt_Shutdown" target="d80" value="0">0</cmd>
+      <cmd name="Close_Prompt_Suspend" target="d81" value="0">0</cmd>
+      <cmd name="Close_Prompt_Reboot" target="d83" value="0">0</cmd>
       <fb name="PageFlip_Icon_Indicator" regex="page=(10)?(11)?(12)?(13)?(14)?(15)?">
         <group index="1" name="" datatype="d" target="d10" onVal="10" />
         <group index="2" name="" datatype="d" target="d11" onVal="11" />
@@ -384,7 +389,7 @@
     <theme type="button" name=".top_btn_right[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(top_btn_right_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".top_btn_right[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(top_btn_right_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".top_btn_single[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(top_btn_single_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".top_btn_single[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(top_btn_single_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".top_btn_single[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(top_btn_single_on.png); color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".transport_next2[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(transports_grey_skip_next_off_25.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".transport_next2[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(transports_grey_skip_next_on_25.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".transport_pausev2[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(transports_grey_pause_off_25.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
@@ -400,13 +405,13 @@
     <theme type="button" name=".wifi_led_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(wifi_led_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".wifi_led_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(wifi_led_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".dev_arrowTL_med[state='0']"><![CDATA[padding: 8px 0px 0px 10px; background-image: url(btn_arrowTL_off.png); color: #9E9E9E; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: top; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".dev_arrowTL_med[state='1']"><![CDATA[padding: 8px 0px 0px 10px; background-image: url(btn_arrowTL_on.png); color: #00A8FF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: top; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".dev_arrowTL_med[state='1']"><![CDATA[padding: 8px 0px 0px 10px; background-image: url(btn_arrowTL_on.png); color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: top; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".dev_arrowTR_med[state='0']"><![CDATA[padding: 8px 10px 0px 0px; background-image: url(btn_arrowTR_off.png); color: #9E9E9E; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: right; vertical-align: top; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".dev_arrowTR_med[state='1']"><![CDATA[padding: 8px 10px 0px 0px; background-image: url(btn_arrowTR_on.png); color: #00A8FF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: right; vertical-align: top; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".dev_arrowTR_med[state='1']"><![CDATA[padding: 8px 10px 0px 0px; background-image: url(btn_arrowTR_on.png); color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: right; vertical-align: top; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".dev_arrowBL_med[state='0']"><![CDATA[padding: 0px 0px 10px 10px; background-image: url(btn_arrowBL_off.png); color: #9E9E9E; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: bottom; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".dev_arrowBL_med[state='1']"><![CDATA[padding: 0px 0px 10px 10px; background-image: url(btn_arrowBL_on.png); color: #00A8FF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: bottom; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".dev_arrowBL_med[state='1']"><![CDATA[padding: 0px 0px 10px 10px; background-image: url(btn_arrowBL_on.png); color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: bottom; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".dev_arrowBR_med[state='0']"><![CDATA[padding: 0px 10px 10px 0px; background-image: url(btn_arrowBR_off.png); color: #9E9E9E; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: right; vertical-align: bottom; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".dev_arrowBR_med[state='1']"><![CDATA[padding: 0px 10px 10px 0px; background-image: url(btn_arrowBR_on.png); color: #00A8FF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: right; vertical-align: bottom; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".dev_arrowBR_med[state='1']"><![CDATA[padding: 0px 10px 10px 0px; background-image: url(btn_arrowBR_on.png); color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: right; vertical-align: bottom; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".dev_arrowD_med[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(dev_arrowD_62x52_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".dev_arrowD_med[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(dev_arrowD_62x52_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".dev_arrowL_med[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(dev_arrowL_58x72_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
@@ -538,7 +543,7 @@
     <theme type="button" name=".Opaque_L_Menu[state='0']"><![CDATA[padding: 0px 0px 0px 30px;  filter: Alpha(Opacity=50); -moz-opacity:0.5; opacity: 0.5; background-color: #000000; color: White; font-size: 18px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".Opaque_L_Menu[state='1']"><![CDATA[padding: 0px 0px 0px 20px; color: White; font-size: 14px; font-family: 'Verdana'; font-weight: bold; font-style: none; text-decoration: none; text-align: left; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".top_btn_single_stretch[state='0']"><![CDATA[padding: 0px 20px 0px 20px; -webkit-border-image: url(top_btn_single_off.png) 0 20 0 20; color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".top_btn_single_stretch[state='1']"><![CDATA[padding: 0px 20px 0px 20px; -webkit-border-image: url(top_btn_single_on.png) 0 20 0 20; color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".top_btn_single_stretch[state='1']"><![CDATA[padding: 0px 20px 0px 20px; -webkit-border-image: url(top_btn_single_on.png) 0 20 0 20; color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="gauge" name=".scrub_bar[state='0']"><![CDATA[]]></theme>
     <theme type="gauge" name=".scrub_bar[state='1']"><![CDATA[ background-image: url(vol_bar_long_on.png);]]></theme>
     <theme type="button" name=".menu_file[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_file_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
@@ -550,10 +555,31 @@
     <theme type="button" name=".btn_info[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_info.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".btn_info[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_info.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".btn_212x43[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_212x43_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".btn_212x43[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_212x43_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_212x43[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_212x43_on.png); color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_rect_stretch[state='0']"><![CDATA[padding: 0px 15px 1px 15px; -webkit-border-image: url(btn_edit_off.png) 0 15 1 15; color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_rect_stretch[state='1']"><![CDATA[padding: 0px 15px 1px 15px; -webkit-border-image: url(btn_edit_on.png) 0 15 1 15; color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="text" name=".text_sample_copy"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy1"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy2"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy3"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy4"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy5"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy6"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy7"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy8"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy9"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy10"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy11"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy12"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy13"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy14"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy15"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy16"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy17"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_sample_copy18"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
   </themes>
   <tokens>
-    <token name="[inputURL]" value="192.168.0.100" persist="1" />
+    <token name="[inputURL]" value="192.168.168.201" persist="1" />
     <token name="[inputPort]" value="8080" persist="1" />
     <token name="[inputUsername]" value="xbmc" persist="1" />
     <token name="[inputPassword]" value="xbmc" persist="1" />
@@ -696,24 +722,28 @@
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <btn j="0" x="711" y="518" w="91" h="91" t="dev_arrowTL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;home&quot;)">
-        <inactive s="0">HOME</inactive>
-        <active s="0">HOME</active>
-      </btn>
-      <btn j="0" x="826" y="518" w="91" h="91" t="dev_arrowTR_med" flip="None" sim="0" l="0" s="1">
-        <inactive s="0">text</inactive>
-        <active s="0">text</active>
-      </btn>
-      <btn j="0" x="711" y="626" w="91" h="91" t="dev_arrowBL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)">
+      <btn j="0" x="700" y="501" w="109" h="109" t="dev_arrowTL_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;back&quot;)">
         <inactive s="0">BACK</inactive>
         <active s="0">BACK</active>
       </btn>
-      <btn j="0" x="826" y="626" w="91" h="91" t="dev_arrowBR_med" flip="None" sim="1" l="0" s="1">
-        <inactive s="0">text</inactive>
-        <active s="0">text</active>
+      <btn j="0" x="831" y="501" w="109" h="109" t="dev_arrowTR_med" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;home&quot;)">
+        <inactive s="0">HOME</inactive>
+        <active s="0">HOME</active>
       </btn>
-      <img x="737" y="542" w="154" h="155" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">btn_arrowpad_bg.png</img>
-      <btn j="0" x="771" y="651" w="86" h="44" t="arrow_down" flip="None" sim="1" l="0" s="1">
+      <btn j="0" x="700" y="637" w="109" h="109" t="dev_arrowBL_med" flip="None" sim="1" l="0" s="1">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="0" x="831" y="637" w="109" h="109" t="dev_arrowBR_med" flip="None" sim="1" l="0" s="1">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <img x="729" y="531" w="186" h="186" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">btn_arrowpad_bg.png</img>
+      <btn j="0" x="778" y="666" w="86" h="50" t="arrow_down" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;down&quot;)" />
@@ -724,13 +754,13 @@
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="782" y="586" w="66" h="67" t="arrow_ok" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)">
+      <btn j="0" x="779" y="580" w="86" h="86" t="arrow_ok" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.InputAction(&quot;select&quot;)">
         <inactive s="0">
         </inactive>
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="742" y="576" w="44" h="86" t="arrow_left" flip="None" sim="1" l="0" s="1">
+      <btn j="0" x="729" y="580" w="50" h="86" t="arrow_left" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;left&quot;)" />
@@ -741,7 +771,7 @@
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="845" y="576" w="44" h="86" t="arrow_right" flip="None" sim="1" l="0" s="1">
+      <btn j="0" x="865" y="580" w="50" h="86" t="arrow_right" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;right&quot;)" />
@@ -752,7 +782,7 @@
         <active s="0">
         </active>
       </btn>
-      <btn j="0" x="771" y="546" w="86" h="44" t="arrow_up" flip="None" sim="1" l="0" s="1">
+      <btn j="0" x="778" y="531" w="86" h="50" t="arrow_up" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
             <press delay="0" hold="0" repeat="0" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
@@ -768,37 +798,37 @@
       <subpage name="PlayingNow_Video" x="10" y="191" j="8003" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
       <subpage name="transport_audio" x="51" y="28" j="8002" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <img x="951" y="92" w="61" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">cf_logo_grey.png</img>
-      <btn j="0" x="619" y="272" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="619" y="272" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">Subtitles</inactive>
         <active s="0">Subtitles</active>
       </btn>
-      <btn j="0" x="818" y="272" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="818" y="272" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">Lyrics</inactive>
         <active s="0">Lyrics</active>
       </btn>
-      <btn j="0" x="619" y="325" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="619" y="325" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">Video Settings</inactive>
         <active s="0">Video Settings</active>
       </btn>
-      <btn j="0" x="818" y="325" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="818" y="325" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">Visualization</inactive>
         <active s="0">Visualization</active>
       </btn>
-      <btn j="0" x="619" y="378" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="619" y="378" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">Audio Settings</inactive>
         <active s="0">Audio Settings</active>
       </btn>
-      <btn j="0" x="818" y="378" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="818" y="378" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">Visualization
 Presets</inactive>
         <active s="0">Visualization
 Presets</active>
       </btn>
-      <btn j="0" x="619" y="430" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="619" y="430" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">Bookmarks</inactive>
         <active s="0">Bookmarks</active>
       </btn>
-      <btn j="0" x="818" y="430" w="186" h="43" t="btn_212x43" flip="None" sim="0" l="0" s="1">
+      <btn j="0" x="818" y="430" w="186" h="43" t="btn_212x43" flip="None" sim="1" l="0" s="1">
         <inactive s="0">DirectX Spectrum
 Settings</inactive>
         <active s="0">DirectX Spectrum
@@ -845,19 +875,19 @@ ALL</inactive>
         <active s="0">CLEAR
 ALL</active>
       </btn>
-      <btn j="0" x="314" y="158" w="54" h="30" t="list_dropmenu_btn_edit" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearPlaylistAudio()">
+      <btn j="0" x="317" y="158" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearPlaylistAudio()">
         <inactive s="0">Clear</inactive>
         <active s="0">Clear</active>
       </btn>
-      <btn j="0" x="44" y="158" w="62" h="30" t="list_dropmenu_btn_edit" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getPlaylistAudio()">
+      <btn j="0" x="10" y="158" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getPlaylistAudio()">
         <inactive s="0">Refresh</inactive>
         <active s="0">Refresh</active>
       </btn>
-      <btn j="0" x="923" y="159" w="54" h="30" t="list_dropmenu_btn_edit" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearPlaylistVideo()">
+      <btn j="0" x="927" y="159" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearPlaylistVideo()">
         <inactive s="0">Clear</inactive>
         <active s="0">Clear</active>
       </btn>
-      <btn j="0" x="653" y="159" w="62" h="30" t="list_dropmenu_btn_edit" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getPlaylistVideo()">
+      <btn j="0" x="620" y="159" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getPlaylistVideo()">
         <inactive s="0">Refresh</inactive>
         <active s="0">Refresh</active>
       </btn>
@@ -873,6 +903,7 @@ ALL</active>
         <active s="0">
         </active>
       </btn>
+      <subpage name="Main_Prompt_Exit_Portrait" x="0" y="0" j="84" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
     </portrait>
     <landscape>
       <img x="0" y="92" w="1024" h="61" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_bg.png</img>
@@ -892,7 +923,7 @@ ALL</active>
         <active s="0">
         </active>
       </btn>
-      <subpage name="Menu_DropMenu_Settings" x="0" y="0" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="1" l="1" />
+      <subpage name="Menu_DropMenu_Settings" x="0" y="0" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="Main_RecentMovie_List" x="352" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Main_RecentAlbum_List" x="689" y="191" j="9103" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Main_RecentEpisode_List" x="14" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
@@ -1069,6 +1100,7 @@ ALL</active>
     <txt j="4005" x="133" y="275" w="214" h="21" t="nowplaying_lighter" wrap="True" l="1">Show Title:</txt>
     <txt j="4010" x="367" y="313" w="214" h="21" t="nowplaying_lighter" wrap="True" l="1">Rating:</txt>
     <txt j="4009" x="367" y="294" w="214" h="21" t="nowplaying_lighter" wrap="True" l="1">First Aired:</txt>
+    <img x="0" y="0" w="590" h="333" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">fanart_side_shadow.png</img>
     <txt j="4008" x="367" y="275" w="214" h="21" t="nowplaying_lighter" wrap="True" l="1">Runtime:</txt>
     <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
   </subpage>
@@ -2588,7 +2620,7 @@ ALL</active>
   <subpage name="Main_Prompt_ShutDown" w="1024" h="768" clip="1">
     <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
     <img x="221" y="265" w="582" h="238" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window.png</img>
-    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;shutdown&quot;)">
+    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" cmd="Close_Prompt_Shutdown" js="XBMCMacMini.XBMC.SystemAction(&quot;shutdown&quot;)">
       <inactive s="0">YES</inactive>
       <active s="0">YES</active>
     </btn>
@@ -2604,7 +2636,7 @@ Are you sure you want to proceed?</txt>
   <subpage name="Main_Prompt_Suspend" w="1024" h="768" clip="1">
     <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
     <img x="221" y="265" w="582" h="238" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window.png</img>
-    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;suspend&quot;)">
+    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" cmd="Close_Prompt_Suspend" js="XBMCMacMini.XBMC.SystemAction(&quot;suspend&quot;)">
       <inactive s="0">YES</inactive>
       <active s="0">YES</active>
     </btn>
@@ -2620,7 +2652,7 @@ Are you sure you want to proceed?</txt>
   <subpage name="Main_Prompt_Hibernate" w="1024" h="768" clip="1">
     <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
     <img x="221" y="265" w="582" h="238" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window.png</img>
-    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;hibernate&quot;)">
+    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" cmd="Close_Prompt_Hibernate" js="XBMCMacMini.XBMC.SystemAction(&quot;hibernate&quot;)">
       <inactive s="0">YES</inactive>
       <active s="0">YES</active>
     </btn>
@@ -2636,7 +2668,7 @@ Are you sure you want to proceed?</txt>
   <subpage name="Main_Prompt_Exit" w="1024" h="768" clip="1">
     <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
     <img x="221" y="265" w="582" h="238" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window.png</img>
-    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;exit&quot;)">
+    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" cmd="Close_Prompt_Exit" js="XBMCMacMini.XBMC.SystemAction(&quot;exit&quot;)">
       <inactive s="0">YES</inactive>
       <active s="0">YES</active>
     </btn>
@@ -2652,7 +2684,7 @@ Are you sure you want to proceed?</txt>
   <subpage name="Main_Prompt_Reboot" w="1024" h="768" clip="1">
     <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
     <img x="221" y="265" w="582" h="238" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window.png</img>
-    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.SystemAction(&quot;reboot&quot;)">
+    <btn j="0" x="376" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" cmd="Close_Prompt_Reboot" js="XBMCMacMini.XBMC.SystemAction(&quot;reboot&quot;)">
       <inactive s="0">YES</inactive>
       <active s="0">YES</active>
     </btn>
@@ -2705,40 +2737,58 @@ Are you sure you want to proceed?</txt>
       <action phase="begin" js="XBMCMacMini.XBMC.playPause(&quot;audio&quot;)" />
       <action phase="begin" js="XBMCMacMini.XBMC.playPause(&quot;video&quot;)" />
     </gesture>
+    <gesture name="ApplicationQuit" type="tap" taps="2" touches="5">
+      <action phase="begin" flip="MainMenu" js="CF.setJoin(&quot;d84&quot;,1)" />
+    </gesture>
     <img x="0" y="0" w="768" h="1024" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay_portrait.png</img>
-    <img x="112" y="113" w="544" h="638" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window_gesture.png</img>
-    <img x="138" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_left.png</img>
-    <img x="266" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_right.png</img>
-    <img x="393" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_up.png</img>
-    <img x="521" y="176" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_down.png</img>
+    <img x="62" y="113" w="644" h="638" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window_gesture.png</img>
+    <img x="78" y="176" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_left.png</img>
+    <img x="182" y="176" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_right.png</img>
+    <img x="285" y="176" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_up.png</img>
+    <img x="389" y="176" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_1finger_down.png</img>
     <txt j="0" x="254" y="115" w="259" h="45" t="text_sample" wrap="False" l="1">Gestures</txt>
-    <txt j="0" x="138" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Left</txt>
-    <txt j="0" x="266" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Right</txt>
-    <txt j="0" x="393" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Up</txt>
-    <txt j="0" x="521" y="315" w="108" h="35" t="text_sample" wrap="False" l="1">Arrow Down</txt>
-    <img x="138" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_left.png</img>
-    <img x="266" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_right.png</img>
-    <img x="393" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_up.png</img>
-    <img x="521" y="366" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_down.png</img>
-    <txt j="0" x="138" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Rewind</txt>
-    <txt j="0" x="266" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Forward</txt>
-    <txt j="0" x="393" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Volume Up</txt>
-    <txt j="0" x="521" y="505" w="108" h="35" t="text_sample" wrap="False" l="1">Volume Down</txt>
-    <img x="138" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_1finger.png</img>
-    <img x="266" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_2finger.png</img>
-    <img x="393" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_rotate.png</img>
-    <img x="521" y="556" w="108" h="140" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_pinch.png</img>
-    <txt j="0" x="138" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">Back</txt>
-    <txt j="0" x="266" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">Play/Pause</txt>
-    <txt j="0" x="393" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">(Action TBD)</txt>
-    <txt j="0" x="521" y="695" w="108" h="35" t="text_sample" wrap="False" l="1">(Action TBD)</txt>
-    <txt j="0" x="122" y="763" w="524" h="135" t="Small_Text_copy1" wrap="True" l="0">[Additional Gestures to be added]
+    <txt j="0" x="78" y="315" w="90" h="35" t="text_sample" wrap="False" l="0">Arrow Left</txt>
+    <txt j="0" x="182" y="315" w="90" h="35" t="text_sample" wrap="False" l="0">Arrow Right</txt>
+    <txt j="0" x="285" y="315" w="90" h="35" t="text_sample" wrap="False" l="0">Arrow Up</txt>
+    <txt j="0" x="389" y="315" w="90" h="35" t="text_sample" wrap="False" l="0">Arrow Down</txt>
+    <img x="78" y="366" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_left.png</img>
+    <img x="182" y="366" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_right.png</img>
+    <img x="285" y="366" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_up.png</img>
+    <img x="389" y="366" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_swipe_2finger_down.png</img>
+    <txt j="0" x="78" y="505" w="90" h="35" t="text_sample" wrap="False" l="0">Rewind</txt>
+    <txt j="0" x="182" y="505" w="90" h="35" t="text_sample" wrap="False" l="0">Forward</txt>
+    <txt j="0" x="285" y="505" w="90" h="35" t="text_sample" wrap="False" l="0">Volume Up</txt>
+    <txt j="0" x="389" y="505" w="90" h="35" t="text_sample" wrap="False" l="0">Volume Down</txt>
+    <img x="596" y="176" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_1finger.png</img>
+    <img x="596" y="366" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_2finger.png</img>
+    <img x="332" y="556" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_rotate.png</img>
+    <img x="442" y="556" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_pinch.png</img>
+    <img x="492" y="176" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_single_tap_1finger.png</img>
+    <txt j="0" x="492" y="315" w="90" h="35" t="text_sample" wrap="False" l="0">Select</txt>
+    <txt j="0" x="492" y="505" w="90" h="35" t="text_sample" wrap="False" l="0">Home</txt>
+    <txt j="0" x="596" y="315" w="90" h="35" t="text_sample" wrap="False" l="0">Back</txt>
+    <txt j="0" x="586" y="505" w="90" h="35" t="text_sample" wrap="False" l="0">
+    </txt>
+    <img x="492" y="366" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_single_tap_2finger.png</img>
+    <img x="222" y="556" w="90" h="140" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">gesture_double_tap_5fingers.png</img>
+    <txt j="0" x="222" y="690" w="90" h="35" t="text_sample" wrap="False" l="0">Quit</txt>
+    <txt j="0" x="596" y="505" w="90" h="35" t="text_sample" wrap="False" l="0">Play / Pause</txt>
+  </subpage>
+  <subpage name="Main_Prompt_Exit_Portrait" w="768" h="1024" clip="1">
+    <img x="0" y="1" w="768" h="1023" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
+    <img x="96" y="265" w="582" h="238" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">pop_up_window.png</img>
+    <btn j="0" x="253" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="1" s="1" cmd="Close_Prompt_Exit" js="XBMCMacMini.XBMC.SystemAction(&quot;exit&quot;)">
+      <inactive s="0">YES</inactive>
+      <active s="0">YES</active>
+    </btn>
+    <txt j="0" x="129" y="333" w="520" h="50" t="text_sample" wrap="False" l="1">Warning! This action will cause you to EXIT your XBMC application. 
 
-1 Finger, 1 Tap : Enter
-
-1 Finger, 2 Tap : Back
-
-2 Finger, 1 Tap : Home</txt>
+Are you sure you want to proceed?</txt>
+    <txt j="0" x="252" y="268" w="259" h="45" t="text_sample" wrap="False" l="1">XBMC System Exit</txt>
+    <btn j="0" x="403" y="405" w="122" h="43" t="top_btn_single_stretch" flip="None" sim="1" l="1" s="1" cmd="MainMenu_CancelAllPrompt">
+      <inactive s="0">NO</inactive>
+      <active s="0">NO</active>
+    </btn>
   </subpage>
   <subpage name="TVShow_Series_List" w="387" h="568" clip="1">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
