@@ -725,7 +725,7 @@ CF.userMain = function() {
 	CF.getJoin(CF.GlobalTokensJoin, function(join, values, tokens) {
 	
 		//Read the tokens, if accidentally deleted the settings of the tokens then use default values.
-		this.newSysName = tokens["inputSysName"]|| "Test HTPC";
+		this.newSysName = tokens["inputSysName"]|| "HTPC";
 		this.newURL = tokens["[inputURL]"] || "192.168.0.100";
 		this.newPort = tokens["[inputPort]"] || "8080";
 		this.newUsername = tokens["[inputUsername]"] || "xbmc";
