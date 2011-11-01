@@ -736,7 +736,7 @@ CF.userMain = function() {
 		this.XBMCMacMini = new XBMC_GUI({username: this.newUsername, password: this.newPassword, url: this.newURL, port: this.newPort});
 		
 		//Manually assign IP address and settings of the system
-		//this.XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port: 8080});
+		//this.XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port: 8080}); 
 		
 		this.XBMCMacMini.setup();
 	});

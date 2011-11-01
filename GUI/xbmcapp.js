@@ -14,7 +14,7 @@ Module Test Setup:
 - MacMini 
 - XBMC Night Version Pre 11.0 Git: 20111005-288f496(Compiled October 6 2011).
 	*Please use the latest nightlies : http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe version was used for the latest testing.
-- Installer File: XBMCSetup-20111005-288f496-master.exe (dated 7 October)
+- Installer File: XBMCSetup-20111005-288f496-master.exe (dated 7 October) 
 - Guidesigner 2.3.5.2
 - iViewer TF v4.0.6
 
