@@ -47,6 +47,6 @@ Additional notes:
 Since this is only a beta version of the module, not all the features are implemented yet.
 - the wifi LED status will remain red.
 - Buttons for "Video Player Options" and "Audio Player Options" under the Playing Now page are not assigned any actions yet.
-- Gesture is only available on Main Menu page and in portrait mode only at the moment. Not all gestures are currently assigned with actions as well.
+- Gesture is only available on Main Menu page and in portrait mode only at the moment. Not all gestures are currently assigned with actions.
 
 *Please help to post any bug/issues that is encountered using this module. Any inputs or suggestions are also welcomed.

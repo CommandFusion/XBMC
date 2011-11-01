@@ -861,7 +861,7 @@ Settings</active>
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Playlist_Audio_List" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
-      <subpage name="Playlist_Video_List" x="620" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="Playlist_Video_List" x="620" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <txt j="0" x="110" y="158" w="200" h="29" t="cfblue2_small_c_lighter" wrap="False" l="0">AUDIO PLAYLIST</txt>
       <txt j="0" x="716" y="158" w="207" h="29" t="cfblue2_small_c_lighter" wrap="False" l="0">VIDEO PLAYLIST</txt>
       <subpage name="Playlist_Library_List" x="0" y="0" j="40" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="0" />
@@ -883,11 +883,11 @@ ALL</active>
         <inactive s="0">Refresh</inactive>
         <active s="0">Refresh</active>
       </btn>
-      <btn j="0" x="927" y="159" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearPlaylistVideo()">
+      <btn j="0" x="927" y="158" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearPlaylistVideo()">
         <inactive s="0">Clear</inactive>
         <active s="0">Clear</active>
       </btn>
-      <btn j="0" x="620" y="159" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getPlaylistVideo()">
+      <btn j="0" x="620" y="158" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getPlaylistVideo()">
         <inactive s="0">Refresh</inactive>
         <active s="0">Refresh</active>
       </btn>
@@ -2877,9 +2877,9 @@ ALBUMS</active>
     <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
   </subpage>
   <subpage name="Playlist_Video_List" w="387" h="568" clip="1">
-    <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
+    <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_playlist2_bg.png</img>
     <list j="8101" x="29" y="1" w="327" h="564" headerSub="" titleSub="" contentSub="PlayList_Video_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
-    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
+    <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_playlist2_top_shadow.png</img>
   </subpage>
   <subpage name="File_List" w="590" h="560" clip="1">
     <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
