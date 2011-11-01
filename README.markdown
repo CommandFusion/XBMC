@@ -1,4 +1,4 @@
-# CommandFusion XBMC Control (Beta version) #
+# CommandFusion XBMC Control (Beta version) # 
 
 Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaScript API using HTTP via XBMC's webserver.
 
