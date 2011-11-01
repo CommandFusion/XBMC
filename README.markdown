@@ -5,7 +5,7 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 Test Setup that was used to run this module:
 1) Windows Workstation, Windows XP Professional, XBMC Nightly version Oct 26 (http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
 2) Windows HTPC, Windows 7 Ultimate 64-bit, XBMC Nightly version Oct 26 (http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
-3) Mac Mini, Mac OS, XBMC Nightly version Oct 26 (http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
+3) Mac Mini, Mac OS X 10.9, XBMC Nightly version Oct 26 (http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
 
 Basic setup for module usage:
 - Make sure the XBMC is setup first before loading the gui file.
