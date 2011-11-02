@@ -50,4 +50,8 @@ Since this is only a beta version of the module, not all the features are implem
 
 ### Bug Reporting/Feature Requests
 Please help to post any bug/issues that is encountered using this module. Any inputs or suggestions are also welcomed.  
+<<<<<<< HEAD
 Use the [issues](https://github.com/CommandFusion/XBMC/issues) tab of this GitHub repo to report your bugs/feature requests.
+=======
+Use the "issues" tab of this GitHub repo to report your bugs/feature requests.
+>>>>>>> 407190a1e9e14c06725be6e9a445680fb22d332e
