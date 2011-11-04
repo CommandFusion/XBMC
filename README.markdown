@@ -3,7 +3,7 @@
 Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaScript API using HTTP via XBMC's webserver.
 
 ### Test Setup that was used to run this module:
-1. Windows Workstation, Windows XP Professional, [XBMC Nightly version Oct 26](http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
+1. Windows Workstation, Windows XP Professional, [XBMC Nightly version Oct 25](http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
 1. Windows HTPC, Windows 7 Ultimate 64-bit, XBMC Nightly version Oct 26 
 1. Mac Mini, Mac OS X 10.9, XBMC Nightly version Oct 26 
 
@@ -15,20 +15,20 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 1. Go to System -> Settings -> Network -> Services
 1. Select the options "Allow control of XBMC via HTTP" and "Allow programs on this systems to control XBMC".  
    Automatically, the "Allow programs on other systems to control XBMC" will be enabled as well.
-1. Default port is usually 8080. Change the port if other applications are using the same port i.e. Apache webserver,  
-   etc. Else, can leave it as it is.
-1. Change the username and password if needed. By default it's "xbmc" for both username and password. Leaving both  
-   blank is also fine.
+1. Default port is usually 8080. Change the port if other applications are using the same port i.e. Apache webserver, etc. Else, can leave it as it is.
+1. Change the username and password if needed. By default it's "xbmc" for both username and password. Leaving both blank is also fine.
+
+<iframe src="http://player.vimeo.com/video/31598086?byline=0&amp;portrait=0" width="601" height="338" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
 
 ###  Setting up the module for use
-1. The recommended and fastest way is to load the GUI file and go to the "Settings" dropdown menu. Clicking the top right button with a gear icon in it.
+1. The recommended and fastest way is to load the GUI file and go to the "Settings" dropdown menu. Clicking the top right button with the gear icon.
    * Enter the settings that's under the "Network -> Services" settings on the dropdown menu.
-   * Once "Done" is pressed, the lists for Recently Added Episodes, Movies and Albums will be loaded and should be visible on the Main Menu. The length of wait will depends on the amount of items being loaded from the databases.
+   * Once "Done" is pressed on the keyboard, the lists for Recently Added Episodes, Movies and Albums will be loaded and should be visible on the Main Menu. The delay will depend on the amount of items being loaded from the databases.
 	
-1. The second option is to enter the IP settings of the XBMC machine into GUI file via the global token settings.
+1. The second option is to enter the IP settings of the XBMC machine into the GUI file via the global token manager.
    * Go to Edit -> Project Properties -> Global Token Manager
    * Change the values as required and save the file.
-   * Load the GUI file and the lists of data should be visible.
+   * Load the GUI file and the lists of data should be visible if connected correctly.
 
 1. The third option is to manually hardcode the settings in the JS file.
    * Go to the XBMCGUIapp.js file.
@@ -38,8 +38,8 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 	
 ### Some troubleshooting ideas
 1. Make sure the settings used are correct. Use the same settings as under the XBMC's "Network -> Services".
-1. Make sure that the port used are not being used by other programs or being blocked by firewall. Try changing the port number to a not commonly used port.
-1. Make sure the options "Allow control of XBMC via HTTP" and "Allow programs on this system to control XBMC" is selected.
+1. Make sure that the port used is not being used by other programs or being blocked by firewall. Try changing the port number to a less commonly used port.
+1. Make sure the options "Allow control of XBMC via HTTP" and "Allow programs on this system to control XBMC" are selected.
 1. Try to send some JSON commands directly using tools like [Google Chrome's Simple Rest Client](http://voxcommando.com/forum/index.php?action=dlattach;topic=10.0;attach=436;image) to test for feedback and connectivity.
 
 ### Additional notes
