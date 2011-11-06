@@ -2,6 +2,9 @@
 
 Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaScript API using HTTP via XBMC's webserver.
 
+![XBMC TV Shows](https://github.com/CommandFusion/XBMC/raw/master/Docs/XBMC_TVShows.png)  
+![XBMC Movies](https://github.com/CommandFusion/XBMC/raw/master/Docs/XBMC_Movies.png)
+
 ### Test Setup that was used to run this module:
 1. Windows Workstation, Windows XP Professional, [XBMC Nightly version Oct 25](http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
 1. Windows HTPC, Windows 7 Ultimate 64-bit, XBMC Nightly version Oct 26 
@@ -11,14 +14,15 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 * Make sure the XBMC is setup first before loading the gui file.
 * Make sure that the latest nightlies are used.
 
+### Setup Video
+[![XBMC Settings](https://github.com/CommandFusion/XBMC/raw/master/Docs/XBMC_Settings.png)](http://vimeo.com/commandfusion/xbmcsettings)
+
 ### Setting up XBMC to allow control by CF
 1. Go to System -> Settings -> Network -> Services
 1. Select the options "Allow control of XBMC via HTTP" and "Allow programs on this systems to control XBMC".  
    Automatically, the "Allow programs on other systems to control XBMC" will be enabled as well.
 1. Default port is usually 8080. Change the port if other applications are using the same port i.e. Apache webserver, etc. Else, can leave it as it is.
 1. Change the username and password if needed. By default it's "xbmc" for both username and password. Leaving both blank is also fine.
-
-<iframe src="http://player.vimeo.com/video/31598086?byline=0&amp;portrait=0" width="601" height="338" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>
 
 ###  Setting up the module for use
 1. The recommended and fastest way is to load the GUI file and go to the "Settings" dropdown menu. Clicking the top right button with the gear icon.
