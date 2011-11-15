@@ -53,6 +53,8 @@ Since this is only a beta version of the module, not all the features are implem
 * Gestures are only available on Main Menu page in portrait mode at the moment.
 
 ### Bug Reporting/Feature Requests
-Please help to post any bug/issues that is encountered using this module. Any inputs or suggestions are also welcomed.  
+Please help to post any bug/issues that is encountered using this module. Any inputs or suggestions are also welcomed.
+	* Bug fixes for the current beta version will be pushed to the master branch.
+	* New features / additional requests will be pushed to the developemental branch.
 
 Use the [issues](https://github.com/CommandFusion/XBMC/issues) tab of this GitHub repo to report your bugs/feature requests
