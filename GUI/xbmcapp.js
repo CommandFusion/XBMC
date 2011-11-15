@@ -286,8 +286,6 @@ var XBMC_Controller = function(params) {
 	self.getTVShows = function(listJoin, order, method, search_string) {
 		
 		//Subpages
-		CF.setJoin("d"+(listJoin+1100), 1);				// Show Blank subpage
-		CF.setJoin("d"+(listJoin+1000), 0);				// Hide TVShow Details subpage
 		CF.setJoin("s20", order);
 		CF.setJoin("s21", method);
 				
@@ -371,13 +369,11 @@ var XBMC_Controller = function(params) {
 	
 	self.getTVSeasons = function(id, fanart, listJoin) {
 	
-		CF.setJoin("d"+(listJoin+1100-1), 1);				// Show Blank subpage
-		CF.setJoin("d"+(listJoin+1000-1), 0);				// Hide TVShow Details subpage
-		CF.setJoin("s10000", fanart);
+		CF.setJoin("s11000", fanart);
 	
 		self.currentShowID = parseInt(id);					
 		
-		self.rpc("VideoLibrary.GetSeasons", { "tvshowid": self.currentShowID, "properties": ["season", "episode", "thumbnail", "showtitle"] }, function(data) {
+		self.rpc("VideoLibrary.GetSeasons", { "tvshowid": self.currentShowID, "properties": ["season", "episode", "thumbnail", "showtitle", "fanart"] }, function(data) {
 			
 			// Create array to push all new items in
 			var listArray = [];
@@ -394,6 +390,7 @@ var XBMC_Controller = function(params) {
 				//var episodes = data.result.seasons[i].episode;
 				var showtitle = data.result.seasons[i].showtitle;
 				var thumbnail = self.URL + "vfs/" + data.result.seasons[i].thumbnail;
+				var fanart = self.URL + "vfs/" + data.result.seasons[i].fanart;
 				
 				// Add to array to add to list in one go later
 				listArray.push({
@@ -404,7 +401,8 @@ var XBMC_Controller = function(params) {
 						tokens: {
 							"[id]": seasonID,
 							"[season]": season,
-							"[showtitle]": showtitle
+							"[showtitle]": showtitle,
+							"[fanart]": fanart
 						}
 					}
 				});
@@ -434,12 +432,9 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of TV Episodes for a particular show and season from XBMC
 	 * @Param {integer} ID of the season from the XBMC database
 	 */
-	self.getTVEpisodes = function(id, season, showtitle, listJoin) {
-	
-		CF.setJoin("d"+(listJoin+1100-2), 1);				// Show Blank subpage
-		CF.setJoin("d"+(listJoin+1000-2), 0);				// Hide TVShow Details subpage
-		CF.setJoin("d"+(listJoin+1000-2), 0);				// Hide TVShow Details subpage
+	self.getTVEpisodes = function(id, season, showtitle, fanart, listJoin) {
 		
+		CF.setJoin("s11000", fanart);
 		
 		self.currentSeasonID = parseInt(id);
 		self.rpc("VideoLibrary.GetEpisodes", { "tvshowid": self.currentShowID, "season": self.currentSeasonID, "properties": ["title", "episode", "playcount", "thumbnail", "firstaired", "runtime"] }, function(data) {
@@ -503,7 +498,7 @@ var XBMC_Controller = function(params) {
 			
 			CF.setJoins([
 				{join: "s"+baseJoin, value: thumbnail},			// Thumbnail
-				{join: "s"+(baseJoin+1), value: fanart},		// Fan Art
+				//{join: "s"+(baseJoin+1), value: fanart},		// Fan Art
 				{join: "s"+(baseJoin+2), value: title},			// Title
 				{join: "s"+(baseJoin+3), value: plot},			// Plot
 				{join: "s"+(baseJoin+4), value: showtitle},		// Showtitle
@@ -515,6 +510,7 @@ var XBMC_Controller = function(params) {
 				{join: "d"+baseJoin, value: 1}					// Show Subpage
 			]);
 			
+			CF.setJoin("s11000", fanart);
 		});
 	};
 	
@@ -867,8 +863,6 @@ var XBMC_Controller = function(params) {
 	 */
 	self.getMusicArtist = function(listJoin, order, method) {
 		
-		CF.setJoin("d"+(listJoin+1100), 0);				// Hide Song Details subpage
-		CF.setJoin("d"+(listJoin+1200), 1);				// Show Blank subpage
 		CF.setJoin("s41", order);						//FB on Options list: Check sort order
 		CF.setJoin("s42", method);						//FB on Options list: Check sort method
 		
@@ -918,13 +912,11 @@ var XBMC_Controller = function(params) {
 	 
 	self.getMusicAlbum = function(id, artist, fanart, listJoin) {
 	
-		CF.setJoin("d"+(listJoin+1100-1), 0);				// Hide Song Details subpage
-		CF.setJoin("d"+(listJoin+1200-1), 1);				// Show Blank subpage
 		CF.setJoin("s200", artist);
 		CF.setJoin("s10000", fanart);
 	
 		self.currentArtistID = parseInt(id);
-		self.rpc("AudioLibrary.GetAlbums", { "artistid": self.currentArtistID, "properties": ["thumbnail", "title"] }, function(data) {
+		self.rpc("AudioLibrary.GetAlbums", { "artistid": self.currentArtistID, "properties": ["thumbnail", "title", "fanart"] }, function(data) {
 			//CF.logObject(data);
 			
 			// Create array to push all new items in
@@ -939,6 +931,7 @@ var XBMC_Controller = function(params) {
 				var albumID = data.result.albums[i].albumid;
 				var albumtitle = data.result.albums[i].title;
 				var thumbnail = self.URL + "vfs/" + data.result.albums[i].thumbnail;
+				var fanart = self.URL + "vfs/" + data.result.albums[i].fanart;
 								
 				// Add to array to add to list in one go later
 				listArray.push({
@@ -949,7 +942,8 @@ var XBMC_Controller = function(params) {
 						tokens: {
 							"[id]": albumID,
 							"[albumtitle]": albumtitle,
-							"[artist]": artist
+							"[artist]": artist,
+							"[fanart]": fanart
 						}
 					}
 				});
@@ -981,11 +975,10 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of Songs for a particular Album and Artist from XBMC
 	 * @Param {integer} ID of the Song from the XBMC database
 	 */
-	self.getMusicSong = function(id, artist, albumtitle, listJoin) {
+	self.getMusicSong = function(id, artist, albumtitle, fanart, listJoin) {
 	
-		CF.setJoin("d"+(listJoin+1100-2), 0);				// Hide Song Details subpage
-		CF.setJoin("d"+(listJoin+1200-2), 1);				// Show Blank subpage
 		CF.setJoin("s200", "["+artist+"] " + albumtitle);
+		CF.setJoin("s10000", fanart);
 		
 		self.currentAlbumID = parseInt(id);
 		self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"order": "ascending", "method": "track"}, "properties": ["thumbnail", "title", "track", "file"]}, function(data) {
@@ -1019,6 +1012,7 @@ var XBMC_Controller = function(params) {
 			}
 			CF.listAdd("l"+listJoin, listArray);
 			
+			
 		});
 	};
 	
@@ -1028,9 +1022,7 @@ var XBMC_Controller = function(params) {
 	 self.getMusicDetails = function(id, file, baseJoin) {
 	
 		CF.setJoin("d"+baseJoin, 1);				// Show Song Details subpage
-		CF.setJoin("d"+(baseJoin+100), 1);			// Show Playlist and Play Music buttons
-		CF.setJoin("d"+(baseJoin+200), 0);			// Hide Blank subpage
-	
+		
 		self.currentSongID = parseInt(id);
 		self.currentSongFile = file;
 		
@@ -1048,7 +1040,7 @@ var XBMC_Controller = function(params) {
 						
 			CF.setJoins([
 				{join: "s"+baseJoin, value: thumbnail},		// Thumbnail
-				{join: "s"+(baseJoin+1), value: fanart},	// Fan Art
+				//{join: "s"+(baseJoin+1), value: fanart},	// Fan Art
 				{join: "s"+(baseJoin+2), value: title},		// Title
 				//{join: "s"+(baseJoin+3), value: comment},	// Comment	*Gibberish data extracted, got to find out the correct parameter to extract the info
 				{join: "s"+(baseJoin+4), value: album},		// Album
@@ -1056,6 +1048,8 @@ var XBMC_Controller = function(params) {
 				{join: "s"+(baseJoin+6), value: year},		// Year
 				{join: "s"+(baseJoin+7), value: duration},	// Runtime
 			]);
+			
+			CF.setJoin("s10000", fanart);
 		});
 	};
 	
@@ -1853,7 +1847,7 @@ var XBMC_Controller = function(params) {
 					CF.listAdd("l"+baseJoin, RecentSonglistArray);
 					CF.listAdd("l"+baseJoinMainPage, RecentSonglistArray);
 					
-					//CF.setJoin("s702", "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
+					CF.setJoin("s200", "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
 					
 				});	
 	};

@@ -183,6 +183,7 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinRecentEpisodes, 0);			// Hide Recently Added Episodes list
 			//CF.setJoin("d"+self.joinTVShowsGenre, 0);			// Hide Genre list's subpage
 			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);	// Hide Genre detail's subpage
+			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);	// Hide Genre detail's subpage
 			
 			self.XBMC.getTVSeasons(t["[id]"],t["[fanart]"], self.joinTVSeasons); 	// Get TV Seasons
 		});
@@ -192,7 +193,7 @@ var XBMC_GUI = function(params) {
 	self.selectTVSeason = function(list, listIndex, join) {
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
 			CF.setJoin("d"+self.joinTVEpisodes, 1);														// Show TV Episodes subpage
-			self.XBMC.getTVEpisodes(t["[id]"], t["[season]"], t["[showtitle]"], self.joinTVEpisodes); 	// Get TV Episodes
+			self.XBMC.getTVEpisodes(t["[id]"], t["[season]"], t["[showtitle]"], t["[fanart]"], self.joinTVEpisodes); 	// Get TV Episodes
 		});
 	};
 
@@ -350,8 +351,6 @@ var XBMC_GUI = function(params) {
 	self.selectMovie = function(list, listIndex, join) {
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
 			CF.setJoin("d"+self.joinMovieDetails, 1);			// Show MovieDetails subpage
-			CF.setJoin("d"+(self.joinMovieDetails+1), 0); 	 	// Hide blank subpage
-			
 			self.XBMC.getMovieDetails(t["[id]"], self.joinMovieDetails);
 		});
 	};
@@ -384,6 +383,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
 		//CF.setJoin("d"+self.joinMoviesGenre, 0);				// Hide Movie Genre subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
+		
 	};
 	
 	// Displays a list of movies in Movie Wall format
@@ -393,7 +393,9 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
 		//CF.setJoin("d"+self.joinMoviesGenre, 0);				// Hide Movie Genre subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
+		
 		self.XBMC.buildMovieWall(self.joinMovies);				// Show the Movie Wall
+		
 	};
 	
 	// Displays a list of recently added movies
@@ -403,6 +405,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentMovies, 1);				// Hide Recently Added Movie subpage
 		//CF.setJoin("d"+self.joinMoviesGenre, 0);				// Hide Movie Genre subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
+		
 		self.XBMC.getRecentMovies(self.joinMovies, "", "");				
 	};
 	
@@ -421,6 +424,7 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinRecentMovies, 0);			// Hide Recently Added Movie subpage
 			//CF.setJoin("d"+self.joinMoviesGenre, 0);			// Hide Movie Genre dropdown menu
 			CF.setJoin("d"+self.joinMoviesGenreDetails, 1);		// Hide Movie Genre Details subpage
+			
 		
 			self.XBMC.getMoviesGenreDetails(t["[genre]"], self.joinMoviesGenreDetails);				
 		});
@@ -459,7 +463,7 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
 			
 			// Get Music Song list
-			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], self.joinMusicSong);
+			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], t["[fanart]"], self.joinMusicSong);
 		});
 	};
 	
@@ -568,7 +572,7 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinRecentSongsMain, 1);				// Hide Recent Songs list on the Main Page
 			
 			// Get Music Song list
-			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], self.joinRecentSongsMain);
+			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], t["[fanart]"],self.joinRecentSongsMain);
 			
 		});
 	};
@@ -728,8 +732,8 @@ CF.userMain = function() {
 		this.newSysName = tokens["inputSysName"]|| "HTPC";
 		this.newURL = tokens["[inputURL]"] || "192.168.0.100";
 		this.newPort = tokens["[inputPort]"] || "8080";
-		this.newUsername = tokens["[inputUsername]"] || "xbmc";
-		this.newPassword = tokens["[inputPassword]"] || "xbmc";
+		this.newUsername = tokens["[inputUsername]"];
+		this.newPassword = tokens["[inputPassword]"];
 		
 		CF.setJoins([{join: "s60", value: this.newSysName}, {join: "s61", value: this.newURL}, {join: "s62", value: this.newPort}, {join: "s63", value: this.newUsername}, {join: "s64", value: this.newPassword}]);
 	
