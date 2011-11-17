@@ -188,11 +188,7 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinTVEpisodes, 0);				// Hide TV Episodes list
 			CF.setJoin("d"+self.joinRecentEpisodes, 0);			// Hide Recently Added Episodes list
 			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);	// Hide Genre detail's subpage
-<<<<<<< HEAD
 			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);		// Hide Genre detail's subpage
-=======
-			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);	// Hide Genre detail's subpage
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 			
 			self.XBMC.getTVSeasons(t["[id]"],t["[fanart]"], self.joinTVSeasons); 	// Get TV Seasons
 		});
@@ -201,7 +197,6 @@ var XBMC_GUI = function(params) {
 	// Displays a list of Episodes when Season item is selected
 	self.selectTVSeason = function(list, listIndex, join) {
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-<<<<<<< HEAD
 			CF.setJoin("d"+self.joinTVShows, 0);				// Hide TV Show subpage
 			CF.setJoin("d"+self.joinTVSeasons, 0);				// Hide TV Seasons list
 			CF.setJoin("d"+self.joinTVEpisodes, 1);				// Show TV Episodes list
@@ -209,9 +204,6 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);	// Hide Genre detail's subpage
 			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);		// Hide Genre detail's subpage
 			
-=======
-			CF.setJoin("d"+self.joinTVEpisodes, 1);														// Show TV Episodes subpage
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 			self.XBMC.getTVEpisodes(t["[id]"], t["[season]"], t["[showtitle]"], t["[fanart]"], self.joinTVEpisodes); 	// Get TV Episodes
 		});
 	};
@@ -390,7 +382,6 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
 		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
-		
 	};
 	
 	// Displays a list of movies in Movie Wall format
@@ -400,11 +391,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
 		
-<<<<<<< HEAD
 		self.XBMC.buildMovieWall(self.joinMovieWall);				// Show the Movie Wall
-=======
-		self.XBMC.buildMovieWall(self.joinMovies);				// Show the Movie Wall
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 		
 	};
 	
@@ -414,11 +401,6 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
 		CF.setJoin("d"+self.joinRecentMovies, 1);				// Show Recently Added Movie subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
-<<<<<<< HEAD
-=======
-		
-		self.XBMC.getRecentMovies(self.joinMovies, "", "");				
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 	};
 	
 	// Displays a list of all the Genre categories in the dropdown menu
@@ -434,15 +416,8 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinMovies, 0);					// Hide Movie list subpage	
 			CF.setJoin("d"+self.joinMovieWall, 0);				// Hide Movie Wall subpage
 			CF.setJoin("d"+self.joinRecentMovies, 0);			// Hide Recently Added Movie subpage
-<<<<<<< HEAD
 			CF.setJoin("d"+self.joinMoviesGenreDetails, 1);		// Show Movie Genre Details subpage
 			
-=======
-			//CF.setJoin("d"+self.joinMoviesGenre, 0);			// Hide Movie Genre dropdown menu
-			CF.setJoin("d"+self.joinMoviesGenreDetails, 1);		// Hide Movie Genre Details subpage
-			
-		
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 			self.XBMC.getMoviesGenreDetails(t["[genre]"], self.joinMoviesGenreDetails);				
 		});
 	};

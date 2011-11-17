@@ -370,13 +370,6 @@ var XBMC_Controller = function(params) {
 	 */
 	self.getTVSeasons = function(id, fanart, baseJoin) {
 	
-<<<<<<< HEAD
-=======
-	var TVSeasonsArray = new Array();		//for labelling purpose only
-	
-	self.getTVSeasons = function(id, fanart, listJoin) {
-	
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 		CF.setJoin("s11000", fanart);
 	
 		self.currentShowID = parseInt(id);					
@@ -427,11 +420,7 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of TV Episodes for a particular show and season from XBMC
 	 * @Param {integer} ID of the season from the XBMC database
 	 */
-<<<<<<< HEAD
 	self.getTVEpisodes = function(id, season, showtitle, fanart, baseJoin) {
-=======
-	self.getTVEpisodes = function(id, season, showtitle, fanart, listJoin) {
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 		
 		CF.setJoin("s11000", fanart);
 		
@@ -955,15 +944,9 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of Songs for a particular Album and Artist from XBMC
 	 * @Param {integer} ID of the Song from the XBMC database
 	 */
-<<<<<<< HEAD
 	self.getMusicSong = function(id, artist, albumtitle, fanart, baseJoin) {
 	
 		CF.setJoin("s"+baseJoin, "["+artist+"] " + albumtitle);
-=======
-	self.getMusicSong = function(id, artist, albumtitle, fanart, listJoin) {
-	
-		CF.setJoin("s200", "["+artist+"] " + albumtitle);
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 		CF.setJoin("s10000", fanart);
 		
 		self.currentAlbumID = parseInt(id);
@@ -996,13 +979,7 @@ var XBMC_Controller = function(params) {
 					//d2: (data.result.songs[i].playcount > 0) ? 1 : 0
 				});
 			}
-<<<<<<< HEAD
 			CF.listAdd("l"+baseJoin, listArray);
-=======
-			CF.listAdd("l"+listJoin, listArray);
-			
-			
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 		});
 	};
 	
@@ -1011,11 +988,7 @@ var XBMC_Controller = function(params) {
 	 */
 	 self.getMusicDetails = function(id, file, baseJoin) {
 	
-<<<<<<< HEAD
 		//CF.setJoin("d"+baseJoin, 1);				// Show Song Details subpage
-=======
-		CF.setJoin("d"+baseJoin, 1);				// Show Song Details subpage
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 		
 		self.currentSongID = parseInt(id);
 		self.currentSongFile = file;
@@ -1832,12 +1805,8 @@ var XBMC_Controller = function(params) {
 					CF.listAdd("l"+baseJoin, RecentSonglistArray);
 					CF.listAdd("l"+baseJoinMainPage, RecentSonglistArray);
 					
-<<<<<<< HEAD
 					CF.setJoin("s"+baseJoin, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
 					CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
-=======
-					CF.setJoin("s200", "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
->>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 					
 				});	
 	};
