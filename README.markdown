@@ -13,6 +13,7 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 ### Basic setup for module usage:
 * Make sure the XBMC is setup first before loading the gui file.
 * Make sure that the latest nightlies are used.
+* Please use minimum iViewer 4 for this module.
 
 ### Setup Video
 [![XBMC Settings](https://github.com/CommandFusion/XBMC/raw/master/Docs/XBMC_Settings.png)](http://vimeo.com/commandfusion/xbmcsettings)
