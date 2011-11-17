@@ -8,7 +8,7 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 ### Test Setup that was used to run this module:
 1. Windows Workstation, Windows XP Professional, [XBMC Nightly version Oct 25](http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
 1. Windows HTPC, Windows 7 Ultimate 64-bit, XBMC Nightly version Oct 26 
-1. Mac Mini, Mac OS X 10.9, XBMC Nightly version Oct 26 
+1. Mac Mini, Mac OS X 10.7, XBMC Nightly version Oct 26 
 
 ### Basic setup for module usage:
 * Make sure the XBMC is setup first before loading the gui file.
@@ -54,8 +54,13 @@ Since this is only a beta version of the module, not all the features are implem
 * Gestures are only available on Main Menu page in portrait mode at the moment.
 
 ### Bug Reporting/Feature Requests
+<<<<<<< HEAD
 Please help to post any bug/issues that is encountered using this module. Any inputs or suggestions are also welcomed.
 	* Bug fixes for the current beta version will be pushed to the master branch.
 	* New features / additional requests will be pushed to the developemental branch.
 
+=======
+Please help to post any bug/issues that is encountered using this module. Any inputs or suggestions are also welcomed.  
+
+>>>>>>> 5a28b97c36af80488e55f30c73e0e389a38ecc6a
 Use the [issues](https://github.com/CommandFusion/XBMC/issues) tab of this GitHub repo to report your bugs/feature requests
