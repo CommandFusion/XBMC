@@ -570,7 +570,7 @@ var XBMC_GUI = function(params) {
 	// Selection for Playlists & Sources
 	//--------------------------------------------------------------------------------------------------
 	
-	// Gets the current Active Player. Gets the current playing item's details. Initiate the timer for real time update of playing media's time.
+	// Gets the current Active Player. Gets the current playing item's details. Loops every 5s for feedback and update of playing media info.
 	self.NowPlaying = function() {
 		self.XBMC.getNowPlaying(self.joinNowPlaying);
 	};

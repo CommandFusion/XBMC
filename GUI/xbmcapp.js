@@ -1173,7 +1173,6 @@ var XBMC_Controller = function(params) {
 								"[albumtitle]": label
 								}
 							},
-							
 						});
 					}
 					// Use the array to push all new list items in one go
@@ -1237,48 +1236,66 @@ var XBMC_Controller = function(params) {
 	//		
 	//--------------------------------------------------------------------------------------------------
 	
+	var playnow_timer;		//setTimeout ID
+	
+	// This is the function that creates the loop, runs every 5 seconds. Alternatively can use setInterval.
+	self.loopPlayNowTimer = function(){
+		playnow_timer = setTimeout(function(){self.getNowPlaying(8000);}, 5000);
+	};
+	
+	// This is the function that stops the loop from running. Alternatively should use clearInterval.
+	self.stopPlayNowTimer = function(){
+		clearTimeout(playnow_timer);
+	};
+	
 	/**
 	 * Function: Get Active Player and Now Playing item from XBMC
 	 */
 	self.getNowPlaying = function(baseJoin) {
 		
+		self.stopAudioTimer();
+		self.stopVideoTimer();
+		
 		self.rpc("Player.GetActivePlayers", {}, function(data) {
 			//CF.logObject(data);
 			
-			self.currentPlayer = data.result[0].type;
-			//Response {"id":"1","jsonrpc":"2.0","result":[{"playerid":0,"type":"audio"}]}
+			// Response for playing media: {"id":"1","jsonrpc":"2.0","result":[{"playerid":0,"type":"audio"}]}
+			// Response for no media playing: {"id":"1","jsonrpc":"2.0","result":[]}
 			
-		//	self.currentVideoPlayer = data.result.video;
-		//	self.currentPicturePlayer = data.result.picture;		//not commonly used
-			
-			if(self.currentPlayer == "audio")
+			if(data.result.length == null || data.result.length == 0 )
 			{
-					CF.setJoin("s"+baseJoin, "AUDIO");		// Show player status : AUDIO
-					CF.setJoin("d"+(baseJoin+2), 1);		// Show Now Playing Audio subpage
+					CF.setJoin("d"+(baseJoin+1), 1);		// Show Now Playing blank subpage
+					CF.setJoin("d"+(baseJoin+2), 0);		// Hide Now Playing Audio subpage
 					CF.setJoin("d"+(baseJoin+3), 0);		// Hide Now Playing Video subpage
-					
-					//Get the latest details
-					self.getNowPlayingAudioItem(baseJoin);
-					//Initiate the playing timer
-					self.startAudioPlayerTime();
 			}
-			else if(self.currentPlayer == "video")
+			else
 			{
-				CF.setJoin("s"+baseJoin, "VIDEO");			// Show player status : VIDEO
-				CF.setJoin("d"+(baseJoin+2), 0);			// Hide Now Playing Audio subpage
-				CF.setJoin("d"+(baseJoin+3), 1);			// Show Now Playing Video subpage
-				
-				//Get the latest details
-				self.getNowPlayingVideoItem(baseJoin);
-				//Initiate the playing timer
-				self.startVideoPlayerTime();
-			}else if(self.currentPlayer == undefined){
-				//Hide both subpages
-				CF.setJoin("d"+(baseJoin+2), 0);			// Hide Now Playing Audio subpage
-				CF.setJoin("d"+(baseJoin+3), 0);			// Show Now Playing Video subpage
+					self.currentPlayer = data.result[0].type;
+					
+					if(self.currentPlayer == "audio")
+					{
+							CF.setJoin("s"+baseJoin, "AUDIO");		// Show player status : AUDIO
+							CF.setJoin("d"+(baseJoin+1), 0);		// Show Now Playing blank subpage
+							CF.setJoin("d"+(baseJoin+2), 1);		// Show Now Playing Audio subpage
+							CF.setJoin("d"+(baseJoin+3), 0);		// Hide Now Playing Video subpage
+							
+							//Get the latest details
+							self.getNowPlayingAudioItem(baseJoin);
+					}
+					else if(self.currentPlayer == "video")
+					{
+						CF.setJoin("s"+baseJoin, "VIDEO");			// Show player status : VIDEO
+						CF.setJoin("d"+(baseJoin+1), 0);			// hide Now Playing Audio subpage
+						CF.setJoin("d"+(baseJoin+2), 0);			// Hide Now Playing Audio subpage
+						CF.setJoin("d"+(baseJoin+3), 1);			// Show Now Playing Video subpage
+						
+						//Get the latest details
+						self.getNowPlayingVideoItem(baseJoin);
+						
+					}
 			}
-			
 		});
+		self.loopPlayNowTimer();		 // loop every 5s to check player status and report feedback. digital join 8000
 	};
 	
 	/**
@@ -1303,7 +1320,10 @@ var XBMC_Controller = function(params) {
 				{join: "s"+(baseJoin+204), value: album},			// Plot
 				{join: "s"+(baseJoin+205), value: year}				// Show Subpage
 				]);
-			});	
+			});
+
+			//Initiate the playing timer
+			self.startAudioPlayerTime();
 	};
 	
 	var audio_timer;		//setTimeout ID
@@ -1352,11 +1372,9 @@ var XBMC_Controller = function(params) {
 			self.ItemTime = self.ItemTimeMinutes + ":" + self.ItemTimeSeconds;			// this will be updated every second
 			self.TotalTime = self.TotalTimeMinutes + ":" + self.TotalTimeSeconds;		// this will be static
 			
-			CF.setJoin("s8206", self.ItemTime);											//TEMPORARY MANUALLY INSERT JOIN NUMBER ONLY!!!!
-			CF.setJoin("a8206", self.ItemTime);											//TEMPORARY MANUALLY INSERT JOIN NUMBER ONLY!!!!
-			CF.setJoin("s8207", self.TotalTime);										//TEMPORARY MANUALLY INSERT JOIN NUMBER ONLY!!!!
-		
-			CF.setJoin("a8100", self.timePercentage);									//TEMPORARY MANUALLY INSERT JOIN NUMBER ONLY!!!!
+			CF.setJoin("s8206", self.ItemTime);											
+			CF.setJoin("s8207", self.TotalTime);										
+			CF.setJoin("a8100", self.timePercentage);									
 		
 			self.loopAudioTime(); // To cause the function to loop every second and update the timer
 		});
@@ -1375,11 +1393,12 @@ var XBMC_Controller = function(params) {
 		
 		var clockTime = ("00"+Math.floor((self.newlevel) / 60)).slice(-2) + ":" + ("00"+(Math.ceil(self.newlevel)% 60)).slice(-2);
 		
-		CF.setJoin("s8210", clockTime);						//TEMPORARY MANUALLY INSERT JOIN NUMBER ONLY!!!!
+		CF.setJoin("s8210", clockTime);						
 		
 		self.rpc("Player.Seek", {"playerid": 0, "value": self.newlevel2}, self.logReplyData);
 	
 		setTimeout(function(){self.startAudioPlayerTime();}, 250);
+		//setTimeout(function(){self.getNowPlaying(8000);}, 250);
 	};
 	
 	/**
@@ -1412,7 +1431,10 @@ var XBMC_Controller = function(params) {
 				{join: "s"+(baseJoin+305), value: plot}				// Plot
 				]);
 			}
-		);	
+		);
+		
+		//Initiate the playing timer
+		self.startVideoPlayerTime();		
 	};
 	
 	var video_timer;
@@ -1442,8 +1464,8 @@ var XBMC_Controller = function(params) {
 			self.ItemTime = self.ItemTimeHour + ":" +self.ItemTimeMinutes + ":" + self.ItemTimeSeconds;
 			self.TotalTime = self.TotalTimeHour + ":" + self.TotalTimeMinutes + ":" + self.TotalTimeSeconds;
 			
-			CF.setJoin("s8306", self.ItemTime);		//TEMPORARY MANUALLY INSERT JOIN NUMBER ONLY!!!!
-			CF.setJoin("s8307", self.TotalTime);	//TEMPORARY MANUALLY INSERT JOIN NUMBER ONLY!!!!
+			CF.setJoin("s8306", self.ItemTime);		
+			CF.setJoin("s8307", self.TotalTime);	
 			
 			self.video = Math.round((data.result.percentage/100)*(65535));
 			CF.setJoin("a8300", self.video);
