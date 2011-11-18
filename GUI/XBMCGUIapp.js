@@ -297,7 +297,7 @@ var XBMC_GUI = function(params) {
 	// Play the selected file
 	self.playRecentEpisode = function(list, listIndex, join){
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.playFile(t["[file]"]);
+			self.XBMC.playEpisode(t["[file]"]);
 		});
 	};
 	
@@ -428,7 +428,6 @@ var XBMC_GUI = function(params) {
 			self.XBMC.playFile(t["[file]"]);
 		});
 	};
-	
 	
 	//--------------------------------------------------------------------------------------------------
 	// Toggling subpages & Selection for Music
@@ -669,11 +668,11 @@ var XBMC_GUI = function(params) {
 		//s60 = System Name, s61 = Host Name / IP Add, s62 = port, s63 = username, s64 = password
 		CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
 			
-			CF.log("System name: " + joins.s60.value);
-			CF.log("Host name/IP address: " + joins.s61.value);
-			CF.log("Port: " + joins.s62.value);
-			CF.log("Username: " + joins.s63.value);
-			CF.log("Password: " + joins.s64.value);
+			//CF.log("System name: " + joins.s60.value);
+			//CF.log("Host name/IP address: " + joins.s61.value);
+			//CF.log("Port: " + joins.s62.value);
+			//CF.log("Username: " + joins.s63.value);
+			//CF.log("Password: " + joins.s64.value);
 
 			//	Set all these values as global tokens and persist, use CF.setToken(CF.GlobalTokensJoin)
 			CF.setToken(CF.GlobalTokensJoin, "[inputSysName]", joins.s60.value);
