@@ -371,7 +371,7 @@ var XBMC_Controller = function(params) {
 	
 		self.currentShowID = parseInt(id);					
 		
-		self.rpc("VideoLibrary.GetSeasons", { "tvshowid": self.currentShowID, "properties": ["season", "episode", "thumbnail", "showtitle", "fanart"] }, function(data) {
+		self.rpc("VideoLibrary.GetSeasons", { "tvshowid": self.currentShowID, "sort": {"order": "ascending", "method": "label"}, "properties": ["season", "episode", "thumbnail", "showtitle", "fanart"] }, function(data) {
 			
 			// Create array to push all new items in
 			var listArray = [];
