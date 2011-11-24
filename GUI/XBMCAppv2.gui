@@ -579,9 +579,11 @@
     <theme type="text" name=".text_sample_copy16"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
     <theme type="text" name=".text_sample_copy17"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
     <theme type="text" name=".text_sample_copy18"><![CDATA[ color: White; font-size: 12px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="button" name=".menu_playAlbum[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_play_album_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".menu_playAlbum[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_play_album_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
   </themes>
   <tokens>
-    <token name="[inputURL]" value="192.168.168.201" persist="1" />
+    <token name="[inputURL]" value="192.168.0.101" persist="1" />
     <token name="[inputPort]" value="8080" persist="1" />
     <token name="[inputUsername]" value="xbmc" persist="1" />
     <token name="[inputPassword]" value="xbmc" persist="1" />
@@ -934,9 +936,9 @@ ALL</active>
         </active>
       </btn>
       <subpage name="Menu_DropMenu_Settings" x="0" y="0" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
-      <subpage name="Main_RecentMovie_List" x="352" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="Main_RecentAlbum_List" x="689" y="191" j="9103" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="Main_RecentEpisode_List" x="14" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="Main_RecentMovie_List" x="352" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
+      <subpage name="Main_RecentAlbum_List" x="689" y="191" j="9103" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
+      <subpage name="Main_RecentEpisode_List" x="14" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <btn j="70" x="0" y="82" w="76" h="82" t="power_btn" flip="None" sim="2" l="1" s="1">
         <inactive s="0">
         </inactive>
@@ -949,7 +951,7 @@ ALL</active>
       <subpage name="wifi" x="2" y="17" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_blank" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
-      <subpage name="Main_RecentSong_List" x="689" y="191" j="9104" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
+      <subpage name="Main_RecentSong_List" x="689" y="191" j="9104" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
       <subpage name="Main_Prompt_Hibernate" x="0" y="0" j="82" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
       <subpage name="Main_Prompt_Exit" x="0" y="0" j="84" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
       <subpage name="Main_Prompt_ShutDown" x="0" y="0" j="80" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
@@ -1089,7 +1091,7 @@ ALL</active>
     <img x="5" y="243" w="121" h="87" j="4001" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="1" clearOnURLChange="1" />
     <txt j="4003" x="133" y="243" w="448" h="35" t="EpisodeNameLarge" wrap="True" l="1">episode title</txt>
     <txt j="4004" x="5" y="337" w="581" h="170" t="EpDetails" wrap="False" l="1">plot</txt>
-    <btn j="0" x="310" y="515" w="181" h="44" t="cf_black_bottom_button" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.XBMC.playEpisode()">
+    <btn j="0" x="310" y="515" w="181" h="44" t="cf_black_bottom_button" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.playSelectedEpisode()">
       <inactive s="0">Play Episode</inactive>
       <active s="0">Play Episode</active>
     </btn>
@@ -1268,14 +1270,20 @@ ALL</active>
       </active>
     </btn>
     <img x="14" y="2" w="60" h="60" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
-    <txt j="2" x="81" y="0" w="267" h="33" t="Album" wrap="False" l="1">(Album #)</txt>
-    <btn j="1" x="3" y="4" w="352" h="51" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectMusicAlbum(list, listIndex, join)">
+    <txt j="2" x="81" y="0" w="203" h="33" t="nowplaying" wrap="False" l="0">(Album #)</txt>
+    <btn j="1" x="3" y="4" w="265" h="59" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectMusicAlbum(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
-    <txt j="3" x="81" y="31" w="267" h="22" t="nowplaying_lighter" wrap="True" l="1">(artist)</txt>
+    <txt j="3" x="81" y="31" w="203" h="22" t="nowplaying_lighter" wrap="True" l="0">(artist)</txt>
+    <btn j="1" x="277" y="0" w="65" h="61" t="menu_playAlbum" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.queueAlbumPlaylist(list, listIndex, join)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
   </subpage>
   <subpage name="Music_Song_Item" w="365" h="81" clip="0">
     <btn j="0" x="0" y="53" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
@@ -1293,7 +1301,7 @@ ALL</active>
       </active>
     </btn>
     <txt j="3" x="83" y="35" w="214" h="19" t="nowplaying_lighter" wrap="True" l="0">(Track Number)</txt>
-    <btn j="1" x="291" y="3" w="61" h="56" t="menu_playlist" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.addSongPlaylist(list, listIndex, join)">
+    <btn j="1" x="291" y="0" w="61" h="56" t="menu_playlist" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.addSongPlaylist(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -1321,7 +1329,7 @@ ALL</active>
     </btn>
     <txt j="2" x="85" y="0" w="242" h="72" t="cfblue2_small_l" wrap="True" l="0">Audio_Item</txt>
     <img x="5" y="0" w="75" h="75" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
-    <btn j="1" x="17" y="0" w="296" h="66" t="cfblue2_blank" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectPlaylistFile(list, listIndex, join)">
+    <btn j="1" x="17" y="0" w="296" h="66" t="cfblue2_blank" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectAudioPlaylist(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -1341,7 +1349,7 @@ ALL</active>
     <img x="5" y="0" w="60" h="75" j="3" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
     <txt j="4" x="70" y="0" w="257" h="72" t="cfblue2_small_l" wrap="True" l="0">
     </txt>
-    <btn j="1" x="1" y="10" w="326" h="71" t="cfblue2_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.selectPlaylistFile(list, listIndex, join)">
+    <btn j="1" x="1" y="10" w="326" h="71" t="cfblue2_blank" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.selectVideoPlaylist(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -1386,7 +1394,7 @@ ALL</active>
       <active s="0">Genre</active>
     </btn>
     <txt j="0" x="683" y="104" w="315" h="35" t="cfblue2_title_c" wrap="True" l="0">TV SHOWS</txt>
-    <btn j="0" x="690" y="578" w="302" h="45" t="list_dropmenu_btn_single" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.RecentAddedEpisodes()">
+    <btn j="0" x="690" y="578" w="302" h="45" t="list_dropmenu_btn_single" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.showRecentAddedEpisodes()">
       <inactive s="0">Recently Added Episodes</inactive>
       <active s="0">Recently Added Episodes</active>
     </btn>
@@ -2275,10 +2283,10 @@ ALL</active>
     <txt j="8202" x="237" y="125" w="332" h="24" t="nowplaying" wrap="True" l="0">Track title</txt>
     <txt j="0" x="237" y="149" w="61" h="24" t="nowplaying_lighter" wrap="True" l="0">Track # :</txt>
     <txt j="0" x="237" y="173" w="350" h="24" t="nowplaying_lighter" wrap="True" l="0">Album : </txt>
-    <txt j="0" x="238" y="218" w="238" h="24" t="nowplaying_lighter" wrap="True" l="0">Year : </txt>
+    <txt j="0" x="238" y="218" w="238" h="24" t="nowplaying_lighter" wrap="True" l="0">Artist : </txt>
     <txt j="8203" x="302" y="149" w="268" h="24" t="nowplaying_lighter" wrap="True" l="0">(track #)</txt>
     <txt j="8204" x="290" y="178" w="281" h="42" t="audio_album" wrap="True" l="0">(album)</txt>
-    <txt j="8205" x="284" y="218" w="287" h="24" t="nowplaying_lighter" wrap="True" l="0">(year)</txt>
+    <txt j="8205" x="284" y="218" w="287" h="24" t="nowplaying_lighter" wrap="True" l="0">(artist)</txt>
     <txt j="8210" x="295" y="471" w="99" h="20" t="Small_Text" wrap="True" l="0">00:00</txt>
     <txt j="0" x="218" y="469" w="105" h="22" t="Small_Text" wrap="True" l="0">Seek Time : </txt>
     <txt j="8000" x="26" y="33" w="217" h="51" t="EpisodeNameLarge" wrap="True" l="0">(none)</txt>
@@ -2288,9 +2296,11 @@ ALL</active>
       <indicator state="0" offsetX="0" offsetY="0" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
       <indicator state="1" offsetX="0" offsetY="0" x="0" y="0" w="0" h="0" t="">vol_slider.png</indicator>
     </slider>
-    <txt j="8206" x="12" y="441" w="47" h="24" t="nowplaying_lighter" wrap="False" l="0">00:00</txt>
-    <txt j="8207" x="529" y="441" w="49" h="24" t="nowplaying_lighter" wrap="False" l="0">00:00</txt>
+    <txt j="8207" x="12" y="441" w="47" h="24" t="nowplaying_lighter" wrap="False" l="0">00:00</txt>
+    <txt j="8208" x="529" y="441" w="49" h="24" t="nowplaying_lighter" wrap="False" l="0">00:00</txt>
     <img x="0" y="0" w="591" h="24" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_nowplaying_top_shadow.png</img>
+    <txt j="0" x="238" y="244" w="238" h="24" t="nowplaying_lighter" wrap="True" l="0">Year : </txt>
+    <txt j="8206" x="284" y="244" w="287" h="24" t="nowplaying_lighter" wrap="True" l="0">(year)</txt>
   </subpage>
   <subpage name="PlayingNow_Video" w="590" h="568" clip="1">
     <img x="0" y="0" w="590" h="568" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_nowplaying_bg.png</img>

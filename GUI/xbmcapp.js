@@ -293,16 +293,12 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of TV shows from XBMC, sorted in alphabetical order by default
 	 */
 	self.getTVShows = function(baseJoin, order, method, search_string) {
-		
-		//Subpages
 		CF.setJoin("s20", order);
 		CF.setJoin("s21", method);
 				
 		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "rating", "genre"]}, function(data) {
-			
-			// Loop through all returned TV shows and store in array
-			TVSerieslistArray = [];			//initialize array
-			CF.listRemove("l"+baseJoin);	//clear list of any previous entries
+				TVSerieslistArray = [];			//initialize array
+				CF.listRemove("l"+baseJoin);	//clear list of any previous entries
 			
 				for (var i = 0; i<data.result.limits.total; i++) {							
 				
@@ -499,20 +495,19 @@ var XBMC_Controller = function(params) {
 		});
 	};
 	
-	self.playEpisode = function(file) {
-		if (file === undefined) {
-			var file = self.currentEpisodeFile;
-			
-		}
-		self.rpc("Player.Open", {"item": {"file": file}}, self.logReplyData);
+	self.playEpisode = function() {
+		self.rpc("Player.Open", {"item": {"file": self.currentEpisodeFile}}, self.logReplyData);
+		setTimeout(self.rpc("Playlist.Add", { "playlistid":1, "item":{"file": self.currentEpisodeFile}}, self.logReplyData), 500);
 	};
 	
-	self.addEpisodePlaylist = function(file) {
-		if (file === undefined) {
-			var file = self.currentEpisodeFile;
-			
-		}
-		self.rpc("Playlist.Add", { "playlistid":1, "item":{"file": file}}, self.logReplyData);	
+	self.addEpisodePlaylist = function() {
+		self.rpc("Playlist.Add", { "playlistid":1, "item":{"file": self.currentEpisodeFile}}, self.logReplyData);	
+	};
+	
+	self.playRecentEpisode = function(file) {
+		self.currentEpisodeFile = file;
+		self.rpc("Player.Open", {"item": {"file": self.currentEpisodeFile}}, self.logReplyData);
+		setTimeout(self.rpc("Playlist.Add", { "playlistid":1, "item":{"file": self.currentEpisodeFile}}, self.logReplyData), 500);
 	};
 	
 	/**
@@ -626,7 +621,7 @@ var XBMC_Controller = function(params) {
 	// Movies
 	//--------------------------------------------------------------------------------------------------
 	
-	var MovieslistArray = new Array();		//Global array for Movies
+	var MovieslistArray = new Array();			//Global array for Movies
 	var RecentMovieslistArray = new Array();	//Glbal Array for Recent Added Movies
 	
 	/**
@@ -713,8 +708,8 @@ var XBMC_Controller = function(params) {
 			var year = "Year: " + data.result.moviedetails.year;
 			var rating = "Rating: " + (Math.round(data.result.moviedetails.rating*1000))/1000 + "/" + "10";
 			var runtime = "Runtime: " + data.result.moviedetails.runtime + " min";
-			var director = "Director: "+data.result.moviedetails.director;
-			var writer = "Writer: " + data.result.moviedetails.writer;
+			var director = "Director: "+ decode_utf8(data.result.moviedetails.director);
+			var writer = "Writer: " + decode_utf8(data.result.moviedetails.writer);
 			
 			self.currentMovieFile = decode_utf8(data.result.moviedetails.file);
 			
@@ -738,7 +733,8 @@ var XBMC_Controller = function(params) {
 		if (file === undefined) {
 			var file = self.currentMovieFile;
 		}
-		self.rpc("Player.Open", { "item":{"file": file} }, self.logReplyData);
+		self.rpc("Player.Open", { "item":{"file": file} }, self.logReplyData);						// play the file
+		self.rpc("Playlist.Add", { "playlistid":1, "item":{ "file": file}}, self.logReplyData);		// automatically adds the file into playlist when played
 	};
 	
 	self.addMoviePlaylist = function(file) {
@@ -1053,6 +1049,26 @@ var XBMC_Controller = function(params) {
 		});
 	};
 	
+	// Add whole album into playlist and start playing whole album from first song.
+	self.addAlbumPlaylist = function(id) {
+		
+		// Get albumid from token
+		self.currentAlbumID = parseInt(id);																							
+		
+		// Stop any previous playing item
+		self.rpc("Player.Stop", {"playerid":0}, self.logReplyData);																	
+		
+		//Sort the songs by track and insert one by one, according to the position.
+		self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"method": "track"}}, function(data) {
+			for (var i = 0; i<data.result.limits.total; i++) {
+				setTimeout(self.rpc("Playlist.Insert",{"playlistid":0, "item": {"songid": data.result.songs[i].songid}, "position": i}, self.logReplyData), 400);	
+			}
+		});
+		
+		// Start playing first item in the list
+		setTimeout(function(){self.rpc("Player.Open", {"item": { "playlistid" : 0, "position" : 0}}, self.logReplyData);}, 500);	
+	};
+	
 	/**
 	 * Function: Get details for a particular Song, Album and Artist from XBMC
 	 */
@@ -1231,16 +1247,16 @@ var XBMC_Controller = function(params) {
 	
 	//--------------------------------------------------------------------------------------------------
 	// Now Playing
-	// - for scrubbing slider: On Pressed and On Slide(stop timing loop), On Release (Restart timing loop after 1s)
+	// - for scrubbing slider: On Pressed and On Slide(stop timing loop), On Release (Restart timing loop after sepcified timing)
 	//		
 	//		
 	//--------------------------------------------------------------------------------------------------
 	
 	var playnow_timer;		//setTimeout ID
 	
-	// This is the function that creates the loop, runs every 5 seconds. Alternatively can use setInterval.
+	// This is the function that creates the loop, runs every 3 seconds. Alternatively can use setInterval.
 	self.loopPlayNowTimer = function(){
-		playnow_timer = setTimeout(function(){self.getNowPlaying(8000);}, 5000);
+		playnow_timer = setTimeout(function(){self.getNowPlaying(8000);}, 3000);
 	};
 	
 	// This is the function that stops the loop from running. Alternatively should use clearInterval.
@@ -1253,6 +1269,8 @@ var XBMC_Controller = function(params) {
 	 */
 	self.getNowPlaying = function(baseJoin) {
 		
+		//Stop all timers from running
+		self.stopPlayNowTimer();
 		self.stopAudioTimer();
 		self.stopVideoTimer();
 		
@@ -1295,7 +1313,7 @@ var XBMC_Controller = function(params) {
 					}
 			}
 		});
-		self.loopPlayNowTimer();		 // loop every 5s to check player status and report feedback. digital join 8000
+		self.loopPlayNowTimer();		 // Check player status and report feedback according to specified interval. digital join 8000
 	};
 	
 	/**
@@ -1304,13 +1322,13 @@ var XBMC_Controller = function(params) {
 	self.getNowPlayingAudioItem = function(baseJoin) {
 		
 		//Previously Playlist.GetItems
-		self.rpc("Player.GetItem", { "playerid": 0, "properties":[ "title", "album", "track", "thumbnail", "year"]}, function(data) {
+		self.rpc("Player.GetItem", { "playerid": 0, "properties":[ "title", "album", "track", "thumbnail", "year", "artist"]}, function(data) {
 		
 			var thumbnail = self.URL + "vfs/" + data.result.item.thumbnail;
-			var title = data.result.item.title;
+			var title = decode_utf8(data.result.item.title);
 			var track = data.result.item.track;
-			//var artist = data.result.item.artist;
-			var album = data.result.item.album;
+			var artist = decode_utf8(data.result.item.artist);
+			var album = decode_utf8(data.result.item.album);
 			var year = data.result.item.year;
 			
 			CF.setJoins([
@@ -1318,7 +1336,8 @@ var XBMC_Controller = function(params) {
 				{join: "s"+(baseJoin+202), value: title},			// Fan Art
 				{join: "s"+(baseJoin+203), value: track},			// Title
 				{join: "s"+(baseJoin+204), value: album},			// Plot
-				{join: "s"+(baseJoin+205), value: year}				// Show Subpage
+				{join: "s"+(baseJoin+205), value: artist},			// Artist
+				{join: "s"+(baseJoin+206), value: year}				// Year
 				]);
 			});
 
@@ -1361,6 +1380,7 @@ var XBMC_Controller = function(params) {
 		// get the time and display in minutes and seconds, adding leading zeroes in front to make the format HH:MM:SS
 		self.rpc("Player.GetProperties", { "playerid": 0, "properties": ["time", "percentage", "totaltime"]}, function(data) {
 		
+			
 			//self.ItemTimeHour = ("00"+data.result.time.hours).slice(-2);					*not commonly used for music files
 			self.ItemTimeMinutes = ("00"+data.result.time.minutes).slice(-2);
 			self.ItemTimeSeconds = ("00"+data.result.time.seconds).slice(-2);
@@ -1372,13 +1392,13 @@ var XBMC_Controller = function(params) {
 			self.ItemTime = self.ItemTimeMinutes + ":" + self.ItemTimeSeconds;			// this will be updated every second
 			self.TotalTime = self.TotalTimeMinutes + ":" + self.TotalTimeSeconds;		// this will be static
 			
-			CF.setJoin("s8206", self.ItemTime);											
-			CF.setJoin("s8207", self.TotalTime);										
-			CF.setJoin("a8100", self.timePercentage);									
-		
+			CF.setJoin("s8207", self.ItemTime);											
+			CF.setJoin("s8208", self.TotalTime);										
+			CF.setJoin("a8100", self.timePercentage);
+			
 			self.loopAudioTime(); // To cause the function to loop every second and update the timer
+			
 		});
-		
 	}; 
 	
 	/**
@@ -1419,9 +1439,9 @@ var XBMC_Controller = function(params) {
 			var year = "Year: "+data.result.item.year;
 			}
 			
-			var title = data.result.item.title;
+			var title = decode_utf8(data.result.item.title);
 			var rating = "Rating: "+(Math.round(data.result.item.rating*1000))/1000 + "/" + "10";
-			var plot = data.result.item.plot;
+			var plot = decode_utf8(data.result.item.plot);
 			
 			CF.setJoins([
 				{join: "s"+(baseJoin+301), value: picture},			// Episode thumbnail or Movie Fanart
@@ -1508,7 +1528,7 @@ var XBMC_Controller = function(params) {
 		
 	//------------------------------------------------------------------------------------------------------------------------------
 	// Files and Sources : Get a list of sources from XBMC according to media : ["video", "music", "pictures", "files", "programs"]
-	//  *possible bug in current XBMC test version - doesn't give back the file path, previous version have. Cannot bring forward the path to use File.GetDirectory
+	//  
 	//------------------------------------------------------------------------------------------------------------------------------
 	
 	/**
@@ -1524,8 +1544,8 @@ var XBMC_Controller = function(params) {
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
 			
-			var label = data.result.sources[i].label;				// previously data.result.shares[i].label;
-			var source = data.result.sources[i].file;
+			var label = decode_utf8(data.result.sources[i].label);				// previously data.result.shares[i].label;
+			var source = decode_utf8(data.result.sources[i].file);
 			
 			// Add to array to add to list in one go later
 				listArray.push({
@@ -1552,8 +1572,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.sources[i].label;
-				var source = data.result.sources[i].file;
+				var label = decode_utf8(data.result.sources[i].label);
+				var source = decode_utf8(data.result.sources[i].file);
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1579,8 +1599,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.sources[i].label;
-				var source = data.result.sources[i].file;
+				var label = decode_utf8(data.result.sources[i].label);
+				var source = decode_utf8(data.result.sources[i].file);
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1606,8 +1626,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.sources[i].label;
-				var source = data.result.sources[i].file;
+				var label = decode_utf8(data.result.sources[i].label);
+				var source = decode_utf8(data.result.sources[i].file);
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1633,8 +1653,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.sources[i].label;
-				var source = data.result.sources[i].file;
+				var label = decode_utf8(data.result.sources[i].label);
+				var source = decode_utf8(data.result.sources[i].file);
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1661,8 +1681,8 @@ var XBMC_Controller = function(params) {
 			CF.listRemove("l"+listJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = data.result.files[i].label;
-				var source = data.result.files[i].file;
+				var label = decode_utf8(data.result.files[i].label);
+				var source = decode_utf8(data.result.files[i].file);
 				// Add to array to add to list in one go later
 				listArray.push({
 					s2: label,
@@ -1682,11 +1702,12 @@ var XBMC_Controller = function(params) {
 	//--------------------------------------------------------------------------------------------------
 		
 	/**
-	 * Function: Get Current Audio Playlist from XBMC
+	 * Function: Get Current Audio Playlist from XBMC.
+	 * Note : Using parameter of "file" only enables a single file to be played, the song won't automatically jumps to the next track
 	 */
 	self.getAudioPlaylist = function(baseJoin) {
 		
-		self.rpc("Playlist.GetItems", { "playlistid":0, "properties":["thumbnail", "file"]}, function(data) {
+		self.rpc("Playlist.GetItems", { "playlistid":0, "properties":["thumbnail", "file", "track"]}, function(data) {
 					//CF.logObject(data);
 				
 					// Create array to push all new items in
@@ -1700,15 +1721,19 @@ var XBMC_Controller = function(params) {
 						var label = decode_utf8(data.result.items[i].label);
 						var type = data.result.items[i].type;
 						var thumbnail = self.URL + "vfs/"+data.result.items[i].thumbnail;
-						var songfile = data.result.items[i].file;
+						var songfile = decode_utf8(data.result.items[i].file);
+						var track = data.result.items[i].track;
+						var index = i;
 						
 						// Add to array to add to list in one go later
 						listArray.push({
 							s1: thumbnail,
 							s2: label,
+							s3: track,
 							d1: {
 								tokens: {
-								"[file]": songfile
+								"[file]": songfile,
+								"[index]": index
 								}
 							},
 						});
@@ -1735,8 +1760,10 @@ var XBMC_Controller = function(params) {
 						var label = decode_utf8(data.result.items[i].label);
 						var type = data.result.items[i].type;
 						var thumbnail = self.URL + "vfs/"+data.result.items[i].thumbnail;
-						var videofile = data.result.items[i].file;
+						var videofile = decode_utf8(data.result.items[i].file);
 						var type = data.result.items[i].type;
+						var index = i;
+
 						
 						//Because of the different orientation of the thumbnails for episodes and movies, 
 						//   have two sets of list item to capture the same information.
@@ -1749,18 +1776,20 @@ var XBMC_Controller = function(params) {
 								s2: label,			// serial join for episode's label
 								d1: {
 									tokens: {
-									"[file]": videofile
+									"[file]": videofile,
+									"[index]": index
 									}
 								},	
 							});
 						}else {
-							// movie's thumbnail orientaion is potrait
+							// movie's thumbnail orientation is potrait
 							listArray.push({
 								s3: thumbnail,		// serial join for movie's thumbnail
 								s4: label,			// serial join for movie's label
 								d1: {
 									tokens: {
-									"[file]": videofile
+									"[file]": videofile,
+									"[index]": index
 									}
 								},	
 							});
@@ -1771,9 +1800,16 @@ var XBMC_Controller = function(params) {
 			});	
 	};
 	
-	// Play the file in the playlist for both audio and video
-	self.playPlaylistFile = function(file) {				
-		self.rpc("Player.Open", { "item":{"file": file} }, self.logReplyData);
+	// Play the file in the playlist for audio
+	self.playAudioPlaylistFile = function(index) {				
+		self.listPosition = parseInt(index);
+		self.rpc("Player.Open", { "item" : { "playlistid" : 0, "position" : self.listPosition} }, self.logReplyData);
+	};
+	
+	// Play the file in the playlist for audio
+	self.playVideoPlaylistFile = function(index) {				
+		self.listPosition = parseInt(index);
+		self.rpc("Player.Open", { "item" : { "playlistid" : 1, "position" : self.listPosition} }, self.logReplyData);
 	};
 	
 	// Clear audio playlist only

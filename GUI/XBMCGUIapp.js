@@ -176,72 +176,111 @@ var XBMC_GUI = function(params) {
 		
 	};
 	
-	//--------------------------------------------------------------------------------------------------
-	// Toggling subpages & Selection for TV Shows
-	//--------------------------------------------------------------------------------------------------
+	//================================================================================================================================
+	/* TV SHOWS																														*/
+	//================================================================================================================================
+	
+	// ************************	TV Series -> Seasons -> Episodes -> Episode Details -> Play/Playlist episode *************************
 	
 	// Displays a list of Season when TV Show item is selected
-	self.selectTVShow = function(list, listIndex, join) {			
+	self.selectTVShow = function(list, listIndex, join) {							
 			CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			CF.setJoin("d"+self.joinTVShows, 0);				// Hide TV Show subpage
-			CF.setJoin("d"+self.joinTVSeasons, 1);				// Show TV Seasons list
-			CF.setJoin("d"+self.joinTVEpisodes, 0);				// Hide TV Episodes list
-			CF.setJoin("d"+self.joinRecentEpisodes, 0);			// Hide Recently Added Episodes list
-			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);	// Hide Genre detail's subpage
-			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);		// Hide Genre detail's subpage
+			CF.setJoin("d"+self.joinTVShows, 0);									// Hide TV Show subpage
+			CF.setJoin("d"+self.joinTVSeasons, 1);									// Show TV Seasons subpage
+			CF.setJoin("d"+self.joinTVEpisodes, 0);									// Hide TV Episodes suppage
+			CF.setJoin("d"+self.joinRecentEpisodes, 0);								// Hide Recently Added Episodes subpage
+			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);						// Hide Genre Details subpage
+			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);							// Hide Episode Details subpage
 			
-			self.XBMC.getTVSeasons(t["[id]"],t["[fanart]"], self.joinTVSeasons); 	// Get TV Seasons
+			self.XBMC.getTVSeasons(t["[id]"],t["[fanart]"], self.joinTVSeasons); 	// Get TV Seasons list
 		});
 	};
 
 	// Displays a list of Episodes when Season item is selected
-	self.selectTVSeason = function(list, listIndex, join) {
+	self.selectTVSeason = function(list, listIndex, join) {							
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			CF.setJoin("d"+self.joinTVShows, 0);				// Hide TV Show subpage
-			CF.setJoin("d"+self.joinTVSeasons, 0);				// Hide TV Seasons list
-			CF.setJoin("d"+self.joinTVEpisodes, 1);				// Show TV Episodes list
-			CF.setJoin("d"+self.joinRecentEpisodes, 0);			// Hide Recently Added Episodes list
-			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);	// Hide Genre detail's subpage
-			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);		// Hide Genre detail's subpage
+			CF.setJoin("d"+self.joinTVShows, 0);									// Hide TV Show subpage
+			CF.setJoin("d"+self.joinTVSeasons, 0);									// Hide TV Seasons subpage
+			CF.setJoin("d"+self.joinTVEpisodes, 1);									// Show TV Episodes subpage
+			CF.setJoin("d"+self.joinRecentEpisodes, 0);								// Hide Recently Added Episodes subpage
+			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);						// Hide Genre Details subpage
+			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);							// Hide Episode Details subpage
 			
-			self.XBMC.getTVEpisodes(t["[id]"], t["[season]"], t["[showtitle]"], t["[fanart]"], self.joinTVEpisodes); 	// Get TV Episodes
+			self.XBMC.getTVEpisodes(t["[id]"], t["[season]"], t["[showtitle]"], t["[fanart]"], self.joinTVEpisodes); 	// Get TV Episodes list
 		});
 	};
 
 	// Displays the details of the selected Episodes when Episode item is selected
-	self.selectTVEpisode = function(list, listIndex, join) {
+	self.selectTVEpisode = function(list, listIndex, join) {						
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			CF.setJoin("d"+self.joinTVEpisodeDetails, 1);	
-			self.XBMC.getTVEpisodeDetails(t["[id]"], self.joinTVEpisodeDetails);		// Get TV Episodes Details and show TV Episode Details subpage
+			CF.setJoin("d"+self.joinTVEpisodeDetails, 1);							// Show Episode Details subpage
+			self.XBMC.getTVEpisodeDetails(t["[id]"], self.joinTVEpisodeDetails);	// Get TV Episodes Details and show TV Episode Details subpage
 		});
 	};
 	
-	// This is for the "Series" button (to go back to previous list) in the Season list; dropdown Menu button "TV Shows"
+	// Play the Selected Episode. Clear the previous items on playlist and add current item to playlist.
+	self.playSelectedEpisode = function(){
+			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
+			self.XBMC.playEpisode();												// Play the file
+	};
+	
+	// Play the selected Recent Episode on the Main Menu page. Clear the previous items on playlist and add current item to playlist.
+	self.playRecentEpisode = function(list, listIndex, join){
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
+			self.XBMC.playRecentEpisode(t["[file]"]);								// Play the file
+		});
+	};
+	
+	// ************************	Flipping between subpages ****************************************************************************
+	
+	// "Series" button in the Season list. Also for the dropdown Menu button "TV Shows" in the TV Series subpage.
 	self.showSeries = function() {
 		CF.setJoin("d"+self.joinTVShows, 1);						// Show TV Show subpage
 		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 	};
 	
-	// This is for the "Season" button (to go back to previous list) in the Episode list; dropdown Menu button "Season"
+	// "Season" button in the Episode list. Also for dropdown Menu button "Season from Selected TV Show"
 	self.showSeason = function() {
 		CF.setJoin("d"+self.joinTVShows, 0);						// Hide TV Show subpage
 		CF.setJoin("d"+self.joinTVSeasons, 1);						// Show TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 	};
 	
-	// This is for the dropdown Menu button "Episode" 
+	// Dropdown Menu button "Episodes from Selected Season"
 	self.showEpisodes = function() {
 		CF.setJoin("d"+self.joinTVShows, 0);						// Hide TV Show subpage
 		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 1);						// Show TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 1);				// Hide Episode Details subpage
 	};
+	
+	// Shows the subpage ofthe Recently Added Episodes. The list is already loaded at startup. 
+	self.showRecentAddedEpisodes = function(){
+		CF.setJoin("d"+self.joinTVShows, 0);						// TV Show subpage
+		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
+		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
+		CF.setJoin("d"+self.joinRecentEpisodes, 1);					// Show Recently Added Episodes list
+		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
+	};
+	
+	// Shows a list of all the Genre categories (for TV Shows only) in the drop down menu
+	self.showTVShowsGenre = function(){
+		CF.setJoin("d"+self.joinTVShowsGenre, 1);					// Show Genre list's subpage and is part of the dropdown menu.
+		self.XBMC.getTVShowsGenre(self.joinTVShowsGenre);	
+	};
+	
+	// ************************	Sorting & Searching **********************************************************************************
 	
 	// Sorting options is available for TV Series only 
 	self.sortTVShow = function(order, method) {
@@ -250,6 +289,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 		
 		self.XBMC.getTVShows(self.joinTVShows, order, method);
 	};
@@ -261,24 +301,9 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
 		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 		
 		self.XBMC.searchTVShows(search_string, self.joinTVShows);
-	};
-	
-	// Shows a list of all the Recently Added Episodes 
-	self.RecentAddedEpisodes = function(){
-		CF.setJoin("d"+self.joinTVShows, 0);						// TV Show subpage
-		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
-		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
-		CF.setJoin("d"+self.joinRecentEpisodes, 1);					// Show Recently Added Episodes list
-		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
-	};
-	
-	// Shows a list of all the Genre categories (for TV Shows only) in the drop down menu
-	self.showTVShowsGenre = function(){
-		CF.setJoin("d"+self.joinTVShowsGenre, 1);					// Show Genre list's subpage
-		
-		self.XBMC.getTVShowsGenre(self.joinTVShowsGenre);	
 	};
 	
 	// Shows a list of all the TV Shows under the selected Genre categories (for TV Shows only)
@@ -289,17 +314,13 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinTVEpisodes, 0);					// Hide TV Episodes list
 			CF.setJoin("d"+self.joinRecentEpisodes, 0);				// Hide Recently Added Episodes list
 			CF.setJoin("d"+self.joinTVShowsGenreDetails, 1);		// Show Genre detail's subpage
+			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);			// Hide Episode Details subpage
 		
 			self.XBMC.getTVShowsGenreDetails(t["[genre]"], self.joinTVShowsGenreDetails);				
 		});
 	};
 	
-	// Play the selected file
-	self.playRecentEpisode = function(list, listIndex, join){
-		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.playEpisode(t["[file]"]);
-		});
-	};
+	
 	
 	// Animation scripting example
 	/*self.toggleTVShows = function(forceMode) {
@@ -425,7 +446,7 @@ var XBMC_GUI = function(params) {
 	// Play the selected file
 	self.playRecentMovie = function(list, listIndex, join){
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.playFile(t["[file]"]);
+			self.XBMC.playMovie(t["[file]"]);
 		});
 	};
 	
@@ -456,6 +477,15 @@ var XBMC_GUI = function(params) {
 			
 			// Get Music Song list
 			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], t["[fanart]"], self.joinMusicSong);
+		});
+	};
+	
+	// Adds whole album to playlist and play album starting from the first song. Deletes any previous items in the playlist and 
+	// stop any other items that are playing.
+	self.queueAlbumPlaylist = function(list, listIndex, join) {
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.clearPlaylistAudio();													//  Clear list of any previous playing items
+			setTimeout(function(){self.XBMC.addAlbumPlaylist(t["[id]"]);}, 250); 		//	Adds the song into playlist by pressing the "Play Album" icon.
 		});
 	};
 	
@@ -575,9 +605,15 @@ var XBMC_GUI = function(params) {
 		self.XBMC.getNowPlaying(self.joinNowPlaying);
 	};
 	
-	self.selectPlaylistFile = function(list, listIndex, join) {				// Plays the file in both playlist
+	self.selectAudioPlaylist = function(list, listIndex, join) {			// Plays the file in Audio playlist
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.playPlaylistFile(t["[file]"]);
+			self.XBMC.playAudioPlaylistFile(t["[index]"]);
+		});
+	};
+	
+	self.selectVideoPlaylist = function(list, listIndex, join) {			// Plays the file in Video playlist
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.playVideoPlaylistFile(t["[index]"]);
 		});
 	};
 	
