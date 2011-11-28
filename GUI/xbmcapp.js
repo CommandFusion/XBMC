@@ -274,13 +274,13 @@ var XBMC_Controller = function(params) {
 			}else{
 			return n;
 			}
-	}
+	};
 	
 	//function for decoding string with accents
 	function decode_utf8(string)
 	{
 		return decodeURIComponent(escape(string));
-	}
+	};
 	
 	//--------------------------------------------------------------------------------------------------
 	// TV Shows
@@ -498,6 +498,7 @@ var XBMC_Controller = function(params) {
 	self.playEpisode = function() {
 		self.rpc("Player.Open", {"item": {"file": self.currentEpisodeFile}}, self.logReplyData);
 		setTimeout(self.rpc("Playlist.Add", { "playlistid":1, "item":{"file": self.currentEpisodeFile}}, self.logReplyData), 500);
+		//self.getVideoPlayerStatus();		// Set feedback status on Play/Pause button
 	};
 	
 	self.addEpisodePlaylist = function() {
@@ -508,6 +509,7 @@ var XBMC_Controller = function(params) {
 		self.currentEpisodeFile = file;
 		self.rpc("Player.Open", {"item": {"file": self.currentEpisodeFile}}, self.logReplyData);
 		setTimeout(self.rpc("Playlist.Add", { "playlistid":1, "item":{"file": self.currentEpisodeFile}}, self.logReplyData), 500);
+		//self.getVideoPlayerStatus();		// Set feedback status on Play/Pause button
 	};
 	
 	/**
@@ -735,6 +737,7 @@ var XBMC_Controller = function(params) {
 		}
 		self.rpc("Player.Open", { "item":{"file": file} }, self.logReplyData);						// play the file
 		self.rpc("Playlist.Add", { "playlistid":1, "item":{ "file": file}}, self.logReplyData);		// automatically adds the file into playlist when played
+		//self.getVideoPlayerStatus();		// Set feedback status on Play/Pause button
 	};
 	
 	self.addMoviePlaylist = function(file) {
@@ -1111,6 +1114,7 @@ var XBMC_Controller = function(params) {
 			var file = self.currentSongFile;
 		}
 		self.rpc("Player.Open", { "item": {"file": file} }, self.logReplyData);
+		//self.getAudioPlayerStatus();		// Set feedback status on Play/Pause button
 	};
 	
 	// Add audio files into audio playlist only
@@ -1298,7 +1302,8 @@ var XBMC_Controller = function(params) {
 							CF.setJoin("d"+(baseJoin+3), 0);		// Hide Now Playing Video subpage
 							
 							//Get the latest details
-							self.getNowPlayingAudioItem(baseJoin);
+							self.getAudioPlayerStatus();				// Set feedback status on Play/Pause button
+							self.getNowPlayingAudioItem(baseJoin);	// Set all the latest info and start timer
 					}
 					else if(self.currentPlayer == "video")
 					{
@@ -1308,7 +1313,8 @@ var XBMC_Controller = function(params) {
 						CF.setJoin("d"+(baseJoin+3), 1);			// Show Now Playing Video subpage
 						
 						//Get the latest details
-						self.getNowPlayingVideoItem(baseJoin);
+						self.getVideoPlayerStatus();				// Set feedback status on Play/Pause button
+						self.getNowPlayingVideoItem(baseJoin);		// Set all the latest info and start timer
 						
 					}
 			}
@@ -1804,12 +1810,14 @@ var XBMC_Controller = function(params) {
 	self.playAudioPlaylistFile = function(index) {				
 		self.listPosition = parseInt(index);
 		self.rpc("Player.Open", { "item" : { "playlistid" : 0, "position" : self.listPosition} }, self.logReplyData);
+		//self.getAudioPlayerStatus();		// Set feedback status on Play/Pause button
 	};
 	
 	// Play the file in the playlist for audio
 	self.playVideoPlaylistFile = function(index) {				
 		self.listPosition = parseInt(index);
 		self.rpc("Player.Open", { "item" : { "playlistid" : 1, "position" : self.listPosition} }, self.logReplyData);
+		//self.getVideoPlayerStatus();		// Set feedback status on Play/Pause button
 	};
 	
 	// Clear audio playlist only
@@ -1836,19 +1844,34 @@ var XBMC_Controller = function(params) {
 	// Basic Transport Commands
 	//--------------------------------------------------------------------------------------------------
 	
-	self.playPauseStatus = function(media) {				// Play/Pause										
-		switch(media)
-		{
-			case "video":
-				// previously self.rpc("Player.PlayPause", {}, self.logReplyData);		
-				self.rpc("Player.GetProperties", {"playerid":1, "properties": ["speed"]}, self.logReplyData);		
-				break;
-			case "audio":
-				self.rpc("Player.GetProperties", {"playerid":0, "properties": ["speed"]}, self.logReplyData);		
-				break;
-		}
-		self.playStatus = data.result.speed;
-		callback();
+	// Playing {"id":"1","jsonrpc":"2.0","result":{"speed":1}}
+	// Pause {"id":"1","jsonrpc":"2.0","result":{"speed":0}}
+	// Not playing {"error":{"code":-32100,"message":"Failed to execute method."},"id":"1","jsonrpc":"2.0"}
+	
+	self.getVideoPlayerStatus = function() {				// Play/Pause										
+		// Check playback status for Video Player 	
+		self.rpc("Player.GetProperties", {"playerid":1, "properties": ["speed"]}, function(data) {
+					//CF.logObject(data);
+			
+			if(data.result.speed == 0){
+				CF.setJoin("d6666", 1);		// Show Recent Albums list on the Main Page
+			}else{
+				CF.setJoin("d6666", 0);		// Show Recent Albums list on the Main Page
+			}
+		});	
+	};
+	
+	self.getAudioPlayerStatus = function() {				// Play/Pause										
+		// Check playback status for Audio Player 	
+		self.rpc("Player.GetProperties", {"playerid":0, "properties": ["speed"]}, function(data) {
+					//CF.logObject(data);
+			
+			if(data.result.speed == 0){
+				CF.setJoin("d5555", 1);		// Show Recent Albums list on the Main Page
+			}else{
+				CF.setJoin("d5555", 0);		// Show Recent Albums list on the Main Page
+			}
+		});			
 	};
 	
 	self.playPause = function(media, callback) {				// Play/Pause										
@@ -1857,9 +1880,11 @@ var XBMC_Controller = function(params) {
 			case "video":
 				// previously self.rpc("Player.PlayPause", {}, self.logReplyData);		
 				self.rpc("Player.PlayPause", {"playerid":1}, self.logReplyData);		
+				self.getVideoPlayerStatus();		// Set feedback status on Play/Pause button
 				break;
 			case "audio":
 				self.rpc("Player.PlayPause", {"playerid":0}, self.logReplyData);		
+				self.getAudioPlayerStatus();		// Set feedback status on Play/Pause button
 				break;
 		}
 		self.playStatus = data.result.speed;

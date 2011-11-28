@@ -870,7 +870,6 @@ Settings</active>
         </active>
       </btn>
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="Playlist_Audio_List" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="Playlist_Video_List" x="620" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
@@ -904,6 +903,7 @@ ALL</active>
         <active s="0">Refresh</active>
       </btn>
       <img x="951" y="92" w="61" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">cf_logo_grey.png</img>
+      <subpage name="transport_blank" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
     </landscape>
   </page>
   <page name="MainMenu" j="0" transition="" subtype="" time="0" ease="" start="1">
@@ -1053,7 +1053,7 @@ ALL</active>
       <active s="0">
       </active>
     </btn>
-    <btn j="2" x="74" y="6" w="82" h="43" t="transport_playpause" flip="None" sim="2" l="0" s="1" js="XBMCMacMini.XBMC.playPause(&quot;video&quot;)">
+    <btn j="6666" x="74" y="6" w="82" h="43" t="transport_playpause" flip="None" sim="0" l="0" s="1" js="XBMCMacMini.XBMC.playPause(&quot;video&quot;)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -1228,7 +1228,7 @@ ALL</active>
     <img x="7" y="344" w="123" h="161" j="1101" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="1" clearOnURLChange="1" />
     <txt j="1103" x="8" y="242" w="576" h="35" t="EpisodeNameLarge" wrap="True" l="1">movie title</txt>
     <txt j="1104" x="136" y="337" w="450" h="170" t="EpDetails" wrap="True" l="0">Plot</txt>
-    <btn j="0" x="308" y="515" w="181" h="44" t="cf_black_bottom_button" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.XBMC.playMovie()">
+    <btn j="0" x="308" y="515" w="181" h="44" t="cf_black_bottom_button" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.playSelectedMovie()">
       <inactive s="0">Play Movie</inactive>
       <active s="0">Play Movie</active>
     </btn>
@@ -1995,7 +1995,7 @@ ALL</active>
     <txt j="0" x="88" y="50" w="261" h="26" t="nowplaying_lighter" wrap="True" l="0">Movie</txt>
   </subpage>
   <subpage name="transport_audio" w="230" h="55" clip="1">
-    <btn j="2" x="74" y="6" w="82" h="43" t="transport_playpause" flip="None" sim="2" l="0" s="1" js="XBMCMacMini.XBMC.playPause(&quot;audio&quot;)">
+    <btn j="5555" x="74" y="6" w="82" h="43" t="transport_playpause" flip="None" sim="0" l="0" s="1" js="XBMCMacMini.XBMC.playPause(&quot;audio&quot;)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -2229,9 +2229,9 @@ ALL</active>
         <img x="18" y="0" w="43" h="43">transports_grey_stop_on_20.png</img>
       </active>
     </btn>
-    <btn j="2" x="204" y="501" w="82" h="43" t="transport_bg_c" flip="None" sim="2" l="0" s="0" js="XBMCMacMini.XBMC.playPause(&quot;audio&quot;)">
+    <btn j="5555" x="204" y="501" w="82" h="43" t="transport_bg_c" flip="None" sim="0" l="0" s="0" js="XBMCMacMini.XBMC.playPause(&quot;audio&quot;)">
       <inactive s="0">
-        <img x="18" y="0" w="43" h="43">transports_grey_pause_off_20.png</img>
+        <img x="18" y="0" w="43" h="43">transports_grey_play_off_20.png</img>
       </inactive>
       <active s="0">
         <img x="18" y="0" w="43" h="43">transports_grey_pause_on_20.png</img>
@@ -2324,9 +2324,9 @@ ALL</active>
         <img x="18" y="0" w="43" h="43">transports_grey_stop_on_20.png</img>
       </active>
     </btn>
-    <btn j="2" x="202" y="501" w="82" h="43" t="transport_bg_c" flip="None" sim="2" l="1" s="0" js="XBMCMacMini.XBMC.playPause(&quot;video&quot;)">
+    <btn j="6666" x="202" y="501" w="82" h="43" t="transport_bg_c" flip="None" sim="0" l="1" s="0" js="XBMCMacMini.XBMC.playPause(&quot;video&quot;)">
       <inactive s="0">
-        <img x="18" y="0" w="43" h="43">transports_grey_pause_off_20.png</img>
+        <img x="18" y="0" w="43" h="43">transports_grey_play_off_20.png</img>
       </inactive>
       <active s="0">
         <img x="18" y="0" w="43" h="43">transports_grey_pause_on_20.png</img>

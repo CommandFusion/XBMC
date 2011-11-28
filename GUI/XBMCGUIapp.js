@@ -126,6 +126,8 @@ var XBMC_GUI = function(params) {
 			{join: "l"+self.joinMusicArtist, value: "0x"},
 			{join: "l"+self.joinMusicAlbum, value: "0x"},
 			{join: "l"+self.joinMusicSong, value: "0x"},
+			{join: "l"+self.joinRecentAlbums, value: "0x"},
+			{join: "l"+self.joinRecentSongs, value: "0x"},
 			{join: "l9101", value: "0x"},
 			{join: "l9102", value: "0x"},
 			{join: "l9103", value: "0x"}
@@ -152,7 +154,11 @@ var XBMC_GUI = function(params) {
 		
 		// Get volume state on startup
 		self.volGet();
-
+		
+		// Get media player playback status for both player on startup (pause/playing/stop)
+		self.XBMC.getVideoPlayerStatus();
+		self.XBMC.getAudioPlayerStatus();
+		
 		//--------------------------------------------------------------------------------------------------
 		// Request all the initial lists 
 		//--------------------------------------------------------------------------------------------------
@@ -221,14 +227,14 @@ var XBMC_GUI = function(params) {
 	// Play the Selected Episode. Clear the previous items on playlist and add current item to playlist.
 	self.playSelectedEpisode = function(){
 			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
-			self.XBMC.playEpisode();												// Play the file
+			setTimeout(function(){self.XBMC.playEpisode();}, 1000);					// Play the file
 	};
 	
 	// Play the selected Recent Episode on the Main Menu page. Clear the previous items on playlist and add current item to playlist.
 	self.playRecentEpisode = function(list, listIndex, join){
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
-			self.XBMC.playRecentEpisode(t["[file]"]);								// Play the file
+			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);				// Clear the playlist of previous items
+			setTimeout(function(){self.XBMC.playRecentEpisode(t["[file]"]);}, 1000);	// Play the file
 		});
 	};
 	
@@ -365,9 +371,9 @@ var XBMC_GUI = function(params) {
 
 	*/
 	
-	//--------------------------------------------------------------------------------------------------
-	// Selection for Movies
-	//--------------------------------------------------------------------------------------------------
+	//================================================================================================================================
+	/* MOVIES																														*/
+	//================================================================================================================================
 	
 	// Displays details of movies when selected
 	self.selectMovie = function(list, listIndex, join) {
@@ -444,15 +450,22 @@ var XBMC_GUI = function(params) {
 	};
 	
 	// Play the selected file
+	self.playSelectedMovie = function(){
+			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
+			setTimeout(function(){self.XBMC.playMovie(self.XBMC.currentMovieFile);}, 250);
+	};
+	
+	// Play the selected file
 	self.playRecentMovie = function(list, listIndex, join){
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.playMovie(t["[file]"]);
+			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
+			setTimeout(function(){self.XBMC.playMovie(t["[file]"]);}, 250);
 		});
 	};
 	
-	//--------------------------------------------------------------------------------------------------
-	// Toggling subpages & Selection for Music
-	//--------------------------------------------------------------------------------------------------
+	//================================================================================================================================
+	/* MUSIC																														*/
+	//================================================================================================================================
 	
 	// Displays a list of Albums when Artist item is selected
 	self.selectMusicArtist = function(list, listIndex, join) {
@@ -596,9 +609,9 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentSongsMain, 0);		// Hide Recent Songs list on the Main Page
 	};
 	
-	//--------------------------------------------------------------------------------------------------
-	// Selection for Playlists & Sources
-	//--------------------------------------------------------------------------------------------------
+	//================================================================================================================================
+	/* PLAYLISTS																													*/
+	//================================================================================================================================
 	
 	// Gets the current Active Player. Gets the current playing item's details. Loops every 5s for feedback and update of playing media info.
 	self.NowPlaying = function() {
@@ -643,6 +656,10 @@ var XBMC_GUI = function(params) {
 		self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);
 	};
 	
+	//================================================================================================================================
+	/* FILE																														*/
+	//================================================================================================================================
+	
 	self.getVideoSource = function() {										// Get list of sources for Video
 		self.XBMC.getSourceVideo(self.joinFileList);	
 	};
@@ -669,12 +686,12 @@ var XBMC_GUI = function(params) {
 		self.XBMC.getSourceProgram(self.joinFileList);	
 	};
 		
-	//--------------------------------------------------------------------------------------------------
-	// Basic Control
-	//--------------------------------------------------------------------------------------------------
+	//================================================================================================================================
+	/* BASIC TRANSPORT																														*/
+	//================================================================================================================================
 	
 	self.playStatusGet = function() {											// Get the current state of muting for volume
-		self.XBMC.playPauseStatus();
+		self.XBMC.playPauseStatus(self.playStatus);
 	};
 	
 	self.volGet = function() {											// Get the current state of muting for volume
