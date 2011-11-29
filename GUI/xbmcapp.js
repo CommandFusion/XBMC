@@ -144,6 +144,7 @@ var XBMC_Controller = function(params) {
 		currentSongID:		null,		//Song id
 		currentSongFile: 	null,		//Song File
 		
+		joinLEDfeedback:	1111,		// join number for LED feedback
 	};
 
 	/**
@@ -167,6 +168,9 @@ var XBMC_Controller = function(params) {
 			CF.request(host, "POST", null, JSON.stringify(json), function(status, headers, body) {
 				try {
 					if (status == 200) {
+						
+						CF.setJoin("d"+self.joinLEDfeedback, 1);	// Reply ok, XBMC is connected, LED fb status is on (green)
+						
 						var data = JSON.parse(body);
 						if (data.error !== undefined) {
 							self.lastError = data.error;
@@ -176,7 +180,10 @@ var XBMC_Controller = function(params) {
 							callback(JSON.parse(body));
 						}
 					} else {
-                        self.lastError = (typeof(body)=="string" && body.length>0) ? body : "HTTP status: " + status;
+                        
+						CF.setJoin("d"+self.joinLEDfeedback, 0);	// Reply not ok, XBMC disconnected, LED fb status is off (red)
+						
+						self.lastError = (typeof(body)=="string" && body.length>0) ? body : "HTTP status: " + status;
 						CF.log("ERROR REPLY ---------");
 						CF.logObject(self.lastError);
 					}
@@ -1207,7 +1214,7 @@ var XBMC_Controller = function(params) {
 	/**
 	 * Function: Get Recently Added Songs list from XBMC
 	 */
-	self.getRecentSongs = function(baseJoin, baseJoinMainPage) {
+	self.getRecentSongs = function(baseJoin) {
 	
 		self.rpc("AudioLibrary.GetRecentlyAddedSongs", {"properties":["thumbnail", "file"]}, function(data) {
 					//CF.logObject(data);
@@ -1217,7 +1224,7 @@ var XBMC_Controller = function(params) {
 						
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
-						CF.listRemove("l"+baseJoinMainPage);
+						//CF.listRemove("l"+baseJoinMainPage);
 						
 						// Loop through all returned playlist item
 						for (var i = 0; i<data.result.limits.total; i++) {
@@ -1241,10 +1248,10 @@ var XBMC_Controller = function(params) {
 					}
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+baseJoin, RecentSonglistArray);
-					CF.listAdd("l"+baseJoinMainPage, RecentSonglistArray);
+					//CF.listAdd("l"+baseJoinMainPage, RecentSonglistArray);
 					
 					CF.setJoin("s"+baseJoin, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
-					CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
+					//CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
 					
 				});	
 	};

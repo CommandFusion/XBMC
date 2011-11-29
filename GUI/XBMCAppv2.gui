@@ -583,7 +583,7 @@
     <theme type="button" name=".menu_playAlbum[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_play_album_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
   </themes>
   <tokens>
-    <token name="[inputURL]" value="192.168.0.101" persist="1" />
+    <token name="[inputURL]" value="192.168.168.201" persist="1" />
     <token name="[inputPort]" value="8080" persist="1" />
     <token name="[inputUsername]" value="xbmc" persist="1" />
     <token name="[inputPassword]" value="xbmc" persist="1" />
@@ -992,7 +992,7 @@ ALL</active>
   </subpage>
   <subpage name="wifi" w="55" h="55" clip="1">
     <img x="12" y="31" w="31" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">wifi_icon.png</img>
-    <btn j="0" x="19" y="13" w="17" h="17" t="wifi_led" flip="None" sim="1" l="0" s="1">
+    <btn j="1111" x="19" y="13" w="17" h="17" t="wifi_led" flip="None" sim="0" l="0" s="0">
       <inactive s="0">
       </inactive>
       <active s="0">

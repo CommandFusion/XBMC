@@ -29,12 +29,14 @@ var XBMC_GUI = function(params) {
 	var self = {
 		// XBMC Instance
 		XBMC:						null,
+		
 		//Menu button joins
 		joinbtnTVShows: 			10,
 		joinbtnMovies: 				11,
 		joinbtnMusic: 				12,
 		joinbtnPlayingNow: 			13,
 		joinbtnPlaylist: 			14,
+		joinLEDstatus:				1111,
 		
 		//Dropdown Menu Subpage joins
 		joinmenuTVShowsMain:		20,
@@ -154,6 +156,9 @@ var XBMC_GUI = function(params) {
 		
 		// Get volume state on startup
 		self.volGet();
+		
+		// Check XBMC connectivity by triggering the loop.
+		self.NowPlaying();
 		
 		// Get media player playback status for both player on startup (pause/playing/stop)
 		self.XBMC.getVideoPlayerStatus();
@@ -687,7 +692,7 @@ var XBMC_GUI = function(params) {
 	};
 		
 	//================================================================================================================================
-	/* BASIC TRANSPORT																														*/
+	/* ALL STARTUP COMMANDS																														*/
 	//================================================================================================================================
 	
 	self.playStatusGet = function() {											// Get the current state of muting for volume
