@@ -757,7 +757,8 @@
       <btn j="0" x="778" y="666" w="86" h="50" t="arrow_down" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
-            <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;down&quot;)" />
+            <press delay="0" hold="0" repeat="0" js="XBMCMacMini.XBMC.InputAction(&quot;down&quot;)" />
+            <press delay="0" hold="500" repeat="50" js="XBMCMacMini.XBMC.InputAction(&quot;down&quot;)" />
           </action>
         </actions>
         <inactive s="0">
@@ -774,7 +775,8 @@
       <btn j="0" x="729" y="580" w="50" h="86" t="arrow_left" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
-            <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;left&quot;)" />
+            <press delay="0" hold="0" repeat="0" js="XBMCMacMini.XBMC.InputAction(&quot;left&quot;)" />
+            <press delay="0" hold="500" repeat="50" js="XBMCMacMini.XBMC.InputAction(&quot;left&quot;)" />
           </action>
         </actions>
         <inactive s="0">
@@ -785,7 +787,8 @@
       <btn j="0" x="865" y="580" w="50" h="86" t="arrow_right" flip="None" sim="1" l="0" s="1">
         <actions>
           <action>
-            <press delay="0" hold="0" repeat="250" js="XBMCMacMini.XBMC.InputAction(&quot;right&quot;)" />
+            <press delay="0" hold="0" repeat="0" js="XBMCMacMini.XBMC.InputAction(&quot;right&quot;)" />
+            <press delay="0" hold="500" repeat="50" js="XBMCMacMini.XBMC.InputAction(&quot;right&quot;)" />
           </action>
         </actions>
         <inactive s="0">
@@ -797,7 +800,7 @@
         <actions>
           <action>
             <press delay="0" hold="0" repeat="0" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
-            <press delay="0" hold="500" repeat="100" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
+            <press delay="0" hold="500" repeat="50" js="XBMCMacMini.XBMC.InputAction(&quot;up&quot;)" />
           </action>
         </actions>
         <inactive s="0">
