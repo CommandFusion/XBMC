@@ -380,35 +380,9 @@ var XBMC_GUI = function(params) {
 	/* MOVIES																														*/
 	//================================================================================================================================
 	
-	// Displays details of movies when selected
-	self.selectMovie = function(list, listIndex, join) {
-		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			CF.setJoin("d"+self.joinMovieDetails, 1);			// Show MovieDetails subpage
-			self.XBMC.getMovieDetails(t["[id]"], self.joinMovieDetails);
-		});
-	};
+	// ************************	Movie List / Movie Wall / Recent Movies -> Movie Details *********************************************
 	
-	// Sorting options is available for Movies
-	self.sortMovie = function(order, method) {
-		CF.setJoin("d"+self.joinMovies, 1);						// Show Movie list subpage	
-		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
-		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
-		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
-		self.XBMC.getMovies(self.joinMovies, order, method); 	// Sort and repopulate main Movie Array
-	};
-	
-	// Searching options is available for Movies (by title only)
-	self.searchMovie = function(search_string){
-		CF.setJoin("d"+self.joinMovies, 1);						// Show Movie list subpage	
-		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
-		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
-		CF.setJoin("d"+self.joinMoviesGenre, 0);				// Hide Movie Genre subpage
-		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
-		
-		self.XBMC.getSearchedMovieArray(search_string, self.joinMovies);
-	};
-	
-	// Displays a list of movies in Movie List format
+	// Displays Movie List subpage. List is already loaded at startup.
 	self.MovieList = function(){
 		CF.setJoin("d"+self.joinMovies, 1);						// Show Movie list subpage	
 		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
@@ -416,14 +390,14 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
 	};
 	
-	// Displays a list of movies in Movie Wall format
+	// Displays a list of movies in Movie Wall format. Reads the data from global array.
 	self.MovieWall = function(){
 		CF.setJoin("d"+self.joinMovies, 0);						// Hide Movie list subpage	
 		CF.setJoin("d"+self.joinMovieWall, 1);					// Show Movie Wall subpage
 		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
 		
-		self.XBMC.buildMovieWall(self.joinMovieWall);				// Show the Movie Wall
+		self.XBMC.buildMovieWall(self.joinMovieWall);			// Show the Movie Wall
 		
 	};
 	
@@ -434,6 +408,52 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentMovies, 1);				// Show Recently Added Movie subpage
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
 	};
+	
+	// Displays details of movies when selected
+	self.selectMovie = function(list, listIndex, join) {
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			CF.setJoin("d"+self.joinMovieDetails, 1);			// Show MovieDetails subpage
+			self.XBMC.getMovieDetails(t["[id]"], self.joinMovieDetails);
+		});
+	};
+	
+	// Play the selected Movie file
+	self.playSelectedMovie = function(){
+			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
+			setTimeout(function(){self.XBMC.playMovie(self.XBMC.currentMovieFile);}, 250);
+	};
+	
+	// Play the selected Recent Movie file
+	self.playRecentMovie = function(list, listIndex, join){
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
+			setTimeout(function(){self.XBMC.playMovie(t["[file]"]);}, 250);
+		});
+	};
+	
+	// ************************	General Sorting & Searching **********************************************************************************
+	
+	// Sorting 
+	self.sortMovie = function(order, method) {
+		CF.setJoin("d"+self.joinMovies, 1);						// Show Movie list subpage	
+		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
+		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
+		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
+		self.XBMC.getMovies(self.joinMovies, order, method); 	// Sort and repopulate main Movie Array
+	};
+	
+	// Searching (by title only)
+	self.searchMovie = function(search_string){
+		CF.setJoin("d"+self.joinMovies, 1);						// Show Movie list subpage	
+		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
+		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
+		CF.setJoin("d"+self.joinMoviesGenre, 0);				// Hide Movie Genre subpage
+		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
+		
+		self.XBMC.getSearchedMovieArray(search_string, self.joinMovies);
+	};
+	
+	// ************************	Show and Search Genres ****************************************************************************
 	
 	// Displays a list of all the Genre categories in the dropdown menu
 	self.showMoviesGenre = function(){
@@ -454,23 +474,11 @@ var XBMC_GUI = function(params) {
 		});
 	};
 	
-	// Play the selected file
-	self.playSelectedMovie = function(){
-			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
-			setTimeout(function(){self.XBMC.playMovie(self.XBMC.currentMovieFile);}, 250);
-	};
-	
-	// Play the selected file
-	self.playRecentMovie = function(list, listIndex, join){
-		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);			// Clear the playlist of previous items
-			setTimeout(function(){self.XBMC.playMovie(t["[file]"]);}, 250);
-		});
-	};
-	
 	//================================================================================================================================
 	/* MUSIC																														*/
 	//================================================================================================================================
+	
+	// ************************	All Artists -> Albums -> Songs -> Song Details *******************************************************
 	
 	// Displays a list of Albums when Artist item is selected
 	self.selectMusicArtist = function(list, listIndex, join) {
@@ -498,16 +506,7 @@ var XBMC_GUI = function(params) {
 		});
 	};
 	
-	// Adds whole album to playlist and play album starting from the first song. Deletes any previous items in the playlist and 
-	// stop any other items that are playing.
-	self.queueAlbumPlaylist = function(list, listIndex, join) {
-		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.clearPlaylistAudio();													//  Clear list of any previous playing items
-			setTimeout(function(){self.XBMC.addAlbumPlaylist(t["[id]"]);}, 250); 		//	Adds the song into playlist by pressing the "Play Album" icon.
-		});
-	};
-	
-	// Displays details of the Songs and automatically plays the Song when Song item is selected
+	// Displays details of the Songs and automatically plays the Song when Song item is selected on the Song Page
 	self.selectMusicSong = function(list, listIndex, join) {
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
 			CF.setJoin("d"+self.joinMusicDetails, 1);			// Show Song Details subpage
@@ -527,6 +526,47 @@ var XBMC_GUI = function(params) {
 			self.XBMC.addAudioPlaylist(t["file"]); 				//Adds the song into playlist by pessing the "Playlist" icon.
 		});
 	};
+	
+	// Adds whole album to playlist and play album starting from the first song. Deletes any previous items in the playlist and 
+	// stop any other items that are playing.
+	self.queueAlbumPlaylist = function(list, listIndex, join) {
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.clearPlaylistAudio();													//  Clear list of any previous playing items
+			setTimeout(function(){self.XBMC.addAlbumPlaylist(t["[id]"]);}, 250); 		//	Adds the song into playlist by pressing the "Play Album" icon.
+		});
+	};
+	
+	// ************************	This is for Main Page : Recent Albums -> Songs **************************************************
+	
+	// Displays a list of Songs when Album item is selected
+	self.selectRecentAlbum = function(list, listIndex, join) {
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			
+			CF.setJoin("d"+self.joinRecentAlbumsMain, 0);		// Show Recent Albums list on the Main Page
+			CF.setJoin("d"+self.joinRecentSongsMain, 1);		// Hide Recent Songs list on the Main Page
+			
+			// Get Music Song list
+			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], t["[fanart]"],self.joinRecentSongsMain);
+			
+		});
+	};
+	
+	// Displays details of the Songs and automatically plays the Song when Song item is selected on the Main Page
+	self.selectMusicSongMainPage = function(list, listIndex, join) {
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.getMusicDetails(t["[id]"],t["[file]"], self.joinMusicDetails);
+			self.XBMC.playSong(t["file"]);						// Plays the song
+			self.XBMC.addAudioPlaylist(t["file"]); 				//Adds the song into playlist
+		});
+	};
+	
+	// This is Album <-> Songs subpage flipping on the Main Menu page.
+	self.showRecentAlbums = function() {
+		CF.setJoin("d"+self.joinRecentAlbumsMain, 1);		// Show Recent Albums list on the Main Page
+		CF.setJoin("d"+self.joinRecentSongsMain, 0);		// Hide Recent Songs list on the Main Page
+	};
+	
+	// ************************	Flipping between subpages ****************************************************************************
 	
 	// This is for the "Artist" button (to go back to previous list) in the Album list; dropdown Menu button "Artist"
 	self.showArtists = function() {
@@ -555,6 +595,26 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
 	};
 	
+	// Shows a list of all the Recently Added Albums on the Music Page. Data is already loaded at startup, just need to switch to subpage. 
+	self.recentAddAlbums = function(){
+		CF.setJoin("d"+self.joinMusicArtist, 0);			// Hide Artist subpage
+		CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+		CF.setJoin("d"+self.joinRecentAlbums, 1);			// Show Recently Added Albums subpage
+		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+	};
+	
+	// Shows a list of all the Recently Added Songs. Data is already loaded at startup, just need to switch to subpage. 
+	self.recentAddSongs = function(){
+		CF.setJoin("d"+self.joinMusicArtist, 0);			// Hide Artist subpage
+		CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+		CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+		CF.setJoin("d"+self.joinRecentSongs, 1);			// Show Recently Added Songs subpage
+	};
+	
+	// ************************	Sorting & Searching ****************************************************************************
+	
 	// Sorting options is only available for Artists.
 	self.sortArtist = function(order, method) {
 		CF.setJoin("d"+self.joinMusicArtist, 1);			// Show Artist subpage
@@ -575,43 +635,6 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
 		
 		self.XBMC.searchArtist(search_string, self.joinMusicArtist);
-	};
-	
-	// Shows a list of all the Recently Added Albums. Data is already loaded at startup, just need to switch to subpage. 
-	self.recentAddAlbums = function(){
-		CF.setJoin("d"+self.joinMusicArtist, 0);			// Hide Artist subpage
-		CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
-		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
-		CF.setJoin("d"+self.joinRecentAlbums, 1);			// Show Recently Added Albums subpage
-		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
-	};
-	
-	// Shows a list of all the Recently Added Songs. Data is already loaded at startup, just need to switch to subpage. 
-	self.recentAddSongs = function(){
-		CF.setJoin("d"+self.joinMusicArtist, 0);			// Hide Artist subpage
-		CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
-		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
-		CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
-		CF.setJoin("d"+self.joinRecentSongs, 1);			// Show Recently Added Songs subpage
-	};
-	
-	// Displays a list of Songs when Album item is selected
-	self.selectRecentAlbum = function(list, listIndex, join) {
-		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			
-			CF.setJoin("d"+self.joinRecentAlbumsMain, 0);		// Show Recent Albums list on the Main Page
-			CF.setJoin("d"+self.joinRecentSongsMain, 1);				// Hide Recent Songs list on the Main Page
-			
-			// Get Music Song list
-			self.XBMC.getMusicSong(t["[id]"], t["[artist]"], t["[albumtitle]"], t["[fanart]"],self.joinRecentSongsMain);
-			
-		});
-	};
-	
-	// This is Album <-> Songs subpage flipping on the Main Menu page.
-	self.showRecentAlbums = function() {
-		CF.setJoin("d"+self.joinRecentAlbumsMain, 1);		// Show Recent Albums list on the Main Page
-		CF.setJoin("d"+self.joinRecentSongsMain, 0);		// Hide Recent Songs list on the Main Page
 	};
 	
 	//================================================================================================================================

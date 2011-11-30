@@ -583,7 +583,7 @@
     <theme type="button" name=".menu_playAlbum[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(menu_play_album_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
   </themes>
   <tokens>
-    <token name="[inputURL]" value="192.168.168.201" persist="1" />
+    <token name="[inputURL]" value="192.168.0.103" persist="1" />
     <token name="[inputPort]" value="8080" persist="1" />
     <token name="[inputUsername]" value="xbmc" persist="1" />
     <token name="[inputPassword]" value="xbmc" persist="1" />
@@ -879,15 +879,13 @@ Settings</active>
       <txt j="0" x="110" y="158" w="200" h="29" t="cfblue2_small_c_lighter" wrap="False" l="0">AUDIO PLAYLIST</txt>
       <txt j="0" x="716" y="158" w="207" h="29" t="cfblue2_small_c_lighter" wrap="False" l="0">VIDEO PLAYLIST</txt>
       <subpage name="Playlist_Library_List" x="0" y="0" j="40" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="0" />
-      <btn j="0" x="453" y="293" w="112" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getAllPlaylist()">
-        <inactive s="0">REFRESH ALL</inactive>
-        <active s="0">REFRESH ALL</active>
+      <btn j="0" x="453" y="254" w="112" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.getAllPlaylist()">
+        <inactive s="0">Refresh ALL</inactive>
+        <active s="0">Refresh ALL</active>
       </btn>
-      <btn j="0" x="453" y="218" w="112" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearAllPlaylist()">
-        <inactive s="0">CLEAR
-ALL</inactive>
-        <active s="0">CLEAR
-ALL</active>
+      <btn j="0" x="453" y="191" w="112" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearAllPlaylist()">
+        <inactive s="0">Clear ALL</inactive>
+        <active s="0">Clear ALL</active>
       </btn>
       <btn j="0" x="317" y="158" w="80" h="30" t="btn_rect_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.clearPlaylistAudio()">
         <inactive s="0">Clear</inactive>
@@ -907,6 +905,48 @@ ALL</active>
       </btn>
       <img x="951" y="92" w="61" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">cf_logo_grey.png</img>
       <subpage name="transport_blank" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <btn j="8201" x="402" y="368" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.playerRepeat(&quot;audio&quot;,&quot;off&quot;)">
+        <inactive s="0">Audio Repeat OFF</inactive>
+        <active s="0">Audio Repeat OFF</active>
+      </btn>
+      <btn j="8202" x="402" y="432" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.playerRepeat(&quot;audio&quot;, &quot;one&quot;)">
+        <inactive s="0">Audio Repeat ONE</inactive>
+        <active s="0">Audio Repeat ONE</active>
+      </btn>
+      <btn j="8203" x="402" y="497" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.playerRepeat(&quot;audio&quot;, &quot;all&quot;)">
+        <inactive s="0">Audio Repeat ALL</inactive>
+        <active s="0">Audio Repeat ALL</active>
+      </btn>
+      <btn j="8204" x="402" y="610" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.playerShuffle(&quot;audio&quot;)">
+        <inactive s="0">Audio Shuffle ON</inactive>
+        <active s="0">Audio Shuffle ON</active>
+      </btn>
+      <btn j="8205" x="402" y="674" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.playerUnshuffle(&quot;audio&quot;)">
+        <inactive s="0">Audio Shuffle OFF</inactive>
+        <active s="0">Audio Shuffle OFF</active>
+      </btn>
+      <btn j="8301" x="512" y="368" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="0" l="0" s="1" js="XBMCMacMini.XBMC.playerRepeat(&quot;video&quot;,&quot;off&quot;)">
+        <inactive s="0">Video Repeat OFF</inactive>
+        <active s="0">Video Repeat OFF</active>
+      </btn>
+      <btn j="8302" x="512" y="432" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="0" l="0" s="1" js="XBMCMacMini.XBMC.playerRepeat(&quot;video&quot;, &quot;one&quot;)">
+        <inactive s="0">Video Repeat ONE</inactive>
+        <active s="0">Video Repeat ONE</active>
+      </btn>
+      <btn j="8303" x="512" y="497" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="0" l="0" s="1" js="XBMCMacMini.XBMC.playerRepeat(&quot;video&quot;, &quot;all&quot;)">
+        <inactive s="0">Video Repeat ALL</inactive>
+        <active s="0">Video Repeat ALL</active>
+      </btn>
+      <btn j="8304" x="512" y="610" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="0" l="0" s="1" js="XBMCMacMini.XBMC.playerShuffle(&quot;video&quot;)">
+        <inactive s="0">Video Shuffle ON</inactive>
+        <active s="0">Video Shuffle ON</active>
+      </btn>
+      <btn j="8305" x="512" y="674" w="104" h="54" t="top_btn_single_stretch" flip="None" sim="0" l="0" s="1" js="XBMCMacMini.XBMC.playerUnshuffle(&quot;video&quot;)">
+        <inactive s="0">Video Shuffle OFF</inactive>
+        <active s="0">Video Shuffle OFF</active>
+      </btn>
+      <txt j="0" x="397" y="322" w="224" h="29" t="cfblue2_small_c_lighter" wrap="False" l="0">PLAYLIST REPEAT</txt>
+      <txt j="0" x="397" y="567" w="224" h="29" t="cfblue2_small_c_lighter" wrap="False" l="0">PLAYLIST SHUFFLE</txt>
     </landscape>
   </page>
   <page name="MainMenu" j="0" transition="" subtype="" time="0" ease="" start="1">
@@ -982,7 +1022,7 @@ ALL</active>
       <subpage name="transport_video" x="51" y="28" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="File_FullList" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
-      <subpage name="File_List" x="416" y="191" j="9001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="File_List_Level1" x="416" y="191" j="9001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <txt j="0" x="14" y="158" w="381" h="29" t="cfblue2_small_c_lighter" wrap="True" l="0">MEDIA TYPE</txt>
       <img x="951" y="92" w="61" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">cf_logo_grey.png</img>
     </landscape>
@@ -2610,7 +2650,7 @@ ALL</active>
   <subpage name="Main_RecentSong_Item" w="320" h="81" clip="0">
     <img x="5" y="0" w="73" h="73" j="1" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
     <txt j="2" x="84" y="3" w="172" h="45" t="MovieTagline" wrap="True" l="0">Song</txt>
-    <btn j="1" x="8" y="5" w="230" h="61" t="btn_transparent" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.selectMusicSong(list, listIndex, join)">
+    <btn j="1" x="8" y="5" w="230" h="61" t="btn_transparent" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.selectMusicSongMainPage(list, listIndex, join)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -2797,6 +2837,12 @@ Are you sure you want to proceed?</txt>
       <active s="0">NO</active>
     </btn>
   </subpage>
+  <subpage name="File_Play_Item" w="550" h="60" clip="1">
+    <btn j="1" x="0" y="0" w="550" h="53" t="btn_plaingrey_bigtext_l" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectVideoDirectory(list, listIndex, join)">
+      <inactive s="2">File_Item</inactive>
+      <active s="2">File_Item</active>
+    </btn>
+  </subpage>
   <subpage name="TVShow_Series_List" w="387" h="605" clip="1">
     <list j="3001" x="11" y="38" w="365" h="564" headerSub="" titleSub="" contentSub="TVShow_Series_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
     <txt j="3001" x="0" y="0" w="387" h="37" t="cfblue2_small_c_lighter" wrap="True" l="1">ARTIST</txt>
@@ -2881,7 +2927,7 @@ ALBUMS</active>
     <list j="8101" x="29" y="1" w="327" h="564" headerSub="" titleSub="" contentSub="PlayList_Video_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
     <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_playlist2_top_shadow.png</img>
   </subpage>
-  <subpage name="File_List" w="590" h="560" clip="1">
+  <subpage name="File_List_Level1" w="590" h="560" clip="1">
     <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
     <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
     <list j="9001" x="16" y="14" w="556" h="538" headerSub="" titleSub="" contentSub="File_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
@@ -2969,6 +3015,33 @@ ALBUMS</active>
     <btn j="0" x="43" y="9" w="240" h="56" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.showRecentAlbums()">
       <inactive s="0">&lt; RECENTLY ADDED ALBUMS&gt;</inactive>
       <active s="0">&lt; RECENTLY ADDED ALBUMS&gt;</active>
+    </btn>
+  </subpage>
+  <subpage name="File_List_Level2" w="590" h="560" clip="1">
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
+    <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
+    <list j="9002" x="16" y="70" w="556" h="482" headerSub="" titleSub="" contentSub="File_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
+    <btn j="0" x="16" y="14" w="99" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1">
+      <inactive s="0">&lt; BACK</inactive>
+      <active s="0">&lt; BACK</active>
+    </btn>
+  </subpage>
+  <subpage name="File_List_Level3" w="590" h="560" clip="1">
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
+    <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
+    <list j="9003" x="16" y="70" w="556" h="482" headerSub="" titleSub="" contentSub="File_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+    <btn j="0" x="16" y="14" w="99" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1">
+      <inactive s="0">&lt; BACK</inactive>
+      <active s="0">&lt; BACK</active>
+    </btn>
+  </subpage>
+  <subpage name="File_List_Level4" w="590" h="560" clip="1">
+    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
+    <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
+    <list j="9004" x="16" y="70" w="556" h="482" headerSub="" titleSub="" contentSub="File_Play_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
+    <btn j="0" x="16" y="14" w="99" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1">
+      <inactive s="0">&lt; BACK</inactive>
+      <active s="0">&lt; BACK</active>
     </btn>
   </subpage>
 </gui>

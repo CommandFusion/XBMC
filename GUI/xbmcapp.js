@@ -1391,8 +1391,33 @@ var XBMC_Controller = function(params) {
 		
 		
 		// get the time and display in minutes and seconds, adding leading zeroes in front to make the format HH:MM:SS
-		self.rpc("Player.GetProperties", { "playerid": 0, "properties": ["time", "percentage", "totaltime"]}, function(data) {
+		self.rpc("Player.GetProperties", { "playerid": 0, "properties": ["time", "percentage", "totaltime", "repeat", "shuffled"]}, function(data) {
 		
+			// This portion is to check and provide real feedback for player's repeat status
+			if(data.result.repeat == "off")
+			{
+				CF.setJoin("d8201", 1);
+				CF.setJoin("d8202", 0);
+				CF.setJoin("d8203", 0);
+			}else if(data.result.repeat == "one"){
+				CF.setJoin("d8201", 0);
+				CF.setJoin("d8202", 1);
+				CF.setJoin("d8203", 0);
+			}else if(data.result.repeat == "all"){
+				CF.setJoin("d8201", 0);
+				CF.setJoin("d8202", 0);
+				CF.setJoin("d8203", 1);
+			}
+			
+			// This portion is to check and provide real feedback for player's shuffled status
+			if(data.result.shuffled == false)
+			{
+				CF.setJoin("d8204", 0);
+				CF.setJoin("d8205", 1);
+			}else if(data.result.shuffled == true){
+				CF.setJoin("d8204", 1);
+				CF.setJoin("d8205", 0);
+			}
 			
 			//self.ItemTimeHour = ("00"+data.result.time.hours).slice(-2);					*not commonly used for music files
 			self.ItemTimeMinutes = ("00"+data.result.time.minutes).slice(-2);
@@ -1485,8 +1510,35 @@ var XBMC_Controller = function(params) {
 	 * Function: Get Now Playing Video item's playing time and duration from XBMC, time is updated every second.
 	 */
 	self.startVideoPlayerTime = function() {
-		self.rpc("Player.GetProperties", {"playerid": 1, "properties": ["time", "percentage", "totaltime"]}, function(data) {
+		self.rpc("Player.GetProperties", {"playerid": 1, "properties": ["time", "percentage", "totaltime", "repeat", "shuffled"]}, function(data) {
 		
+			// This portion is to check and provide real feedback for player's repeat status
+			if(data.result.repeat == "off")
+			{
+				CF.setJoin("d8301", 1);
+				CF.setJoin("d8302", 0);
+				CF.setJoin("d8303", 0);
+			}else if(data.result.repeat == "one"){
+				CF.setJoin("d8301", 0);
+				CF.setJoin("d8302", 1);
+				CF.setJoin("d8303", 0);
+			}else if(data.result.repeat == "all"){
+				CF.setJoin("d8301", 0);
+				CF.setJoin("d8302", 0);
+				CF.setJoin("d8303", 1);
+			}
+			
+			// This portion is to check and provide real feedback for player's shuffled status
+			if(data.result.shuffled == false)
+			{
+				CF.setJoin("d8304", 0);
+				CF.setJoin("d8305", 1);
+			}else if(data.result.shuffled == true){
+				CF.setJoin("d8304", 1);
+				CF.setJoin("d8305", 0);
+			}
+			
+			// This portion is for the real time feedback of the timer
 			self.ItemTimeHour = ("00"+data.result.time.hours).slice(-2);
 			self.ItemTimeMinutes = ("00"+data.result.time.minutes).slice(-2);
 			self.ItemTimeSeconds = ("00"+data.result.time.seconds).slice(-2);
@@ -1503,8 +1555,6 @@ var XBMC_Controller = function(params) {
 			self.video = Math.round((data.result.percentage/100)*(65535));
 			CF.setJoin("a8300", self.video);
 			CF.setJoin("a8400", self.video);
-			//CF.setJoin("a8400", self.video);	Feedback to scrubbing slider - will cause not smoothness
-			//CF.setJoin("s8300", self.video);  For checking the values of feedback only
 			
 			self.loopVideoTime(); // To cause the function to loop every second and update the timer
 		});
@@ -2031,29 +2081,92 @@ var XBMC_Controller = function(params) {
 		}
 	};
 	
+	self.playerRepeat = function(type, state) {		// Repeat Playlist
+		switch(type)
+		{
+			case "audio":															
+				switch(state)
+				{
+					case "off":															
+					self.rpc("Player.Repeat", {"playerid": 0, "state": "off"}, self.logReplyData);
+					break;
+					case "one":
+					self.rpc("Player.Repeat", {"playerid": 0, "state": "one"}, self.logReplyData);
+					break;
+					case "all":
+					self.rpc("Player.Repeat", {"playerid": 0, "state": "all"}, self.logReplyData);
+					break;	
+				}
+				break;
+			case "video":
+				switch(state)
+				{
+					case "off":															
+					self.rpc("Player.Repeat", {"playerid": 1, "state": "off"}, self.logReplyData);
+					break;
+					case "one":
+					self.rpc("Player.Repeat", {"playerid": 1, "state": "one"}, self.logReplyData);
+					break;
+					case "all":
+					self.rpc("Player.Repeat", {"playerid": 1, "state": "all"}, self.logReplyData);
+					break;	
+				}
+				break;	
+		}
+	};
+	
+	self.playerShuffle = function(media){		// Shuffle Playlist
+		switch(media)
+		{
+			case "video":															
+				self.rpc("Player.Shuffle", {"playerid":1}, self.logReplyData);
+				self.getVideoPlaylist(8101);
+				break;
+			case "audio":
+				self.rpc("Player.Shuffle", {"playerid":0}, self.logReplyData);
+				self.getAudioPlaylist(8001);
+				break;
+		}
+	};
+	
+	self.playerUnshuffle = function(media){		// UnShuffle Playlist
+		switch(media)
+		{
+			case "video":															
+				self.rpc("Player.UnShuffle", {"playerid":1}, self.logReplyData);
+				self.getVideoPlaylist(8101);
+				break;
+			case "audio":
+				self.rpc("Player.UnShuffle", {"playerid":0}, self.logReplyData);
+				self.getAudioPlaylist(8001);
+				break;
+		}
+	};
+	
+	
 	self.InputAction = function(action) {
 		switch(action)
 		{
 		case "up":
-				self.rpc("Input.Up", {}, self.logReplyData);  	// XBMC Menu : Up 
+				self.rpc("Input.Up", {}, self.logReplyData);  		// XBMC Menu : Up 
 				break;
 		case "down":
-				self.rpc("Input.Down", {}, self.logReplyData);  // XBMC Menu : Down 
+				self.rpc("Input.Down", {}, self.logReplyData);  	// XBMC Menu : Down 
 				break;
 		case "left":
-				self.rpc("Input.Left", {}, self.logReplyData);  // XBMC Menu : Left 
+				self.rpc("Input.Left", {}, self.logReplyData);  	// XBMC Menu : Left 
 				break;
 		case "right":
-				self.rpc("Input.Right", {}, self.logReplyData);  // XBMC Menu : Right 
+				self.rpc("Input.Right", {}, self.logReplyData);  	// XBMC Menu : Right 
 				break;
 		case "select":
-				self.rpc("Input.Select", {}, self.logReplyData);  // XBMC Menu : Up 
+				self.rpc("Input.Select", {}, self.logReplyData);  	// XBMC Menu : Up 
 				break;
 		case "back":
-				self.rpc("Input.Back", {}, self.logReplyData);  // XBMC Menu : Back 
+				self.rpc("Input.Back", {}, self.logReplyData); 		// XBMC Menu : Back 
 				break;
 		case "home":
-				self.rpc("Input.Home", {}, self.logReplyData);  // XBMC Menu : Home 
+				self.rpc("Input.Home", {}, self.logReplyData);  	// XBMC Menu : Home 
 				break;
 		}								
 	};
@@ -2062,19 +2175,19 @@ var XBMC_Controller = function(params) {
 		switch(action)
 		{
 		case "shutdown":
-				self.rpc("System.Shutdown", {}, self.logReplyData);  // XBMC System : Shutdown 
+				self.rpc("System.Shutdown", {}, self.logReplyData);  	// XBMC System : Shutdown 
 				break;
 		case "suspend":
-				self.rpc("System.Suspend", {}, self.logReplyData);  // XBMC System : Suspend 
+				self.rpc("System.Suspend", {}, self.logReplyData);  	// XBMC System : Suspend 
 				break;
 		case "hibernate":
-				self.rpc("System.Hibernate", {}, self.logReplyData);  // XBMC System : Hibernate 
+				self.rpc("System.Hibernate", {}, self.logReplyData);  	// XBMC System : Hibernate 
 				break;
 		case "reboot":
-				self.rpc("System.Reboot", {}, self.logReplyData);  // XBMC System : Reboot 
+				self.rpc("System.Reboot", {}, self.logReplyData);  		// XBMC System : Reboot 
 				break;
 		case "exit":
-				self.rpc("Application.Quit", {}, self.logReplyData);  // XBMC System : Quit 
+				self.rpc("Application.Quit", {}, self.logReplyData);  	// XBMC System : Quit 
 				break;
 		}								
 	};
@@ -2083,13 +2196,13 @@ var XBMC_Controller = function(params) {
 		switch(action)
 		{
 		case "scan":
-				self.rpc("AudioLibrary.Scan", {}, self.logReplyData);  // XBMC Menu : Down 
+				self.rpc("AudioLibrary.Scan", {}, self.logReplyData);  		// Scan
 				break;
 		case "export":
-				self.rpc("AudioLibrary.Export", {}, self.logReplyData);  // XBMC Menu : Left 
+				self.rpc("AudioLibrary.Export", {}, self.logReplyData); 	// Export
 				break;
 		case "clean":
-				self.rpc("AudioLibrary.Clean", {}, self.logReplyData);  // XBMC Menu : Right 
+				self.rpc("AudioLibrary.Clean", {}, self.logReplyData);  	// Clean
 				break;
 		}								
 	};
@@ -2098,13 +2211,13 @@ var XBMC_Controller = function(params) {
 		switch(action)
 		{
 		case "scan":
-				self.rpc("VideoLibrary.Scan", {}, self.logReplyData);  // XBMC Menu : Down 
+				self.rpc("VideoLibrary.Scan", {}, self.logReplyData);  		// Scan
 				break;
 		case "export":
-				self.rpc("VideoLibrary.Export", {}, self.logReplyData);  // XBMC Menu : Left 
+				self.rpc("VideoLibrary.Export", {}, self.logReplyData);  	// Export
 				break;
 		case "clean":
-				self.rpc("VideoLibrary.Clean", {}, self.logReplyData);  // XBMC Menu : Right 
+				self.rpc("VideoLibrary.Clean", {}, self.logReplyData);  	// Clean
 				break;
 		}								
 	};
@@ -2201,5 +2314,12 @@ sort {"jsonrpc": "2.0", "method": "AudioLibrary.GetRecentlyAddedAlbums", "params
 Clock formatting var elapsedString = ("00"+Math.floor((elapsed/1000) / 60)).slice(-2) + ":" + ("00"+(Math.ceil(elapsed/1000)% 60)).slice(-2);
 
 volume control/seek - output formatting
+
+Otherwise a Playlist.Sort(playlist-virtual="foo", order=[5, 0, 1, 2, 3, 4, 6]) could be used but would need some usage cases on that one.
+What would happen if order=[4, 4, 1, 2] and what would happen if list is 0->6 and you do order=[6, 1, 3] and so on. If I get a good spec on that I can probably work something out :)That's exactly what I'm aiming at :). But your suggestion is probably better. In the JS api it could look something like...
+
+Xbmc.AudioPlaylist.move(i_currentlIndex, i_newIndex);or
+Xbmc.AudioPlaylist.moveItem(i_currentlIndex, i_newIndex);or
+Xbmc.AudioPlaylist.setItemIndex(i_currentlIndex, i_newIndex);....and let the api handle the item shifting. I think the last method naming is the most accurate, although setEntryIndex might even be better.
 
 */
