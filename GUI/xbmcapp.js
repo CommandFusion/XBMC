@@ -1710,8 +1710,9 @@ var XBMC_Controller = function(params) {
 	/**
 	 * Function: Get a list of sources from XBMC according to media : video
 	 */
-	self.getSourceVideo = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "video" }, function(data) {
+	self.getDirectory = function(listJoin, media) {
+		
+		self.rpc("Files.GetSources", { "media": media }, function(data) {
 			//CF.logObject(data);
 			
 			// Loop through all returned TV shows
@@ -1738,117 +1739,9 @@ var XBMC_Controller = function(params) {
 	};
 	
 	/**
-	 * Function: Get a list of sources from XBMC according to media : music
-	 */
-	self.getSourceMusic = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "music" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
-	 * Function: Get a list of sources from XBMC according to media : picture
-	 */
-	self.getSourcePicture = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "pictures" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
-	 * Function: Get a list of sources from XBMC according to media : file
-	 */
-	self.getSourceFile = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "files" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
-	 * Function: Get a list of sources from XBMC according to media : program
-	 */
-	self.getSourceProgram = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "programs" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
 	 * Function: Scroll and enter into the folders and subdirectories according to media : video
 	 */
-	self.getDirectoryVideo = function(file, listJoin){
+	self.getSubDirectory = function(file, listJoin){
 		self.currentDirectory = file;
 		self.rpc("Files.GetDirectory", { "directory": self.currentDirectory }, function(data) {
 			//CF.logObject(data);
@@ -1871,6 +1764,10 @@ var XBMC_Controller = function(params) {
 			}
 			CF.listAdd("l"+listJoin, listArray);
 		});
+	};
+	
+	self.playFile = function(file) {
+		self.rpc("Player.Open", { "item": {"file": file} }, self.logReplyData);
 	};
 	
 	//--------------------------------------------------------------------------------------------------
@@ -2009,6 +1906,21 @@ var XBMC_Controller = function(params) {
 		CF.listRemove("l"+self.joinCurrentVideoPlaylist);
 		
 	};
+	
+	/*
+	// Delete item from Video Playlist
+	self.deleteVideoItem = function(index) {
+		self.listPosition = parseInt(index);
+		self.rpc("Playlist.Remove", { "item" : { "playlistid" : 1, "position" : self.listPosition} }, self.logReplyData);
+	};
+	
+	// Delete item from Audio Playlist
+	self.deleteAudioItem = function(index) {
+		self.listPosition = parseInt(index);
+		CF.listRemove("l8001", self.listPosition);
+		self.rpc("Playlist.Remove", { "item" : { "playlistid" : 0, "position" : self.listPosition} }, self.logReplyData);
+	};
+	*/
 	
 	//--------------------------------------------------------------------------------------------------
 	// Basic Transport Commands

@@ -812,6 +812,21 @@ var XBMC_GUI = function(params) {
 		});
 	};
 	
+	/*
+	self.deleteVideoPlaylistItem = function(list, listIndex, join) {			// Plays the file in Video playlist
+		CF.getJoin("l8101"+":"+listIndex+":"+join, function(j,v,t) {
+			CF.listRemove("l8101", listIndex, 1);
+			self.XBMC.deleteVideoItem(v[listIndex].value);
+		});
+	};
+	
+	self.deleteAudioPlaylistItem = function(list, listIndex, join) {			// Plays the file in Video playlist
+		CF.getJoin("l8001"+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.deleteAudioItem(listIndex);
+		});
+	};
+	*/
+	
 	self.clearPlaylistAudio = function() {									// Clears the Audio Playlist only
 		self.XBMC.clearAudioPlaylist(self.joinCurrentAudioPlaylist);
 	};
@@ -838,34 +853,26 @@ var XBMC_GUI = function(params) {
 		self.XBMC.clearVideoPlaylist(self.joinCurrentVideoPlaylist);
 	};
 	
+	
+	
 	//================================================================================================================================
 	/* FILE																														*/
 	//================================================================================================================================
 	
-	self.getVideoSource = function() {										// Get list of sources for Video
-		self.XBMC.getSourceVideo(self.joinFileList);	
+	self.getSources = function(media) {										// Get list of sources for Video
+		self.XBMC.getDirectory(self.joinFileList, media);	
 	};
 	
-	self.selectVideoDirectory = function(list, listIndex, join) {			// Get list of directory for sources for Video
+	self.selectDirectory = function(list, listIndex, join) {			// Get list of directory for sources for Video
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
-			self.XBMC.getDirectoryVideo(t["[file]"], self.joinFileList);
+			self.XBMC.getSubDirectory(t["[file]"], self.joinFileList);
 		});
 	};
 	
-	self.getMusicSource = function() {										// Get list of sources for Music
-		self.XBMC.getSourceMusic(self.joinFileList);	
-	};
-	
-	self.getPictureSource = function() {									// Get list of sources for Pictures
-		self.XBMC.getSourcePicture(self.joinFileList);	
-	};
-	
-	self.getFileSource = function() {										// Get list of sources for Files
-		self.XBMC.getSourceFile(self.joinFileList);	
-	};
-	
-	self.getProgramSource = function() {									// Get list of sources for Programs
-		self.XBMC.getSourceProgram(self.joinFileList);	
+	self.playDirectoryFile = function(list, listIndex, join) {				// Play the list of files from the directory by pressing down for more than 1s.
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			self.XBMC.playFile(t["[file]"]);
+		});
 	};
 		
 	//================================================================================================================================

@@ -17,45 +17,45 @@
     <system name="Loopback" ip="127.0.0.1" port="10210" protocol="tcp" alwayson="1" accept="0" acceptBroadcasts="0" ssl="0" maxconnections="0" heartbeatRx="" heartbeatTx="" heartbeatMode="-1" eom="" connectionStatus="0" disconnectionStatus="0">
       <cmd name="Show Statusbar" target="d17931" value="1">1</cmd>
       <cmd name="Volume" js="XBMCMacMini.XBMC.setVolume(data)" jsSendsCommand="True">[sliderval]</cmd>
-      <cmd name="AudioTime_Seek" js="XBMCMacMini.XBMC.seekAudioPlayerTime(data)" jsSendsCommand="True">[sliderval]</cmd>
-      <cmd name="VideoTimer_Seek" js="XBMCMacMini.XBMC.seekVideoPlayerTime(data)" jsSendsCommand="True">[sliderval]</cmd>
-      <cmd name="AudioTimer_Stop" js="XBMCMacMini.XBMC.stopAudioTimer()" jsSendsCommand="False" />
       <cmd name="Page_TVShow">page=10</cmd>
       <cmd name="Page_Movie">page=11</cmd>
       <cmd name="Page_Music">page=12</cmd>
       <cmd name="Page_PlayingNow">page=13</cmd>
       <cmd name="Page_Playlist">page=14</cmd>
       <cmd name="Search_TVShow" js="XBMCMacMini.TVShowSearch(data)" jsSendsCommand="True">[inputval]</cmd>
-      <cmd name="VideoTimer_Stop" js="XBMCMacMini.XBMC.stopVideoTimer()" jsSendsCommand="False" />
-      <cmd name="AudioTimer_Start" js="XBMCMacMini.restartAudioTime()" jsSendsCommand="False" />
-      <cmd name="MediaPlayer_Status" js="XBMCMacMini.NowPlaying()" jsSendsCommand="False" />
-      <cmd name="DropMenu_TVShow_Main">menu=20</cmd>
-      <cmd name="DropMenu_TVShow_Order">menu=21</cmd>
-      <cmd name="DropMenu_TVShow_Ascend">menu=22</cmd>
-      <cmd name="DropMenu_TVShow_Descend">menu=23</cmd>
-      <cmd name="DropMenu_Movie_Order">menu=31</cmd>
-      <cmd name="DropMenu_Movie_Ascend">menu=32</cmd>
-      <cmd name="DropMenu_Movie_Descend">menu=33</cmd>
-      <cmd name="DropMenu_Movie_Main">menu=30</cmd>
-      <cmd name="DropMenu_Music_Order">menu=41</cmd>
-      <cmd name="DropMenu_Music_Main">menu=40</cmd>
-      <cmd name="DropMenu_Music_Descend">menu=43</cmd>
-      <cmd name="DropMenu_Music_Ascend">menu=42</cmd>
-      <cmd name="Search_Movies" js="XBMCMacMini.searchMovie(data)" jsSendsCommand="True">[inputval]</cmd>
-      <cmd name="Search_Artist" js="XBMCMacMini.ArtistSearch(data)" jsSendsCommand="True">[inputval]</cmd>
       <cmd name="set_IPSettings" js="XBMCMacMini.setIPSettings()" jsSendsCommand="False" />
       <cmd name="Page_File">page=15</cmd>
-      <cmd name="DropMenu_TVShow_CloseAll">menu=25</cmd>
-      <cmd name="DropMenu_Movie_CloseAll">menu=35</cmd>
-      <cmd name="DropMenu_Music_CloseAll">menu=45</cmd>
-      <cmd name="MainMenu_CancelAllPrompt">menu=85</cmd>
-      <cmd name="Close_Prompt_Exit" target="d84" value="0">0</cmd>
-      <cmd name="Close_Prompt_Hibernate" target="d82" value="0">0</cmd>
-      <cmd name="Close_Prompt_Shutdown" target="d80" value="0">0</cmd>
-      <cmd name="Close_Prompt_Suspend" target="d81" value="0">0</cmd>
-      <cmd name="Close_Prompt_Reboot" target="d83" value="0">0</cmd>
-      <cmd name="PlayNowTimer_Stop" js="XBMCMacMini.XBMC.stopPlayNowTimer()" jsSendsCommand="False" />
-      <cmd name="PlayNowTimer_Start" js="XBMCMacMini.NowPlaying()" jsSendsCommand="False" />
+      <cmd name="DropMenu_TVShow_Ascend" folder="TV Show">menu=22</cmd>
+      <cmd name="DropMenu_TVShow_CloseAll" folder="TV Show">menu=25</cmd>
+      <cmd name="DropMenu_TVShow_Order" folder="TV Show">menu=21</cmd>
+      <cmd name="DropMenu_TVShow_Main" folder="TV Show">menu=20</cmd>
+      <cmd name="DropMenu_TVShow_Descend" folder="TV Show">menu=23</cmd>
+      <cmd name="Close_Prompt_Exit" target="d84" value="0" folder="Main Page">0</cmd>
+      <cmd name="Close_Prompt_Hibernate" target="d82" value="0" folder="Main Page">0</cmd>
+      <cmd name="Close_Prompt_Reboot" target="d83" value="0" folder="Main Page">0</cmd>
+      <cmd name="Close_Prompt_Shutdown" target="d80" value="0" folder="Main Page">0</cmd>
+      <cmd name="Close_Prompt_Suspend" target="d81" value="0" folder="Main Page">0</cmd>
+      <cmd name="AudioTime_Seek" js="XBMCMacMini.XBMC.seekAudioPlayerTime(data)" jsSendsCommand="True" folder="Playing Now">[sliderval]</cmd>
+      <cmd name="AudioTimer_Start" js="XBMCMacMini.restartAudioTime()" jsSendsCommand="False" folder="Playing Now" />
+      <cmd name="AudioTimer_Stop" js="XBMCMacMini.XBMC.stopAudioTimer()" jsSendsCommand="False" folder="Playing Now" />
+      <cmd name="DropMenu_Movie_Ascend" folder="Movie">menu=32</cmd>
+      <cmd name="DropMenu_Movie_CloseAll" folder="Movie">menu=35</cmd>
+      <cmd name="DropMenu_Movie_Descend" folder="Movie">menu=33</cmd>
+      <cmd name="DropMenu_Movie_Main" folder="Movie">menu=30</cmd>
+      <cmd name="DropMenu_Movie_Order" folder="Movie">menu=31</cmd>
+      <cmd name="DropMenu_Music_Ascend" folder="Music">menu=42</cmd>
+      <cmd name="DropMenu_Music_CloseAll" folder="Music">menu=45</cmd>
+      <cmd name="DropMenu_Music_Descend" folder="Music">menu=43</cmd>
+      <cmd name="DropMenu_Music_Main" folder="Music">menu=40</cmd>
+      <cmd name="DropMenu_Music_Order" folder="Music">menu=41</cmd>
+      <cmd name="MainMenu_CancelAllPrompt" folder="Main Page">menu=85</cmd>
+      <cmd name="MediaPlayer_Status" js="XBMCMacMini.NowPlaying()" jsSendsCommand="False" folder="Playing Now" />
+      <cmd name="PlayNowTimer_Start" js="XBMCMacMini.NowPlaying()" jsSendsCommand="False" folder="Playing Now" />
+      <cmd name="PlayNowTimer_Stop" js="XBMCMacMini.XBMC.stopPlayNowTimer()" jsSendsCommand="False" folder="Playing Now" />
+      <cmd name="Search_Artist" js="XBMCMacMini.ArtistSearch(data)" jsSendsCommand="True" folder="Music">[inputval]</cmd>
+      <cmd name="Search_Movies" js="XBMCMacMini.searchMovie(data)" jsSendsCommand="True" folder="Movie">[inputval]</cmd>
+      <cmd name="VideoTimer_Seek" js="XBMCMacMini.XBMC.seekVideoPlayerTime(data)" jsSendsCommand="True" folder="Playing Now">[sliderval]</cmd>
+      <cmd name="VideoTimer_Stop" js="XBMCMacMini.XBMC.stopVideoTimer()" jsSendsCommand="False" folder="Playing Now" />
       <fb name="PageFlip_Icon_Indicator" regex="page=(10)?(11)?(12)?(13)?(14)?(15)?">
         <group index="1" name="" datatype="d" target="d10" onVal="10" />
         <group index="2" name="" datatype="d" target="d11" onVal="11" />
@@ -302,8 +302,8 @@
     <theme type="button" name=".arrow_down[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_arrowD_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".bottom_btn_R_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(bottom_btn_R_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".bottom_btn_R_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(bottom_btn_R_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".btn_close_1[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_close_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
-    <theme type="button" name=".btn_close_1[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_close_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_delete[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(Actions-window-close-icon.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_delete[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(Actions-window-close-icon_grey.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".list_dropmenu_btn_back[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_back_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".list_dropmenu_btn_back[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_back_on.png); color: #80FFFF; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="button" name=".btn_plaingrey[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(btn_plaingrey_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
@@ -614,7 +614,7 @@
       <subpage name="TVShow_DropMenu_Order" x="0" y="0" j="21" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="TVShow_DropMenu_Ascending" x="0" y="0" j="22" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="TVShow_DropMenu_Descending" x="0" y="0" j="23" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
-      <subpage name="TVShow_RecentEpisodes_List" x="10" y="154" j="3004" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="TVShow_RecentEpisodes_List" x="10" y="154" j="3004" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="TVShow_Genre_Details_List" x="10" y="154" j="3006" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="TVShow_DropMenu_Genre_List" x="0" y="0" j="3005" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="0" />
       <btn j="0" x="0" y="82" w="76" h="82" t="home_btn" flip="MainMenu" sim="1" l="1" s="1">
@@ -629,7 +629,8 @@
       <subpage name="TVShow_Episode_Details" x="416" y="191" j="4001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <img x="416" y="191" w="590" h="24" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
       <img x="10" y="191" w="387" h="24" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_top_shadow.png</img>
-      <subpage name="settings_TVSeries" x="943" y="33" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="settings_TVSeries_Shows" x="943" y="33" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="settings_TVSeries_Season" x="943" y="33" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
     </landscape>
   </page>
   <page name="Movie" j="0" transition="" subtype="" time="0" ease="">
@@ -1022,8 +1023,8 @@ Settings</active>
       <subpage name="wifi" x="2" y="17" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="" subtype1="" time1="0" ease1="" transition2="" subtype2="" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="File_FullList" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
-      <subpage name="File_List_Level1" x="416" y="191" j="9001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="File_Sources" x="10" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
+      <subpage name="File_Video_Full_List" x="416" y="191" j="9001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <txt j="0" x="14" y="158" w="381" h="29" t="cfblue2_small_c_lighter" wrap="True" l="0">MEDIA TYPE</txt>
       <img x="951" y="92" w="61" h="61" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">cf_logo_grey.png</img>
     </landscape>
@@ -1378,7 +1379,13 @@ Settings</active>
     </btn>
     <txt j="2" x="85" y="0" w="242" h="72" t="cfblue2_small_l" wrap="True" l="0">Audio_Item</txt>
     <img x="5" y="4" w="73" h="73" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
-    <btn j="1" x="0" y="0" w="327" h="81" t="transparent_glow" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.selectAudioPlaylist(list, listIndex, join)">
+    <btn j="1" x="0" y="1" w="327" h="79" t="transparent_glow" flip="None" sim="1" l="0" s="1">
+      <actions>
+        <action>
+          <press delay="0" hold="0" repeat="0" js="XBMCMacMini.selectAudioPlaylist(list, listIndex, join)" />
+          <press delay="0" hold="1000" repeat="0" js="XBMCMacMini.deleteAudioPlaylistItem(list, listIndex, join)" />
+        </action>
+      </actions>
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -1940,7 +1947,7 @@ Settings</active>
       <active s="0">Edit</active>
     </btn>
   </subpage>
-  <subpage name="File_FullList" w="387" h="568" clip="1">
+  <subpage name="File_Sources" w="387" h="568" clip="1">
     <img x="0" y="0" w="387" h="568" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">side_menu_logo.png</img>
     <btn j="0" x="11" y="94" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
       <inactive s="0">
@@ -1957,13 +1964,13 @@ Settings</active>
     <img x="32" y="11" w="100" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-other-icon.png</img>
     <txt j="0" x="142" y="8" w="185" h="88" t="Season" wrap="True" l="0">Video</txt>
     <txt j="0" x="145" y="119" w="186" h="85" t="Season" wrap="True" l="0">Audio</txt>
-    <btn j="0" x="33" y="11" w="322" h="79" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getVideoSource()">
+    <btn j="0" x="33" y="11" w="322" h="79" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getSources(&quot;video&quot;)">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
-    <btn j="0" x="31" y="118" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getMusicSource()">
+    <btn j="0" x="31" y="118" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getSources(&quot;music&quot;)">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -1995,27 +2002,33 @@ Settings</active>
     </btn>
     <txt j="0" x="145" y="458" w="186" h="85" t="Season" wrap="True" l="0">Programs</txt>
     <img x="32" y="457" w="100" h="100" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">Categories-applications-other-icon.png</img>
-    <btn j="0" x="31" y="233" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getPictureSource()">
+    <btn j="0" x="31" y="233" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getSources(&quot;pictures&quot;)">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
-    <btn j="0" x="30" y="344" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getFileSource()">
+    <btn j="0" x="30" y="344" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getSources(&quot;files&quot;)">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
-    <btn j="0" x="30" y="451" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getProgramSource()">
+    <btn j="0" x="30" y="451" w="323" h="87" t="btn_transparent" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.getSources(&quot;programs&quot;)">
       <inactive s="0">
       </inactive>
       <active s="0">
       </active>
     </btn>
   </subpage>
-  <subpage name="File_Item" w="550" h="60" clip="1">
-    <btn j="1" x="0" y="0" w="550" h="53" t="btn_plaingrey_bigtext_l" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectVideoDirectory(list, listIndex, join)">
+  <subpage name="File_Video_Full_Item" w="550" h="60" clip="1">
+    <btn j="1" x="0" y="0" w="550" h="53" t="btn_plaingrey_bigtext_l" flip="None" sim="1" l="1" s="1">
+      <actions>
+        <action>
+          <press delay="0" hold="0" repeat="0" js="XBMCMacMini.selectDirectory(list, listIndex, join)" />
+          <press delay="0" hold="1000" repeat="0" js="XBMCMacMini.playDirectoryFile(list, listIndex, join)" />
+        </action>
+      </actions>
       <inactive s="2">File_Item</inactive>
       <active s="2">File_Item</active>
     </btn>
@@ -2843,12 +2856,6 @@ Are you sure you want to proceed?</txt>
       <active s="0">NO</active>
     </btn>
   </subpage>
-  <subpage name="File_Play_Item" w="550" h="60" clip="1">
-    <btn j="1" x="0" y="0" w="550" h="53" t="btn_plaingrey_bigtext_l" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.selectVideoDirectory(list, listIndex, join)">
-      <inactive s="2">File_Item</inactive>
-      <active s="2">File_Item</active>
-    </btn>
-  </subpage>
   <subpage name="Music_RecentAlbum_Song_Item" w="365" h="81" clip="0">
     <btn j="0" x="0" y="53" w="365" h="27" t="list_content" flip="None" sim="0" l="0" s="1">
       <inactive s="0">
@@ -2872,7 +2879,7 @@ Are you sure you want to proceed?</txt>
       </active>
     </btn>
   </subpage>
-  <subpage name="settings_TVSeries" w="75" h="45" clip="1">
+  <subpage name="settings_TVSeries_Shows" w="75" h="45" clip="1">
     <btn j="20" x="1" y="1" w="72" h="43" t="settings" flip="None" sim="2" l="1" s="1">
       <inactive s="0">
       </inactive>
@@ -2943,6 +2950,22 @@ Are you sure you want to proceed?</txt>
     </btn>
     <txt j="3" x="81" y="31" w="203" h="22" t="nowplaying_lighter" wrap="True" l="0">ALL ALBUMS</txt>
     <btn j="1" x="277" y="0" w="65" h="61" t="menu_playAlbum" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.queueAlbumPlaylist(list, listIndex, join)">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+  </subpage>
+  <subpage name="settings_TVSeries_Season" w="75" h="45" clip="1">
+    <btn j="21" x="1" y="1" w="72" h="43" t="settings" flip="None" sim="2" l="1" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+  </subpage>
+  <subpage name="settings_TVSeries_Episode" w="75" h="45" clip="1">
+    <btn j="21" x="1" y="1" w="72" h="43" t="settings" flip="None" sim="2" l="1" s="1">
       <inactive s="0">
       </inactive>
       <active s="0">
@@ -3027,10 +3050,10 @@ Are you sure you want to proceed?</txt>
     <list j="8101" x="29" y="1" w="327" h="564" headerSub="" titleSub="" contentSub="PlayList_Video_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
     <img x="0" y="0" w="387" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_playlist2_top_shadow.png</img>
   </subpage>
-  <subpage name="File_List_Level1" w="590" h="560" clip="1">
+  <subpage name="File_Video_Full_List" w="590" h="560" clip="1">
     <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
     <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
-    <list j="9001" x="16" y="14" w="556" h="538" headerSub="" titleSub="" contentSub="File_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
+    <list j="9001" x="16" y="14" w="556" h="538" headerSub="" titleSub="" contentSub="File_Video_Full_Item" footerSub="" orientation="v" l="0" swipedelete="0" />
   </subpage>
   <subpage name="Movie_List" w="387" h="605" clip="1">
     <list j="1001" x="11" y="39" w="365" h="563" headerSub="" titleSub="" contentSub="Movie_List_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
@@ -3115,33 +3138,6 @@ Are you sure you want to proceed?</txt>
     <btn j="0" x="43" y="9" w="240" h="56" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.showRecentAlbums()">
       <inactive s="0">&lt; RECENTLY ADDED ALBUMS&gt;</inactive>
       <active s="0">&lt; RECENTLY ADDED ALBUMS&gt;</active>
-    </btn>
-  </subpage>
-  <subpage name="File_List_Level2" w="590" h="560" clip="1">
-    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
-    <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
-    <list j="9002" x="16" y="70" w="556" h="482" headerSub="" titleSub="" contentSub="File_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
-    <btn j="0" x="16" y="14" w="99" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1">
-      <inactive s="0">&lt; BACK</inactive>
-      <active s="0">&lt; BACK</active>
-    </btn>
-  </subpage>
-  <subpage name="File_List_Level3" w="590" h="560" clip="1">
-    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
-    <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
-    <list j="9003" x="16" y="70" w="556" h="482" headerSub="" titleSub="" contentSub="File_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
-    <btn j="0" x="16" y="14" w="99" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1">
-      <inactive s="0">&lt; BACK</inactive>
-      <active s="0">&lt; BACK</active>
-    </btn>
-  </subpage>
-  <subpage name="File_List_Level4" w="590" h="560" clip="1">
-    <img x="0" y="0" w="590" h="24" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_top_shadow.png</img>
-    <img x="0" y="0" w="590" h="560" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content.png</img>
-    <list j="9004" x="16" y="70" w="556" h="482" headerSub="" titleSub="" contentSub="File_Play_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
-    <btn j="0" x="16" y="14" w="99" h="45" t="top_btn_single_stretch" flip="None" sim="1" l="0" s="1">
-      <inactive s="0">&lt; BACK</inactive>
-      <active s="0">&lt; BACK</active>
     </btn>
   </subpage>
   <subpage name="Music_RecentAlbum_Song_List" w="387" h="605" clip="1">
