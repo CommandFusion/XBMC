@@ -199,9 +199,15 @@ var XBMC_Controller = function(params) {
 	self.setup = function() {
 		self.URL = self.getURL();
 		
-		MovieslistArray = [];
 		TVSerieslistArray = [];
+		RecentEpisodelistArray = [];
+		MovieslistArray = [];
+		RecentMovieslistArray = [];
 		ArtistlistArray = [];
+		AlbumlistArray = [];			// Global array for all Albums
+		SonglistArray = [];			// Global array for all Songs
+		RecentAlbumlistArray = [];		// Global array for Recent Added Albums
+		RecentSonglistArray = [];		// Global array for Recent Added Songs
 	};
 
 	self.getURL = function() {
@@ -289,9 +295,14 @@ var XBMC_Controller = function(params) {
 		return decodeURIComponent(escape(string));
 	};
 	
-	//--------------------------------------------------------------------------------------------------
-	// TV Shows
-	//--------------------------------------------------------------------------------------------------
+	/*--------------------------------------------------------------------------------------------------
+		TV SHOWS 
+		- Data: TV Series, Season, Episode, Episode Details, Recently Added Episodes
+		- Sort order : Ascending, Descending
+		- Sort method : TV Show		*Name, episodes, year
+						Season		*Name only
+						Episodes	*Name, episode, rating, MPAA rating, prod code, date, times played   
+	----------------------------------------------------------------------------------------------------*/
 	
 	var TVSerieslistArray = new Array();		//Global array for TV Series
 	var RecentEpisodelistArray = new Array();
@@ -626,9 +637,12 @@ var XBMC_Controller = function(params) {
 		CF.listAdd("l"+baseJoin, templistArray);
 	};
 	
-	//--------------------------------------------------------------------------------------------------
-	// Movies
-	//--------------------------------------------------------------------------------------------------
+	/*--------------------------------------------------------------------------------------------------
+		MOVIES
+		- Data: Movies, Movie Details, Recently Added Movies
+		- Sort order : Ascending, Descending
+		- Sort method : *Name, rating, MPAA rating, year, runtime, date added, times played
+	----------------------------------------------------------------------------------------------------*/
 	
 	var MovieslistArray = new Array();			//Global array for Movies
 	var RecentMovieslistArray = new Array();	//Glbal Array for Recent Added Movies
@@ -913,13 +927,20 @@ var XBMC_Controller = function(params) {
 	};
 			
 
-	//--------------------------------------------------------------------------------------------------
-	// Music
-	//--------------------------------------------------------------------------------------------------
+	/*--------------------------------------------------------------------------------------------------
+		MUSIC
+		- Data: Artists, Albums, Songs, Song Details, Recent Added Albums, Recently Added Songs
+		- Sort order : Ascending, Descending
+		- Sort method : Artist 	*label only
+						Album	*label, year, album, artist, rating
+						Song	*label, artist, name, time, rating, year, times played, track, title, album
+	//--------------------------------------------------------------------------------------------------*/
 	
-	var ArtistlistArray = new Array();
-	var RecentAlbumlistArray = new Array();
-	var RecentSonglistArray = new Array();
+	var ArtistlistArray = new Array();			// Global array for all Artists	
+	var AlbumlistArray = new Array();			// Global array for all Albums
+	var SonglistArray = new Array();			// Global array for all Songs
+	var RecentAlbumlistArray = new Array();		// Global array for Recent Added Albums
+	var RecentSonglistArray = new Array();		// Global array for Recent Added Songs
 	
 	/**
 	 * Function: Get a list of Artist from XBMC
@@ -947,6 +968,7 @@ var XBMC_Controller = function(params) {
 				ArtistlistArray.push({
 					s1: thumbnail,
 					s2: artist,
+					s3: "ALL ARTISTS",
 					d1: {
 						tokens: {
 							"[id]": artistID,
@@ -1116,63 +1138,102 @@ var XBMC_Controller = function(params) {
 		});
 	};
 	
-	self.playSong = function(file) {				
-		if (file === undefined) {
-			var file = self.currentSongFile;
-		}
-		self.rpc("Player.Open", { "item": {"file": file} }, self.logReplyData);
-		//self.getAudioPlayerStatus();		// Set feedback status on Play/Pause button
-	};
-	
-	// Add audio files into audio playlist only
-	self.addAudioPlaylist = function(file) {
-		if (file === undefined) {
-			var file = self.currentSongFile;
-		}
-		self.rpc("Playlist.Add", { "playlistid":0, "item": {"file": file}}, self.logReplyData);	
-	};
-	
-	/*
-	 * Function: Search the array list of Artists and get the results that matches exactly/contain the characters in the search string
+	/**
+	 * Function: Get a list of All Albums from XBMC
+	 * @Param {integer} ID of the Album from the XBMC database
 	 */
-	 self.searchArtist = function(search_string, listJoin){
-	 
-			var templistArray = [];				//initialize array
-			CF.listRemove("l"+listJoin);	//clear list of any previous entries
+	self.getAllAlbums = function(baseJoin, order, method) {
 		
-		// method 1:
-		//loop thru all the element in the TV Show Array and display the match
-		for (var i = 0;i<ArtistlistArray.length;i++)
-		{
-			var searchThumbnail = ArtistlistArray[i].s1;
-			var searchArtist = ArtistlistArray[i].s2;
-			var searchTokenArtistId = ArtistlistArray[i].d1.tokens["[id]"];
-			var searchTokenArtist = ArtistlistArray[i].d1.tokens["[artist]"];
+		CF.setJoin("s41", order);						//FB on Options list: Check sort order
+		CF.setJoin("s42", method);						//FB on Options list: Check sort method
+		
+		self.rpc("AudioLibrary.GetAlbums", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist"]}, function(data) {
+			//CF.logObject(data);
 			
-			if(newCompare(searchArtist, search_string))			// refer to newCompare() from customised function section
-			{
-				templistArray.push({				// Add to array to add to list in one go later
-					s1: searchThumbnail,
-					s2: searchArtist,
+			// Loop through all returned Artist names
+			AlbumlistArray = [];
+			CF.listRemove("l"+baseJoin);
+			
+			for (var i = 0; i<data.result.limits.total; i++) {
+				
+				var albumID = data.result.albums[i].albumid;
+				var label = decode_utf8(data.result.albums[i].label);
+				var artist = decode_utf8(data.result.albums[i].artist);
+				var thumbnail = self.URL + "vfs/" + data.result.albums[i].thumbnail;
+				var fanart = self.URL + "vfs/" + data.result.albums[i].fanart;
+				
+				// Add to array to add to list in one go later
+				AlbumlistArray.push({
+					s1: thumbnail,
+					s2: label,
+					s3: "ALL ALBUMS",
 					d1: {
 						tokens: {
-							"[id]": searchTokenArtistId,
-							"[artist]": searchTokenArtist
-							}
+							"[id]": albumID,
+							"[fanart]": fanart,
+							"[artist]": artist,
+							"[albumtitle]": label
 						}
-					});
+					}
+				});
 			}
-		}
-		CF.listAdd("l"+listJoin, templistArray);
+			// Use the array to push all new list items in one go
+			CF.listAdd("l"+baseJoin, AlbumlistArray);
+			
+			CF.setJoin("s"+baseJoin, "ALL ALBUMS " + "(" + data.result.limits.total + ")" );
+		});
 	};
 	
+	/**
+	 * Function: Get a list of All Albums from XBMC
+	 * @Param {integer} ID of the Album from the XBMC database
+	 */
+	self.getAllSongs = function(baseJoin, order, method) {
+		
+		CF.setJoin("s41", order);						//FB on Options list: Check sort order
+		CF.setJoin("s42", method);						//FB on Options list: Check sort method
+		
+		self.rpc("AudioLibrary.GetSongs", {"sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist", "file"]}, function(data) {
+			//CF.logObject(data);
+			
+			// Loop through all returned Songs
+			SonglistArray = [];
+			CF.listRemove("l"+baseJoin);
+			
+			for (var i = 0; i<data.result.limits.total; i++) {
+				
+				var songID = data.result.songs[i].songid;
+				var label = decode_utf8(data.result.songs[i].label);
+				var thumbnail = self.URL + "vfs/" + data.result.songs[i].thumbnail;
+				//var tracknum = "Track #" + data.result.songs[i].track;
+				//var artist = "ALL SONGS";
+				var file = decode_utf8(data.result.songs[i].file);
+												
+				// Add to array to add to list in one go later
+				SonglistArray.push({
+					s1: thumbnail,
+					s2: label,
+					s3: "ALL SONGS",
+					d1: {
+						tokens: {
+							"[id]": songID,
+							"[file]": file
+						}
+					},
+				});
+			}
+			CF.listAdd("l"+baseJoin, SonglistArray);
+			
+			CF.setJoin("s"+baseJoin, "ALL SONGS "+"("+data.result.limits.total+")");
+		});
+	};
 	
 	/**
 	 * Function: Get Recently Added Albums list from XBMC
 	 */
 	self.getRecentAlbums = function(baseJoin, baseJoinMainPage) {
 	
-		self.rpc("AudioLibrary.GetRecentlyAddedAlbums", {"properties":["thumbnail", "artist"]}, function(data) {
+		self.rpc("AudioLibrary.GetRecentlyAddedAlbums", {"properties":["thumbnail", "artist", "fanart"]}, function(data) {
 					//CF.logObject(data);
 				
 						// Create array to push all new items in
@@ -1186,6 +1247,7 @@ var XBMC_Controller = function(params) {
 						for (var i = 0; i<data.result.limits.total; i++) {
 						var albumid = data.result.albums[i].albumid ;
 						var thumbnail = self.URL + "vfs/"+data.result.albums[i].thumbnail;
+						var fanart = self.URL + "vfs/"+data.result.albums[i].fanart;
 						var label = decode_utf8(data.result.albums[i].label);
 						var artist = decode_utf8(data.result.albums[i].artist);
 						
@@ -1197,7 +1259,8 @@ var XBMC_Controller = function(params) {
 								tokens: {
 								"[id]": albumid,
 								"[artist]": artist,
-								"[albumtitle]": label
+								"[albumtitle]": label,
+								"[fanart]": fanart
 								}
 							},
 						});
@@ -1254,6 +1317,56 @@ var XBMC_Controller = function(params) {
 					//CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
 					
 				});	
+	};
+	
+	self.playSong = function(file) {				
+		if (file === undefined) {
+			var file = self.currentSongFile;
+		}
+		self.rpc("Player.Open", { "item": {"file": file} }, self.logReplyData);
+		//self.getAudioPlayerStatus();		// Set feedback status on Play/Pause button
+	};
+	
+	// Add audio files into audio playlist only
+	self.addAudioPlaylist = function(file) {
+		if (file === undefined) {
+			var file = self.currentSongFile;
+		}
+		self.rpc("Playlist.Add", { "playlistid":0, "item": {"file": file}}, self.logReplyData);	
+	};
+	
+	/*
+	 * Function: Search the array list of Artists and get the results that matches exactly/contain the characters in the search string
+	 */
+	 self.searchArtist = function(search_string, listJoin){
+	 
+			var templistArray = [];				//initialize array
+			CF.listRemove("l"+listJoin);	//clear list of any previous entries
+		
+		// method 1:
+		//loop thru all the element in the TV Show Array and display the match
+		for (var i = 0;i<ArtistlistArray.length;i++)
+		{
+			var searchThumbnail = ArtistlistArray[i].s1;
+			var searchArtist = ArtistlistArray[i].s2;
+			var searchTokenArtistId = ArtistlistArray[i].d1.tokens["[id]"];
+			var searchTokenArtist = ArtistlistArray[i].d1.tokens["[artist]"];
+			
+			if(newCompare(searchArtist, search_string))			// refer to newCompare() from customised function section
+			{
+				templistArray.push({				// Add to array to add to list in one go later
+					s1: searchThumbnail,
+					s2: searchArtist,
+					d1: {
+						tokens: {
+							"[id]": searchTokenArtistId,
+							"[artist]": searchTokenArtist
+							}
+						}
+					});
+			}
+		}
+		CF.listAdd("l"+listJoin, templistArray);
 	};
 	
 	//--------------------------------------------------------------------------------------------------
@@ -1597,8 +1710,9 @@ var XBMC_Controller = function(params) {
 	/**
 	 * Function: Get a list of sources from XBMC according to media : video
 	 */
-	self.getSourceVideo = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "video" }, function(data) {
+	self.getDirectory = function(listJoin, media) {
+		
+		self.rpc("Files.GetSources", { "media": media }, function(data) {
 			//CF.logObject(data);
 			
 			// Loop through all returned TV shows
@@ -1625,117 +1739,9 @@ var XBMC_Controller = function(params) {
 	};
 	
 	/**
-	 * Function: Get a list of sources from XBMC according to media : music
-	 */
-	self.getSourceMusic = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "music" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
-	 * Function: Get a list of sources from XBMC according to media : picture
-	 */
-	self.getSourcePicture = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "pictures" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
-	 * Function: Get a list of sources from XBMC according to media : file
-	 */
-	self.getSourceFile = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "files" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
-	 * Function: Get a list of sources from XBMC according to media : program
-	 */
-	self.getSourceProgram = function(listJoin) {
-		self.rpc("Files.GetSources", { "media": "programs" }, function(data) {
-			//CF.logObject(data);
-			// Loop through all returned TV shows
-			var listArray = [];
-			CF.listRemove("l"+listJoin);
-			
-			for (var i = 0; i<data.result.limits.total; i++) {
-				var label = decode_utf8(data.result.sources[i].label);
-				var source = decode_utf8(data.result.sources[i].file);
-				// Add to array to add to list in one go later
-				listArray.push({
-					s2: label,
-					d1: {
-						tokens: {
-							"[file]": source,
-							}
-					}
-				});
-			}
-			CF.listAdd("l"+listJoin, listArray);
-		});
-	};
-	
-	/**
 	 * Function: Scroll and enter into the folders and subdirectories according to media : video
 	 */
-	self.getDirectoryVideo = function(file, listJoin){
+	self.getSubDirectory = function(file, listJoin){
 		self.currentDirectory = file;
 		self.rpc("Files.GetDirectory", { "directory": self.currentDirectory }, function(data) {
 			//CF.logObject(data);
@@ -1758,6 +1764,10 @@ var XBMC_Controller = function(params) {
 			}
 			CF.listAdd("l"+listJoin, listArray);
 		});
+	};
+	
+	self.playFile = function(file) {
+		self.rpc("Player.Open", { "item": {"file": file} }, self.logReplyData);
 	};
 	
 	//--------------------------------------------------------------------------------------------------
@@ -1895,6 +1905,18 @@ var XBMC_Controller = function(params) {
 		CF.listRemove("l"+self.joinCurrentAudioPlaylist);
 		CF.listRemove("l"+self.joinCurrentVideoPlaylist);
 		
+	};
+	
+	// Delete item from Video Playlist
+	self.deleteVideoItem = function(index) {
+		self.listPosition = parseInt(index);
+		self.rpc("Playlist.Remove", {"playlistid" : 1, "position" : self.listPosition}, self.logReplyData);
+	};
+	
+	// Delete item from Audio Playlist
+	self.deleteAudioItem = function(index) {
+		self.listPosition = parseInt(index);
+		self.rpc("Playlist.Remove", {"playlistid" : 0, "position" : index}, self.logReplyData);
 	};
 	
 	//--------------------------------------------------------------------------------------------------
