@@ -50,7 +50,7 @@ var XBMC_GUI = function(params) {
 		joinTVEpisodes:				3003,
 		joinRecentEpisodes:			3004,
 		joinTVShowsGenre:			3005,
-		joinTVShowsGenreDetails:	3006,
+		joinTVShowSortLabel:		3006,
 		joinTVEpisodeDetails:		4001,
 		
 		joinMute:					2999,
@@ -93,7 +93,7 @@ var XBMC_GUI = function(params) {
 		joinTVSeasons:				3002,
 		joinTVEpisodes:				3003,
 		joinRecentEpisodes:			3004,
-		joinTVShowsGenreDetails:	3006,
+		joinTVShowSortLabel:	3006,
 		joinMovies:					1001,
 		joinMovieWall:				1002,
 		joinRecentMovies:			1003,
@@ -119,15 +119,18 @@ var XBMC_GUI = function(params) {
 		*/
 		
 		CF.setJoins([
+			
 			{join: "l"+self.joinTVShows, value: "0x"},
 			{join: "l"+self.joinTVSeasons, value: "0x"},
 			{join: "l"+self.joinTVEpisodes, value: "0x"},
 			{join: "l"+self.joinRecentEpisodes, value: "0x"},
-			{join: "l"+self.joinTVShowsGenreDetails, value: "0x"},
+			{join: "l"+self.joinTVShowSortLabel, value: "0x"},
+			
 			{join: "l"+self.joinMovies, value: "0x"},
 			{join: "l"+self.joinMovieWall, value: "0x"},
 			{join: "l"+self.joinRecentMovies, value: "0x"},
 			{join: "l"+self.joinMoviesGenre, value: "0x"},
+			
 			{join: "l"+self.joinMusicArtist, value: "0x"},
 			{join: "l"+self.joinMusicAlbum, value: "0x"},
 			{join: "l"+self.joinMusicSong, value: "0x"},
@@ -137,6 +140,7 @@ var XBMC_GUI = function(params) {
 			{join: "l"+self.joinAllAlbums, value: "0x"},
 			{join: "l"+self.joinAlbumSongs, value: "0x"},
 			{join: "l"+self.joinAllSongs, value: "0x"},
+			
 			{join: "l9101", value: "0x"},
 			{join: "l9102", value: "0x"},
 			{join: "l9103", value: "0x"}
@@ -167,13 +171,17 @@ var XBMC_GUI = function(params) {
 		// Check XBMC connectivity by triggering the loop.
 		self.NowPlaying();
 		
-		// Get media player playback status for both player on startup (pause/playing/stop)
-		self.XBMC.getVideoPlayerStatus();
-		self.XBMC.getAudioPlayerStatus();
-		
 		//--------------------------------------------------------------------------------------------------
 		// Request all the initial lists 
 		//--------------------------------------------------------------------------------------------------
+		
+		// Get All Recent items
+		self.XBMC.getRecentEpisodes(self.joinRecentEpisodes, self.joinRecentEpisodesMain);		// Recently Added Episodes
+		self.XBMC.getRecentMovies(self.joinRecentMovies, self.joinRecentMoviesMain);			// Recently Added Movies
+		CF.setJoin("d"+self.joinRecentAlbumsMain, 1);											// Show Recent Albums list on the Main Page
+		CF.setJoin("d"+self.joinRecentSongsMain, 0);											// Hide Recent Songs list on the Main Page
+		self.XBMC.getRecentAlbums(self.joinRecentAlbums, self.joinRecentAlbumsMain);			// Recently Added Albums
+		self.XBMC.getRecentSongs(self.joinRecentSongs);											// Recently Added Songs
 		
 		// TV Show function (subpage join, sort order, method). Default sorting is ascending and by label
 		self.XBMC.getTVShows(self.joinTVShows, "ascending", "label");			
@@ -184,16 +192,7 @@ var XBMC_GUI = function(params) {
 		// Music general function (subpage join, sort order, method). Default sorting is ascending and by label
 		self.XBMC.getMusicArtist(self.joinMusicArtist, "ascending", "label");					// Get all artists
 		self.XBMC.getAllAlbums(self.joinAllAlbums, "ascending", "label");						// Get all albums
-		self.XBMC.getAllSongs(self.joinAllSongs, "ascending", "label");							// Get all songs
-		
-		// Get All recent items
-		CF.setJoin("d"+self.joinRecentAlbumsMain, 1);											// Show Recent Albums list on the Main Page
-		CF.setJoin("d"+self.joinRecentSongsMain, 0);											// Hide Recent Songs list on the Main Page
-		self.XBMC.getRecentAlbums(self.joinRecentAlbums, self.joinRecentAlbumsMain);			// Recently Added Albums
-		self.XBMC.getRecentEpisodes(self.joinRecentEpisodes, self.joinRecentEpisodesMain);		// Recently Added Episodes
-		self.XBMC.getRecentMovies(self.joinRecentMovies, self.joinRecentMoviesMain);			// Recently Added Movies
-		self.XBMC.getRecentSongs(self.joinRecentSongs);											// Recently Added Songs
-		
+		self.XBMC.getAllSongs(self.joinAllSongs, "ascending", "label");						    // Get all songs. Disable this if number of songs gets too big.
 	};
 	
 	//================================================================================================================================
@@ -209,10 +208,10 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinTVSeasons, 1);									// Show TV Seasons subpage
 			CF.setJoin("d"+self.joinTVEpisodes, 0);									// Hide TV Episodes suppage
 			CF.setJoin("d"+self.joinRecentEpisodes, 0);								// Hide Recently Added Episodes subpage
-			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);						// Hide Genre Details subpage
+			CF.setJoin("d"+self.joinTVShowSortLabel, 0);						// Hide Genre Details subpage
 			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);							// Hide Episode Details subpage
 			
-			self.XBMC.getTVSeasons(t["[id]"],t["[fanart]"], self.joinTVSeasons); 	// Get TV Seasons list
+			self.XBMC.getTVSeasons(t["[id]"],t["[fanart]"], self.joinTVSeasons, "ascending", "label"); 	// Get TV Seasons list
 		});
 	};
 
@@ -223,10 +222,11 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinTVSeasons, 0);									// Hide TV Seasons subpage
 			CF.setJoin("d"+self.joinTVEpisodes, 1);									// Show TV Episodes subpage
 			CF.setJoin("d"+self.joinRecentEpisodes, 0);								// Hide Recently Added Episodes subpage
-			CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);						// Hide Genre Details subpage
+			CF.setJoin("d"+self.joinTVShowSortLabel, 0);						// Hide Genre Details subpage
 			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);							// Hide Episode Details subpage
 			
-			self.XBMC.getTVEpisodes(t["[id]"], t["[season]"], t["[showtitle]"], t["[fanart]"], self.joinTVEpisodes); 	// Get TV Episodes list
+			self.XBMC.getTVEpisodes(t["[id]"], t["[fanart]"], self.joinTVEpisodes, "ascending", "episode"); 	// Get TV Episodes list
+			
 		});
 	};
 
@@ -260,7 +260,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
-		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVShowSortLabel, 0);			// Hide Genre detail's subpage
 		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 	};
 	
@@ -270,7 +270,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinTVSeasons, 1);						// Show TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
-		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVShowSortLabel, 0);			// Hide Genre detail's subpage
 		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 	};
 	
@@ -280,7 +280,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 1);						// Show TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
-		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVShowSortLabel, 0);			// Hide Genre detail's subpage
 		CF.setJoin("d"+self.joinTVEpisodeDetails, 1);				// Hide Episode Details subpage
 	};
 	
@@ -290,7 +290,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 1);					// Show Recently Added Episodes list
-		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVShowSortLabel, 0);			// Hide Genre detail's subpage
 		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 	};
 	
@@ -304,14 +304,27 @@ var XBMC_GUI = function(params) {
 	
 	// Sorting options is available for TV Series only 
 	self.sortTVShow = function(order, method) {
-		CF.setJoin("d"+self.joinTVShows, 1);						// Show TV Show subpage
+		CF.setJoin("d"+self.joinTVShows, 0);						// Hide TV Show subpage
 		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
-		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVShowSortLabel, 1);			// Show Genre detail's subpage
 		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 		
-		self.XBMC.getTVShows(self.joinTVShows, order, method);
+		self.XBMC.getTVShows(self.joinTVShowSortLabel, order, method);
+	};
+	
+	// Sorting options is available for TV Series only 
+	self.sortEpisodes = function(order, method) {
+		CF.setJoin("d"+self.joinTVShows, 0);						// Hide TV Show subpage
+		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
+		CF.setJoin("d"+self.joinTVEpisodes, 1);						// Hide TV Episodes list
+		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
+		CF.setJoin("d"+self.joinTVShowSortLabel, 0);			// Show Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
+		
+		self.XBMC.sortTVEpisodes(self.joinTVEpisodes, order, method); 	// Get TV Episodes list
+		
 	};
 	
 	// Search options is available for TV Series only 
@@ -320,7 +333,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
 		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
 		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
-		CF.setJoin("d"+self.joinTVShowsGenreDetails, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVShowSortLabel, 0);			// Hide Genre detail's subpage
 		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
 		
 		self.XBMC.searchTVShows(search_string, self.joinTVShows);
@@ -333,14 +346,22 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinTVSeasons, 0);					// Hide TV Seasons list
 			CF.setJoin("d"+self.joinTVEpisodes, 0);					// Hide TV Episodes list
 			CF.setJoin("d"+self.joinRecentEpisodes, 0);				// Hide Recently Added Episodes list
-			CF.setJoin("d"+self.joinTVShowsGenreDetails, 1);		// Show Genre detail's subpage
+			CF.setJoin("d"+self.joinTVShowSortLabel, 1);		// Show Genre detail's subpage
 			CF.setJoin("d"+self.joinTVEpisodeDetails, 0);			// Hide Episode Details subpage
 		
-			self.XBMC.getTVShowsGenreDetails(t["[genre]"], self.joinTVShowsGenreDetails);				
+			self.XBMC.getTVShowsGenreDetails(t["[genre]"], self.joinTVShowSortLabel);				
 		});
 	};
 	
+	self.showUnwatchedEpisodes = function(){
+		self.showEpisodes();
+		self.XBMC.getUnwatchedEpisodes(self.joinTVEpisodes);
+	};
 	
+	self.showAllEpisodes = function(){
+		self.showEpisodes();
+		self.XBMC.getAllEpisodes(self.joinTVEpisodes);
+	};
 	
 	// Animation scripting example
 	/*self.toggleTVShows = function(forceMode) {
@@ -462,6 +483,16 @@ var XBMC_GUI = function(params) {
 		self.XBMC.getSearchedMovieArray(search_string, self.joinMovies);
 	};
 	
+	self.showUnwatchedMovies = function(){
+		self.MovieList();
+		self.XBMC.getUnwatchedMovies(self.joinMovies);
+	};
+	
+	self.showAllMovies = function(){
+		self.MovieList();
+		self.XBMC.getAllMovies(self.joinMovies);
+	};
+	
 	// ************************	Show and Search Genres ****************************************************************************
 	
 	// Displays a list of all the Genre categories in the dropdown menu
@@ -503,7 +534,7 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
 			CF.setJoin("d"+self.joinAllSongs, 0);				// Hide All Songs subpage
 			
-			self.XBMC.getMusicAlbum(t["[id]"], t["[artist]"], t["[fanart]"], self.joinMusicAlbum);
+			self.XBMC.getMusicAlbum(t["[id]"], t["[fanart]"], self.joinMusicAlbum);
 		});
 	};
 
@@ -657,6 +688,7 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinAllAlbums, 0);				// Hide All Albums subpage
 		CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
 		CF.setJoin("d"+self.joinAllSongs, 0);				// Hide All Songs subpage
+	
 	};
 	
 	// This is for the "Album" button (to go back to previous list) in the Song list; dropdown Menu button "Album"
@@ -775,6 +807,38 @@ var XBMC_GUI = function(params) {
 		self.XBMC.getMusicArtist(self.joinMusicArtist, order, method);
 	};
 	
+	// Sorting options is only available for Artists.
+	self.sortAlbum = function(order, method) {
+		CF.setJoin("d"+self.joinMusicArtist, 0);			// Show Artist subpage
+		CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+		CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+		CF.setJoin("d"+self.joinRecentAlbumSongs, 0);		// Hide Recently Added Albums -> Songs subpage
+		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+		CF.setJoin("d"+self.joinMusicDetails, 0);			// Hide Song Details subpage
+		CF.setJoin("d"+self.joinAllAlbums, 1);				// Hide All Albums subpage
+		CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
+		CF.setJoin("d"+self.joinAllSongs, 0);				// Hide All Songs subpage
+		
+		self.XBMC.getAllAlbums(self.joinAllAlbums, order, method);
+	};
+	
+	// Sorting options is only available for Artists.
+	self.sortSong = function(order, method) {
+		CF.setJoin("d"+self.joinMusicArtist, 0);			// Show Artist subpage
+		CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+		CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+		CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+		CF.setJoin("d"+self.joinRecentAlbumSongs, 0);		// Hide Recently Added Albums -> Songs subpage
+		CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+		CF.setJoin("d"+self.joinMusicDetails, 0);			// Hide Song Details subpage
+		CF.setJoin("d"+self.joinAllAlbums, 0);				// Hide All Albums subpage
+		CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
+		CF.setJoin("d"+self.joinAllSongs, 1);				// Hide All Songs subpage
+		
+		self.XBMC.getAllSongs(self.joinAllSongs, order, method);
+	};
+	
 	// Searching options is available for Artist (by Artist name only)
 	self.ArtistSearch = function(search_string) {
 		CF.setJoin("d"+self.joinMusicArtist, 1);				// Show Artist subpage
@@ -789,6 +853,38 @@ var XBMC_GUI = function(params) {
 			CF.setJoin("d"+self.joinAllSongs, 0);				// Hide All Songs subpage
 		
 		self.XBMC.searchArtist(search_string, self.joinMusicArtist);
+	};
+	
+	// Searching options is available for Artist (by Artist name only)
+	self.AlbumSearch = function(search_string) {
+		CF.setJoin("d"+self.joinMusicArtist, 0);				// Show Artist subpage
+			CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+			CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+			CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+			CF.setJoin("d"+self.joinRecentAlbumSongs, 0);		// Hide Recently Added Albums -> Songs subpage
+			CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+			CF.setJoin("d"+self.joinMusicDetails, 0);			// Hide Song Details subpage
+			CF.setJoin("d"+self.joinAllAlbums, 1);				// Hide All Albums subpage
+			CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
+			CF.setJoin("d"+self.joinAllSongs, 0);				// Hide All Songs subpage
+		
+		self.XBMC.searchAlbum(search_string, self.joinAllAlbums);
+	};
+	
+	// Searching options is available for Artist (by Artist name only)
+	self.SongSearch = function(search_string) {
+		CF.setJoin("d"+self.joinMusicArtist, 0);				// Show Artist subpage
+			CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+			CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+			CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+			CF.setJoin("d"+self.joinRecentAlbumSongs, 0);		// Hide Recently Added Albums -> Songs subpage
+			CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+			CF.setJoin("d"+self.joinMusicDetails, 0);			// Hide Song Details subpage
+			CF.setJoin("d"+self.joinAllAlbums, 0);				// Hide All Albums subpage
+			CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
+			CF.setJoin("d"+self.joinAllSongs, 1);				// Hide All Songs subpage
+		
+		self.XBMC.searchSong(search_string, self.joinAllSongs);
 	};
 	
 	//================================================================================================================================
@@ -881,9 +977,9 @@ var XBMC_GUI = function(params) {
 	/* ALL STARTUP COMMANDS																														*/
 	//================================================================================================================================
 	
-	self.playStatusGet = function() {											// Get the current state of muting for volume
-		self.XBMC.playPauseStatus(self.playStatus);
-	};
+	//self.playStatusGet = function() {											// Get the current state of muting for volume
+		//self.XBMC.playPause(self.playStatus);
+	//};
 	
 	self.volGet = function() {											// Get the current state of muting for volume
 		self.XBMC.volGet(self.setMuteState);
@@ -894,12 +990,12 @@ var XBMC_GUI = function(params) {
 	};
 
 	self.setMuteState = function() {									// Sets the feedback of the volume.
-		if(self.XBMC.currentMute == true) {		// this means volume level = 0, means muted state
+		if(self.XBMC.currentMute == true) {								// this means volume level = 0, means muted state
 			CF.setJoin("d"+self.joinMute, 1);
 			CF.setJoin("a90", 0);
 		}else{
 			CF.setJoin("d"+self.joinMute, 0);
-			self.XBMC.volGet();
+			self.XBMC.volGet(self.XBMC.logReplyData);  // just get the volume level, don't need callback function
 		}
 	};
 	

@@ -201,8 +201,12 @@ var XBMC_Controller = function(params) {
 		
 		TVSerieslistArray = [];
 		RecentEpisodelistArray = [];
+		WatchedEpisodelistArray = [];
+		
 		MovieslistArray = [];
 		RecentMovieslistArray = [];
+		MovieSearchlistArray = [];
+		
 		ArtistlistArray = [];
 		AlbumlistArray = [];			// Global array for all Albums
 		SonglistArray = [];			// Global array for all Songs
@@ -295,6 +299,27 @@ var XBMC_Controller = function(params) {
 		return decodeURIComponent(escape(string));
 	};
 	
+	/* Sample function for sorting:
+		
+		To sort it you need to create a comparator function taking two arguments and then call the sort function with that comparator function as follows:
+
+		// a and be are object elements of your array
+		function mycomparator(a,b) {
+		return parseInt(a.price) - parseInt(b.price);
+
+		}
+
+		If you want to sort ascending change parseInt(a.price) - parseInt(b.price) to parseInt(b.price) - parseInt(a.price). Note the change from a to b.
+
+		To do the sort
+
+		homes.sort(mycomparator);
+	
+	http://stackoverflow.com/questions/979256/how-to-sort-an-array-of-javascript-objects
+	
+	*/
+	
+	
 	/*--------------------------------------------------------------------------------------------------
 		TV SHOWS 
 		- Data: TV Series, Season, Episode, Episode Details, Recently Added Episodes
@@ -306,15 +331,16 @@ var XBMC_Controller = function(params) {
 	
 	var TVSerieslistArray = new Array();		//Global array for TV Series
 	var RecentEpisodelistArray = new Array();
+	var WatchedEpisodelistArray = new Array();		// Data array for watched list
 	
 	/*
 	 * Function: Get a list of TV shows from XBMC, sorted in alphabetical order by default
 	 */
-	self.getTVShows = function(baseJoin, order, method, search_string) {
+	self.getTVShows = function(baseJoin, order, method) {
 		CF.setJoin("s20", order);
 		CF.setJoin("s21", method);
 				
-		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "rating", "genre"]}, function(data) {
+		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre"]}, function(data) {
 				TVSerieslistArray = [];			//initialize array
 				CF.listRemove("l"+baseJoin);	//clear list of any previous entries
 			
@@ -324,12 +350,26 @@ var XBMC_Controller = function(params) {
 				var thumbnail = self.URL + "vfs/" + data.result.tvshows[i].thumbnail;
 				var fanart = self.URL + "vfs/" + data.result.tvshows[i].fanart;
 				var title = decode_utf8(data.result.tvshows[i].title);
-				var genre = data.result.tvshows[i].genre;
+				var year = data.result.tvshows[i].year;
+				var episode = data.result.tvshows[i].episode;
+				var genre = decode_utf8(data.result.tvshows[i].genre);
+				
+				var sortlabel;
+				if(method == "label"){
+					sortlabel = title;
+				} else if(method == "year"){
+					sortlabel = year;
+				
+				} else if (method == "episode"){
+					sortlabel = episode + " episodes";
+				} 
 				
 				TVSerieslistArray.push({				// Add to array to add to list in one go later
 					s1: thumbnail,
 					s2: title,
 					s3: genre,
+					s4: sortlabel,
+					s5: sortlabel,
 					d1: {
 						tokens: {
 							"[id]": showID,
@@ -383,13 +423,14 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of Seasons for a particular show from XBMC
 	 * @Param {integer} ID of the TV show from the XBMC database
 	 */
-	self.getTVSeasons = function(id, fanart, baseJoin) {
+	
+	self.getTVSeasons = function(id, fanart, baseJoin, order, method) {
 	
 		CF.setJoin("s11000", fanart);
 	
 		self.currentShowID = parseInt(id);					
 		
-		self.rpc("VideoLibrary.GetSeasons", { "tvshowid": self.currentShowID, "sort": {"order": "ascending", "method": "label"}, "properties": ["season", "episode", "thumbnail", "showtitle", "fanart"] }, function(data) {
+		self.rpc("VideoLibrary.GetSeasons", { "tvshowid": self.currentShowID, "sort": {"order": order, "method": method}, "properties": ["season", "episode", "thumbnail", "showtitle", "fanart"] }, function(data) {
 			
 			// Create array to push all new items in
 			var listArray = [];
@@ -400,7 +441,7 @@ var XBMC_Controller = function(params) {
 				
 				var seasonID = data.result.seasons[i].season;
 				var season = data.result.seasons[i].label;
-				//var episodes = data.result.seasons[i].episode;
+				var episodes = data.result.seasons[i].episode;
 				var showtitle = decode_utf8(data.result.seasons[i].showtitle);
 				var thumbnail = self.URL + "vfs/" + data.result.seasons[i].thumbnail;
 				var fanart = self.URL + "vfs/" + data.result.seasons[i].fanart;
@@ -409,12 +450,10 @@ var XBMC_Controller = function(params) {
 				listArray.push({
 					s1: thumbnail,
 					s2: season,
-					s3: showtitle,
+					s3: showtitle + " (" +episodes + " Episodes)",
 					d1: {
 						tokens: {
 							"[id]": seasonID,
-							"[season]": season,
-							"[showtitle]": showtitle,
 							"[fanart]": fanart
 						}
 					}
@@ -435,16 +474,20 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of TV Episodes for a particular show and season from XBMC
 	 * @Param {integer} ID of the season from the XBMC database
 	 */
-	self.getTVEpisodes = function(id, season, showtitle, fanart, baseJoin) {
+	
+	
+	self.getTVEpisodes = function(id, fanart, baseJoin, order, method) {
 		
 		CF.setJoin("s11000", fanart);
-		
 		self.currentSeasonID = parseInt(id);
-		self.rpc("VideoLibrary.GetEpisodes", { "tvshowid": self.currentShowID, "season": self.currentSeasonID, "properties": ["title", "episode", "playcount", "thumbnail", "firstaired", "runtime"] }, function(data) {
+		
+		self.rpc("VideoLibrary.GetEpisodes", { "tvshowid": self.currentShowID, "season": self.currentSeasonID, "sort": {"order": order, "method": method}, 
+		"properties": ["thumbnail", "episode", "playcount", "showtitle", "season"]}, function(data) {
 			//CF.logObject(data);
 			
 			// Loop through all returned TV Episodes
-			var listArray = [];
+			WatchedEpisodelistArray = [];
+			
 			CF.listRemove("l"+baseJoin);
 			
 			for (var i = 0; i<data.result.limits.total; i++) {
@@ -453,21 +496,84 @@ var XBMC_Controller = function(params) {
 				var thumbnail = self.URL + "vfs/"+data.result.episodes[i].thumbnail;
 				var episodenum = data.result.episodes[i].episode;
 				var label = decode_utf8(data.result.episodes[i].label);
+				var playcount = data.result.episodes[i].playcount;
+				var showtitle = decode_utf8(data.result.episodes[i].showtitle);
+				var season = "[Season " +data.result.episodes[i].season+"]";
 				
 				// Add to array to add to list in one go later
-				listArray.push({
+				WatchedEpisodelistArray.push({
 					s1: thumbnail,
 					s2: label,
-					s3: season + ", Episode " + episodenum,	
+					s3: season + " Episode " + episodenum,
+					s4: playcount,
 					d1: {
 						tokens: {
 							"[id]": episodeID
 						}
 					},
-					d2: (data.result.episodes[i].playcount > 0) ? 1 : 0
+					d2: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
 				});
 			}
-			CF.listAdd("l"+baseJoin, listArray);
+			CF.listAdd("l"+baseJoin, WatchedEpisodelistArray);
+			CF.setJoin("s"+baseJoin, "[" + showtitle + "] " + season + " (" + data.result.limits.total + " eps)");				// Hide TVShow Details subpage
+		});
+	};
+	
+	self.sortTVEpisodes = function(baseJoin, order, method) {
+		
+		CF.setJoin("s20", order);
+		CF.setJoin("s21", method);
+		
+		self.rpc("VideoLibrary.GetEpisodes", { "tvshowid": self.currentShowID, "season": self.currentSeasonID, "sort": {"order": order, "method": method}, 
+		"properties": ["thumbnail", "episode", "playcount", "firstaired", "showtitle", "season", "rating", "runtime"]}, function(data) {
+			//CF.logObject(data);
+			
+			// Loop through all returned TV Episodes
+			WatchedEpisodelistArray = [];
+			
+			CF.listRemove("l"+baseJoin);
+			
+			for (var i = 0; i<data.result.limits.total; i++) {
+				
+				var episodeID = data.result.episodes[i].episodeid;
+				var thumbnail = self.URL + "vfs/"+data.result.episodes[i].thumbnail;
+				var episodenum = data.result.episodes[i].episode;
+				var label = decode_utf8(data.result.episodes[i].label);
+				var playcount = data.result.episodes[i].playcount;
+				var runtime = data.result.episodes[i].runtime;
+				var showtitle = decode_utf8(data.result.episodes[i].showtitle);
+				var rating = data.result.episodes[i].rating;
+				var firstaired = decode_utf8(data.result.episodes[i].firstaired);
+				var season = "[Season " +data.result.episodes[i].season+"] ";
+				
+				var sortlabel;
+				if(method == "label"){
+					sortlabel = " Episode " + episodenum;
+				} else if(method == "episode"){
+					sortlabel = " Episode " + episodenum;
+				} else if(method == "videorating"){		 
+					sortlabel = rating.toFixed(2);
+				} else if(method == "date"){
+					sortlabel = firstaired;
+				} else if(method == "videoruntime"){				
+					sortlabel = runtime + " min";
+				}
+				
+				// Add to array to add to list in one go later
+				WatchedEpisodelistArray.push({
+					s1: thumbnail,
+					s2: label,
+					s3: season + sortlabel,
+					s4: playcount,
+					d1: {
+						tokens: {
+							"[id]": episodeID
+						}
+					},
+					d2: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
+				});
+			}
+			CF.listAdd("l"+baseJoin, WatchedEpisodelistArray);
 			CF.setJoin("s"+baseJoin, "[" + showtitle + "] " + season + " (" + data.result.limits.total + " eps)");				// Hide TVShow Details subpage
 		});
 	};
@@ -617,18 +723,18 @@ var XBMC_Controller = function(params) {
 			var searchTitle = TVSerieslistArray[i].s2;
 			var searchGenre = TVSerieslistArray[i].s3;
 			var searchTVSeriesID = TVSerieslistArray[i].d1.tokens["[id]"];
-			var searchTokenShowTitle = TVSerieslistArray[i].d1.tokens["[showname]"];
+			//var searchTokenShowTitle = TVSerieslistArray[i].d1.tokens["[showname]"];
 			
 			if(newCompare(TVSerieslistArray[i].s3, genre))			// refer to newCompare() from customised function section
 			{
 				templistArray.push({				// Add to array to add to list in one go later
 					s1: searchThumbnail,
 					s2: searchTitle,
-					s3: searchGenre,
+					s5: searchGenre,
 					d1: {
 						tokens: {
-							"[id]": searchTVSeriesID,
-							"[showname]": searchTokenShowTitle
+							"[id]": searchTVSeriesID
+							//"[showname]": searchTokenShowTitle
 						}
 					}
 				});
@@ -636,6 +742,68 @@ var XBMC_Controller = function(params) {
 		}
 		CF.listAdd("l"+baseJoin, templistArray);
 	};
+	
+	// Get list of unwatched TV Shows only
+	self.getUnwatchedEpisodes = function(baseJoin){
+	 
+			templistArray = [];				//initialize array
+			CF.listRemove("l"+baseJoin);	//clear list of any previous entries
+		
+		for (var i = 0;i<WatchedEpisodelistArray.length;i++)
+		{
+			var watchedThumbnail = WatchedEpisodelistArray[i].s1;
+			var watchedTitle = WatchedEpisodelistArray[i].s2;
+			var watchedDesc = WatchedEpisodelistArray[i].s3;
+			var watchedPlaycount = WatchedEpisodelistArray[i].s4;
+			var watchedTVEpisodeID = WatchedEpisodelistArray[i].d1.tokens["[id]"];
+			
+			if(WatchedEpisodelistArray[i].s4 == 0)			// Only episodes that are unwatched
+			{
+				templistArray.push({				// Add to array to add to list in one go later
+					s1: watchedThumbnail,
+					s2: watchedTitle,
+					s3: watchedDesc,
+					d1: {
+						tokens: {
+							"[id]": watchedTVEpisodeID
+						}
+					},
+					//d2: (playcount > 0) ? 1 : 0,
+				});
+			}
+		}
+		CF.listAdd("l"+baseJoin, templistArray);
+	};
+	
+	// Get list of unwatched TV Shows only
+	self.getAllEpisodes = function(baseJoin){
+	 
+			templistArray = [];				//initialize array
+			CF.listRemove("l"+baseJoin);	//clear list of any previous entries
+		
+		for (var i = 0;i<WatchedEpisodelistArray.length;i++)
+		{
+			var watchedThumbnail = WatchedEpisodelistArray[i].s1;
+			var watchedTitle = WatchedEpisodelistArray[i].s2;
+			var watchedDesc = WatchedEpisodelistArray[i].s3;
+			var watchedPlaycount = WatchedEpisodelistArray[i].s4;
+			var watchedTVEpisodeID = WatchedEpisodelistArray[i].d1.tokens["[id]"];
+			
+				templistArray.push({				// Add to array to add to list in one go later
+					s1: watchedThumbnail,
+					s2: watchedTitle,
+					s3: watchedDesc,
+					d1: {
+						tokens: {
+							"[id]": watchedTVEpisodeID
+						}
+					},
+					d2: (watchedPlaycount > 0) ? 1 : 0,
+				});
+		}
+		CF.listAdd("l"+baseJoin, templistArray);
+	};
+	
 	
 	/*--------------------------------------------------------------------------------------------------
 		MOVIES
@@ -646,6 +814,8 @@ var XBMC_Controller = function(params) {
 	
 	var MovieslistArray = new Array();			//Global array for Movies
 	var RecentMovieslistArray = new Array();	//Glbal Array for Recent Added Movies
+	var MovieSearchlistArray = new Array();
+	
 	
 	/**
 	 * Function: Get a list of Movies from XBMC
@@ -656,7 +826,7 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s31", order);
 		CF.setJoin("s32", method);
 		
-		self.rpc("VideoLibrary.GetMovies", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "genre"]}, function(data) {
+		self.rpc("VideoLibrary.GetMovies", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "genre", "playcount", "mpaa", "rating", "runtime", "year"]}, function(data) {
 			//CF.logObject(data);
 			
 			MovieslistArray = [];
@@ -667,18 +837,39 @@ var XBMC_Controller = function(params) {
 				var movieID = data.result.movies[i].movieid;
 				var thumbnail = self.URL + "vfs/" + data.result.movies[i].thumbnail;
 				var label = decode_utf8(data.result.movies[i].label);
-				var genre = data.result.movies[i].genre;
+				var genre = decode_utf8(data.result.movies[i].genre);
+				var playcount = data.result.movies[i].playcount;
+				var mpaa = data.result.movies[i].mpaa;
+				var rating = data.result.movies[i].rating;
+				var runtime = data.result.movies[i].runtime;
+				var year = data.result.movies[i].year;
+				
+				var sortlabel;
+				if(method == "label"){
+					sortlabel = "All Movies";
+				} else if(method == "mpaarating"){
+					sortlabel = mpaa;
+				} else if (method == "videorating"){
+					sortlabel = rating.toFixed(2);
+				} else if (method == "videoruntime"){
+					sortlabel = runtime + " min";
+				}else if (method == "year"){
+					sortlabel = year;
+				} 
 				
 				// Add to array to add to list in one go later
 				MovieslistArray.push({
 					s1: thumbnail,
 					s2: label,
 					s3: genre,
+					s4: playcount,
+					s5: "[Movies] " +sortlabel,
 					d1: {
 						tokens: {
 							"[id]": movieID
 						}
-					}
+					},
+					d2: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
 				});
 			}
 								
@@ -768,7 +959,7 @@ var XBMC_Controller = function(params) {
 		self.rpc("Playlist.Add", { "playlistid":1, "item":{ "file": file}}, self.logReplyData);	
 	};
 	
-	var MovieSearchlistArray = new Array();
+	
 	
 	/*
 	 * Function: Search the array list of TV shows and get the results that matches exactly/contain the characters in the search string
@@ -779,7 +970,7 @@ var XBMC_Controller = function(params) {
 			CF.setJoin("d"+listJoin, 1);	// show the thumbnail and title wall list only.
 			
 			//push all values into array into a singular format
-			self.rpc("VideoLibrary.GetMovies", { "sort": {"order": "ascending", "method": "label"}, "properties": ["plot", "title", "thumbnail", "fanart"]}, function(data) {
+			self.rpc("VideoLibrary.GetMovies", { "sort": {"order": "ascending", "method": "label"}, "properties": ["playcount", "title", "thumbnail", "fanart"]}, function(data) {
 			
 			MovieSearchlistArray = [];
 			CF.listRemove("l"+listJoin);
@@ -788,6 +979,7 @@ var XBMC_Controller = function(params) {
 				var thumbnail = self.URL + "vfs/" + data.result.movies[i].thumbnail;
 				var movieid = data.result.movies[i].movieid;
 				var title = decode_utf8(data.result.movies[i].title);
+				var playcount = data.result.movies[i].playcount;
 				
 			if(newCompare(title, search_string))			// refer to newCompare() from customised function section)
 			{
@@ -798,12 +990,14 @@ var XBMC_Controller = function(params) {
 				MovieSearchlistArray.push({				// Add to array to add to list in one go later
 					s1: thumbnail,
 					s2: title,
+					s5: "[MOVIES] All Movies",
 					d1: {
 						tokens: {
 							"[id]": movieid,
 							"[showname]": title
 							}
-						}
+						},
+					d2: (playcount > 0) ? 1 : 0,
 					});
 			}
 			
@@ -925,6 +1119,66 @@ var XBMC_Controller = function(params) {
 				CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
 				});	
 	};
+	
+	// Get list of unwatched TV Shows only
+	self.getUnwatchedMovies = function(baseJoin){
+	 
+			templistArray = [];				//initialize array
+			CF.listRemove("l"+baseJoin);	//clear list of any previous entries
+		
+		for (var i = 0;i<MovieslistArray.length;i++)
+		{
+			var watchedThumbnail = MovieslistArray[i].s1;
+			var watchedTitle = MovieslistArray[i].s2;
+			var watchedSortLabel = MovieslistArray[i].s5;
+			var watchedTVEpisodeID = MovieslistArray[i].d1.tokens["[id]"];
+			
+			if(MovieslistArray[i].s4 == 0)			// Only episodes that are unwatched
+			{
+				templistArray.push({				// Add to array to add to list in one go later
+					s1: watchedThumbnail,
+					s2: watchedTitle,
+					s5: watchedSortLabel,
+					d1: {
+						tokens: {
+							"[id]": watchedTVEpisodeID
+						}
+					},
+					//d2: (playcount > 0) ? 1 : 0,
+				});
+			}
+		}
+		CF.listAdd("l"+baseJoin, templistArray);
+	};
+	
+	// Get list of unwatched TV Shows only
+	self.getAllMovies = function(baseJoin){
+	 
+			templistArray = [];				//initialize array
+			CF.listRemove("l"+baseJoin);	//clear list of any previous entries
+		
+		for (var i = 0;i<MovieslistArray.length;i++)
+		{
+			var watchedThumbnail = MovieslistArray[i].s1;
+			var watchedTitle = MovieslistArray[i].s2;
+			var watchedSortLabel = MovieslistArray[i].s5;
+			var watchedPlaycount = MovieslistArray[i].s4;
+			var watchedTVEpisodeID = MovieslistArray[i].d1.tokens["[id]"];
+			
+				templistArray.push({				// Add to array to add to list in one go later
+					s1: watchedThumbnail,
+					s2: watchedTitle,
+					s5: watchedSortLabel,
+					d1: {
+						tokens: {
+							"[id]": watchedTVEpisodeID
+						}
+					},
+					d2: (watchedPlaycount > 0) ? 1 : 0,
+				});
+		}
+		CF.listAdd("l"+baseJoin, templistArray);
+	};
 			
 
 	/*--------------------------------------------------------------------------------------------------
@@ -950,7 +1204,7 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s41", order);						//FB on Options list: Check sort order
 		CF.setJoin("s42", method);						//FB on Options list: Check sort method
 		
-		self.rpc("AudioLibrary.GetArtists", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart"]}, function(data) {
+		self.rpc("AudioLibrary.GetArtists", {"sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart"]}, function(data) {
 			//CF.logObject(data);
 			
 			// Loop through all returned Artist names
@@ -968,18 +1222,16 @@ var XBMC_Controller = function(params) {
 				ArtistlistArray.push({
 					s1: thumbnail,
 					s2: artist,
-					s3: "ALL ARTISTS",
 					d1: {
 						tokens: {
 							"[id]": artistID,
-							"[artist]": artist,
 							"[fanart]": fanart
 						}
 					}
 				});
 			}
 			CF.listAdd("l"+baseJoin, ArtistlistArray);
-			CF.setJoin("s"+baseJoin, "ARTIST " + "(" + data.result.limits.total + ")" );
+			CF.setJoin("s"+baseJoin, " All Artists " + "(" + data.result.limits.total + ")" );
 		});
 	};
 	
@@ -989,12 +1241,12 @@ var XBMC_Controller = function(params) {
 	 * @Param {integer} ID of the Album from the XBMC database
 	 */
 	 
-	self.getMusicAlbum = function(id, artist, fanart, baseJoin) {
-		CF.setJoin("s200", artist);
+	self.getMusicAlbum = function(id, fanart, baseJoin) {
+		//CF.setJoin("s200", artist);
 		CF.setJoin("s10000", fanart);
 	
 		self.currentArtistID = parseInt(id);
-		self.rpc("AudioLibrary.GetAlbums", { "artistid": self.currentArtistID, "properties": ["thumbnail", "title", "fanart"] }, function(data) {
+		self.rpc("AudioLibrary.GetAlbums", { "artistid": self.currentArtistID, "properties": ["thumbnail", "title", "fanart", "artist"] }, function(data) {
 			//CF.logObject(data);
 			
 			// Create array to push all new items in
@@ -1006,6 +1258,7 @@ var XBMC_Controller = function(params) {
 			
 				var albumID = data.result.albums[i].albumid;
 				var albumtitle = decode_utf8(data.result.albums[i].title);
+				var artist = decode_utf8(data.result.albums[i].artist);
 				var thumbnail = self.URL + "vfs/" + data.result.albums[i].thumbnail;
 				var fanart = self.URL + "vfs/" + data.result.albums[i].fanart;
 								
@@ -1023,7 +1276,6 @@ var XBMC_Controller = function(params) {
 						}
 					}
 				});
-				
 			}
 			// Use the array to push all new list items in one go
 			CF.listAdd("l"+baseJoin, listArray);
@@ -1147,7 +1399,7 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s41", order);						//FB on Options list: Check sort order
 		CF.setJoin("s42", method);						//FB on Options list: Check sort method
 		
-		self.rpc("AudioLibrary.GetAlbums", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist"]}, function(data) {
+		self.rpc("AudioLibrary.GetAlbums", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist", "year", "albumlabel"]}, function(data) {
 			//CF.logObject(data);
 			
 			// Loop through all returned Artist names
@@ -1161,12 +1413,23 @@ var XBMC_Controller = function(params) {
 				var artist = decode_utf8(data.result.albums[i].artist);
 				var thumbnail = self.URL + "vfs/" + data.result.albums[i].thumbnail;
 				var fanart = self.URL + "vfs/" + data.result.albums[i].fanart;
+				var year = data.result.albums[i].year;
+				var albumlabel = decode_utf8(data.result.albums[i].albumlabel);
+				
+				var sortlabel;
+				if(method == "label"){
+					sortlabel = "ALL ALBUMS";
+				} else if(method == "year"){
+					sortlabel = year;
+				} else if (method == "artist"){
+					sortlabel = artist;
+				} 
 				
 				// Add to array to add to list in one go later
 				AlbumlistArray.push({
 					s1: thumbnail,
 					s2: label,
-					s3: "ALL ALBUMS",
+					s3: sortlabel,
 					d1: {
 						tokens: {
 							"[id]": albumID,
@@ -1180,7 +1443,7 @@ var XBMC_Controller = function(params) {
 			// Use the array to push all new list items in one go
 			CF.listAdd("l"+baseJoin, AlbumlistArray);
 			
-			CF.setJoin("s"+baseJoin, "ALL ALBUMS " + "(" + data.result.limits.total + ")" );
+			CF.setJoin("s"+baseJoin, "All Albums " + "(" + data.result.limits.total + ")" );
 		});
 	};
 	
@@ -1193,7 +1456,7 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s41", order);						//FB on Options list: Check sort order
 		CF.setJoin("s42", method);						//FB on Options list: Check sort method
 		
-		self.rpc("AudioLibrary.GetSongs", {"sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist", "file"]}, function(data) {
+		self.rpc("AudioLibrary.GetSongs", {"sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist", "file", "duration", "year", "track", "album"]}, function(data) {
 			//CF.logObject(data);
 			
 			// Loop through all returned Songs
@@ -1205,15 +1468,33 @@ var XBMC_Controller = function(params) {
 				var songID = data.result.songs[i].songid;
 				var label = decode_utf8(data.result.songs[i].label);
 				var thumbnail = self.URL + "vfs/" + data.result.songs[i].thumbnail;
-				//var tracknum = "Track #" + data.result.songs[i].track;
-				//var artist = "ALL SONGS";
+				var track = "Track #" + data.result.songs[i].track;
+				var artist = decode_utf8(data.result.songs[i].artist);
+				var album = decode_utf8(data.result.songs[i].album);
+				var duration = data.result.songs[i].duration;							// in seconds
+				var year = data.result.songs[i].year;
 				var file = decode_utf8(data.result.songs[i].file);
-												
-				// Add to array to add to list in one go later
+				
+				var sortlabel;
+				if(method == "label"){
+					sortlabel = "ALL SONGS";
+				} else if(method == "year"){
+					sortlabel = year;
+				} else if (method == "artist"){
+					sortlabel = artist;
+				} else if (method == "album"){
+					sortlabel = album;
+				} else if (method == "duration"){
+					sortlabel = ("00"+Math.floor(duration/60)).slice(-2) + ":" + ("00"+(Math.ceil(duration)%60)).slice(-2);;
+				} else if (method == "track"){
+					sortlabel = track;
+				} 
+				
+			// Add to array to add to list in one go later
 				SonglistArray.push({
 					s1: thumbnail,
 					s2: label,
-					s3: "ALL SONGS",
+					s3: sortlabel,
 					d1: {
 						tokens: {
 							"[id]": songID,
@@ -1222,9 +1503,10 @@ var XBMC_Controller = function(params) {
 					},
 				});
 			}
-			CF.listAdd("l"+baseJoin, SonglistArray);
+			CF.listAdd("l"+baseJoin, SonglistArray);		//By default disable options for all songs. Usually for All Artists and All Albums only.
 			
-			CF.setJoin("s"+baseJoin, "ALL SONGS "+"("+data.result.limits.total+")");
+			
+			CF.setJoin("s"+baseJoin, "All Songs "+"("+data.result.limits.total+")");
 		});
 	};
 	
@@ -1269,7 +1551,7 @@ var XBMC_Controller = function(params) {
 					CF.listAdd("l"+baseJoin, RecentAlbumlistArray);
 					CF.listAdd("l"+baseJoinMainPage, RecentAlbumlistArray);
 										
-					CF.setJoin("s"+baseJoin, "RECENT ADDED ALBUMS " + "(" + data.result.limits.total + ")" );
+					CF.setJoin("s"+baseJoin, "Recently Added Albums " + "(" + data.result.limits.total + ")" );
 					CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED ALBUMS " + "(" + data.result.limits.total + ")" );
 				});	
 		};
@@ -1313,7 +1595,7 @@ var XBMC_Controller = function(params) {
 					CF.listAdd("l"+baseJoin, RecentSonglistArray);
 					//CF.listAdd("l"+baseJoinMainPage, RecentSonglistArray);
 					
-					CF.setJoin("s"+baseJoin, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
+					CF.setJoin("s"+baseJoin, "Recently Added Songs " + "(" + data.result.limits.total + ")" );
 					//CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED SONGS " + "(" + data.result.limits.total + ")" );
 					
 				});	
@@ -1361,6 +1643,82 @@ var XBMC_Controller = function(params) {
 						tokens: {
 							"[id]": searchTokenArtistId,
 							"[artist]": searchTokenArtist
+							}
+						}
+					});
+			}
+		}
+		CF.listAdd("l"+listJoin, templistArray);
+	};
+	
+	/*
+	 * Function: Search the array list of Artists and get the results that matches exactly/contain the characters in the search string
+	 */
+	 self.searchAlbum = function(search_string, listJoin){
+	 
+			var templistArray = [];				//initialize array
+			CF.listRemove("l"+listJoin);	//clear list of any previous entries
+		
+		// method 1:
+		//loop thru all the element in the TV Show Array and display the match
+		for (var i = 0;i<AlbumlistArray.length;i++)
+		{
+			var searchThumbnail = AlbumlistArray[i].s1;
+			var searchAlbum = AlbumlistArray[i].s2;
+			var searchSortLabel = AlbumlistArray[i].s3;
+			var searchTokenAlbumId = AlbumlistArray[i].d1.tokens["[id]"];
+			var searchTokenFanart = AlbumlistArray[i].d1.tokens["[fanart]"];
+			var searchTokenArtist = AlbumlistArray[i].d1.tokens["[artist]"];
+			var searchTokenAlbum = AlbumlistArray[i].d1.tokens["[albumtitle]"];
+			
+			if(newCompare(searchAlbum, search_string))			// refer to newCompare() from customised function section
+			{
+				templistArray.push({				// Add to array to add to list in one go later
+					s1: searchThumbnail,
+					s2: searchAlbum,
+					s3: searchSortLabel,
+					d1: {
+						tokens: {
+							"[id]": searchTokenAlbumId,
+							"[artist]": searchTokenArtist,
+							"[fanart]": searchTokenFanart,
+							"[albumtitle]": searchTokenAlbum
+							}
+						}
+					});
+			}
+		}
+		CF.listAdd("l"+listJoin, templistArray);
+	};
+	
+	/*
+	 * Function: Search the array list of Artists and get the results that matches exactly/contain the characters in the search string
+	 */
+	 self.searchSong = function(search_string, listJoin){
+	 
+			var templistArray = [];				//initialize array
+			CF.listRemove("l"+listJoin);	//clear list of any previous entries
+		
+		// method 1:
+		//loop thru all the element in the TV Show Array and display the match
+		for (var i = 0;i<SonglistArray.length;i++)
+		{
+			var searchThumbnail = SonglistArray[i].s1;
+			var searchSong = SonglistArray[i].s2;
+			var searchSortLabel = SonglistArray[i].s3;
+			var searchTokenSongId = SonglistArray[i].d1.tokens["[id]"];
+			var searchTokenFile = SonglistArray[i].d1.tokens["[file]"];
+			
+			if(newCompare(searchSong, search_string))			// refer to newCompare() from customised function section
+			{
+				templistArray.push({				// Add to array to add to list in one go later
+					s1: searchThumbnail,
+					s2: searchSong,
+					s3: searchSortLabel,
+					d1: {
+						tokens: {
+							"[id]": searchTokenSongId,
+							"[file]": searchTokenFile
 							}
 						}
 					});
@@ -1953,7 +2311,7 @@ var XBMC_Controller = function(params) {
 		});			
 	};
 	
-	self.playPause = function(media, callback) {				// Play/Pause										
+	self.playPause = function(media) {				// Play/Pause										
 		switch(media)
 		{
 			case "video":
@@ -1966,8 +2324,7 @@ var XBMC_Controller = function(params) {
 				self.getAudioPlayerStatus();		// Set feedback status on Play/Pause button
 				break;
 		}
-		self.playStatus = data.result.speed;
-		callback();
+		//self.playStatus = data.result.speed;
 	};
 	
 	self.Stop = function(media) {						// Stop									
@@ -2266,7 +2623,7 @@ var XBMC_Controller = function(params) {
 	
 	// set the volume level
 	self.setVolume = function(level) {
-		self.rpc("Application.setVolume", {"volume": Math.round((level/100)*100)},{}); 		//Previous XBMC.setVolume
+		self.rpc("Application.setVolume", {"volume": Math.round((level/100)*100)}, self.logReplyData); 		//Previous XBMC.setVolume
 	};
 
 	// Mute toggle the volume
