@@ -49,7 +49,6 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 
 ### Additional notes
 Since this is only a beta version of the module, not all the features are implemented yet.
-* The wifi LED status will remain red.
 * Buttons for "Video Player Options" and "Audio Player Options" under the Playing Now page are not assigned actions yet.
 * Gestures are only available on Main Menu page in portrait mode at the moment.
 
