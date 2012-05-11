@@ -23,90 +23,8 @@ Module Test Setup:
 HELP:
 
 TODO
-
-Changes to note (from Oct2011 nightly build onwards)
-- "fields" changed to "properties"
-- Player, Player and PicturePlayer have all been merged to Player
-Previously :
-{"jsonrpc": "2.0", "method": "VideoPlayer.PlayPause", "params": {}, "id": "1"}
-{"jsonrpc": "2.0", "method": "AudioPlayer.PlayPause", "params": {}, "id": "1"}
-{"jsonrpc": "2.0", "method": "PicturePlayer.PlayPause", "params": {}, "id": "1"}
-
-Now :
-{"jsonrpc": "2.0", "method": "Player.PlayPause", "params": {"playerid":id}, "id": "1"} where id = 0(audio), 1(video), 2(picture)
-
-- AudioPlaylist, VideoPlaylist and Playlist have all been merged to Playlist
-Previously:
-{"jsonrpc": "2.0", "method": "VideoPlaylist.GetItems", "params": {}, "id": "1"}
-{"jsonrpc": "2.0", "method": "AudioPlaylist.GetItems", "params": {}, "id": "1"}
-Now:
-{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": {"playlistid": id}, "id": "1"} where id = 0(audio), 1(video)
-
-- Some methods in JSONRPC namespace have been renamed
--> XBMC.Play replaced by Player.Open 
--> Reply of Player.GetActivePlayers has changed.
-//Response {"id":"1","jsonrpc":"2.0","result":[{"playerid":0,"type":"audio"}]}, playerid 0(audio), 1 (video)
-
-- Most methods in XBMC namespace have either been removed or moved to a different namespace (Application namely)
-
-(http://forum.xbmc.org/showthread.php?t=68263&page=128)
-(http://forum.xbmc.org/showthread.php?t=68263&page=129)
-The main reasons for renaming "fields" to "properties" was that
-1. in our opinion (topfs2, ronie and me) "properties" is a better describing name than "fields" for the properties of a media item ("fields" sounds so database-ish)
-2. with the introduction of GetProperties methods (which take a "properties" parameter to retrieve needed properties) in the System, 
-XBMC, Playlist and Player namespace renaming "fields" to "properties" helped to achieve a uniform naming of parameters across methods and namespaces. 
-
-(http://forum.xbmc.org/showthread.php?t=68263&page=121)
-Sunday, September 18th 2011:
-Commits: c4f161e177f5e079f2ba and 525833acf0b7fa3a9404
-OK these two commits (especially the first one) are a huge step in the current jsonrpc API because they completely refactor the handling of players and playlists. First of all there will be no seperate VideoPlayer, AudioPlayer and PicturePlayer anymore but only one Player namespace. The same goes for VideoPlaylist and AudioPlaylist which has been replaced by a refactored Playlist namespace which even offers limited support for picture playlists (aka slideshows). Furthermore a lot of methods have been merged/refactored/moved. From now on the Playlist namespace simply represents a playlist (i.e. a sorted list of playable items) and does not provide any playback controlling functionalities anymore. Those have all been moved into the Player namespace because the players are responsible for playing items and not the playlists. I'm sure there will be quite a few questions about these changes so don't hesitate to post them here or ask me on IRC. Here is a more or less complete list of all important changes:
-
-    Merged AudioPlayer, VideoPlayer and PicturePlayer into Player
-    Merged AudioPlaylist and VideoPlaylist to replace Playlist and provide initial support for picture playlists (aka slideshows)
-    Players/Playlists are no longer accessed by their media type (video, audio, picture) but by a unique ID. Active players/playlists (their ID and media type) can still be retrieved using Player.GetActivePlayers/Playlist.GetPlaylists
-    Replaced Playlist.State with Playlist.GetProperties
-    Replaced Player.State, Player.GetTime and Player.GetPercentage with Player.GetProperties
-    Removed Playlist.SkipPrevious and Playlist.SkipNext (use Player.GoPrevious and Player.GoNext instead)
-    The following methods have been moved from the Playlist to the Player namespace: Play (renamed to Open), Shuffle, UnShuffle, Repeat
-    Refactored notifications for the Player namespace
-    Unified naming of position/item/index parameters in Player and Playlist namespaces
-    Merged XBMC.Play and XBMC.StartSlideshow into Player.Open
-    Make Playlist.Add, Playlist.Clear and Player.Open work for picture playlists
-    Replace Rewind and Forward with SetSpeed in Player namespace
-    Replace "value" parameter in "Player.SeekTime" with time struct parameters
-    Merge SeekTime, SeekPercentage and (Small|Big)Skip(Forward|Backward) into Seek in Player namespace
-    Add Player.SetAudioStream, Player.SetSubtitle and the properties "currentaudiostream", "audiostreams", "subtitleenabled", "currentsubtitle" and "subtitles" to Player.GetProperties
-	
-
-(http://forum.xbmc.org/showthread.php?t=68263&page=130)
-
-OK here is another set of final tweaks to clean up the API:
-
-Saturday, October 8th 2011:
-Commits: 845288d417d40dea22f6, c2d1e992fdd64f380d67, 6c9af5c7c0ae8075c0f8, c00ff2defb35333206f2, 253dd7e808d1e7a83682
-
-    renamed "value" parameter of Application.Setvolume to "volume"
-    refactored Application.ToggleMute into Application.SetMute which takes the following parameters: true, false, "toggle"
-    removed optional parameter "albums" from AudioLibrary.GetRecentlyAddedAlbums (use the "limits" parameter to limit the number of returned items (maximum is 25))
-    renamed parameter "albums" from AudioLibrary.GetRecentlyAddedSongs to "albumlimit"
-    refactored (Audio|Video)Library.Export parameters using union types to better distinguish between single and multi file export
-	=> need to upgrade to the latest nightly build
-
-(http://forum.xbmc.org/showthread.php?t=68263&page=132)
-Friday, October 14th 2011:
-Commit: 53ee2724ede510a8a3a0
-
-    Refactored Files.Download into Files.PrepareDownload and Files.Download. Using jsonrpc over HTTP Files.PrepareDownload does, what Files.Download did until now. 
-	It provides a URL which can be called to download the file (beware the answer format has changed). The idea behind the changes is that some transport layers will 
-	support direct download through Files.Download while others (like HTTP) will not and in that case the method name "Download" may be confusing. That's why we split 
-	the functionality into Files.PrepareDownload (which will be available over HTTP) and Files.Download (which will not be available over HTTP because it's not supported).
-
-22nd October:
-Installed the latest nightly build from http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111020-59dec96-master.exe to test the latest changes. 
-
-27th October:
-No mention of any more changes to the JSON protocol since Oct 14th. Using the latest nightlies:
-http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe dated 26th Oct. 
+- update settings
+- bonjour lookup
 
 =========================================================================
 */
@@ -119,11 +37,12 @@ var XBMC_Controller = function(params) {
 
 	var self = {
 		// Connection definitions
-		url:				"",			// URL for XBMC
-		port:				"",			// port for XBMC, default is 8080
+		sysname:			"",			// system name for selected XBMC instance
+		url:				"",			// url for selected XBMC instance
+		port:				"",			// port for selected XBMC isntance. Default is 8080
 		username:			null,		// username or null for authentification
 		password:			null,		// password or null for authentification
-		URL:				null,		// Final URL used for requests
+		URL:				null,		// final url used for requests
 		// General parameters
 		reqID:				0,			// next request ID, used internally
 		apiVersion:			null,		// XBMC API version, gathered at init
@@ -147,6 +66,104 @@ var XBMC_Controller = function(params) {
 		joinLEDfeedback:	1111,		// join number for LED feedback
 	};
 
+	//--------------------------------------------------------------------------------------------------
+	// Functions
+	//--------------------------------------------------------------------------------------------------
+	
+	// 	Passing a variable into regex, using RegExp()
+	//  /g enables "global" matching. When using the replace() method, specify this modifier to replace all matches, rather than only the first one.
+    //	/i makes the regex match case insensitive.
+    //	/m enables "multi-line mode". In this mode, the caret and dollar match before and after newlines in the subject string. 
+	function newCompare(compare_string, search_string){
+		var newRegX = new RegExp(search_string, "gi");
+		return compare_string.match(newRegX);
+	};
+	
+	// maths function - rounding number
+	function round(n,dec) {
+		n = parseFloat(n);
+			if(!isNaN(n)){
+				if(!dec) var dec= 0;
+				var factor= Math.pow(10,dec);
+				return Math.floor(n*factor+((n*factor*10)%10>=5?1:0))/factor;
+			}else{
+			return n;
+			}
+	};
+	
+	//function for decoding string with accents
+	function decode_utf8(string)
+	{
+		return decodeURIComponent(escape(string));
+	};
+	
+	// Based on Persistent Data Storage JS Snippet by Florent.																		
+	// At any point in your code, you can save the contents of SomeGlobalArray by doing: savePersistentData("SavedArray", someArray);
+	function savePersistentData(token, dataObject) {
+		CF.setToken(CF.GlobalTokensJoin, token, JSON.stringify(dataObject));
+	};
+	
+	function restorePersistentData(token, defaultValue, callback) {
+		CF.getJoin(CF.GlobalTokensJoin, function(j,v,t) {
+			if (!t.hasOwnProperty(token) || t[token] === "") {
+				restored = defaultValue;
+			} else {
+				try {
+					restored = JSON.parse(t[token]);
+				}
+				catch(e) {
+					restored = defaultValue;
+				}
+			}
+		callback.apply(null, restored);
+		});
+	};
+	
+	/*
+	
+	var XBMCInstances = [];
+
+	function startXBMCLookup() {
+			CF.startLookup("_daap._tcp", "", function(addedServices, removedServices, error) {
+				try {
+					
+					// remove disappearing services
+						XBMCInstances.forEach(function(service, index) {
+							if (removedServices.some(function(item) { return (item.name == service.name); })) {
+								CF.log("Closed XBMC instance [" + index + "]: " + service.name);
+							XBMCInstances.splice(index, 1);
+							}
+						});
+
+					// add new services
+						addedServices.forEach(function(service) {
+							CF.log("New XBMC instance [" + XBMCInstances.length + "]: " + service.name);
+						XBMCInstances.push(service);
+						});
+				}
+				catch (e) {
+					CF.log("Exception in XBMC services processing: " + e);
+				}
+			});
+		}
+
+	function stopXBMCLookup() {
+		CF.stopLookup("_daap._tcp", "");
+		CF.log("Stop looking for XBMC")
+	}
+	
+	self.getXBMCBonjour = function(){
+		// Start looking for XBMC, kill the lookup 1mn later
+		startXBMCLookup();
+		setTimeout(stopXBMCLookup, 60000);
+	};
+	
+	*/
+	
+	//--------------------------------------------------------------------------------------------------
+	// Main Program starts here
+	//--------------------------------------------------------------------------------------------------
+	
 	/**
 	 * Make a RPC request. Callback will receive the returned object, or null if an error occurred.
 	 * In case of error, you can use xbmc.lastError to get the last error.
@@ -195,9 +212,59 @@ var XBMC_Controller = function(params) {
 			CF.log("Exception caught in xbmc.rpc: " + e);
 		}
 	};
-
+	
+	// Formatting the URL request string
+	self.getURL = function() {
+		var host;
+		if (self.username != null) {
+			if (self.password != null)
+				host = "http://" + self.username + ":" + self.password + "@" + self.url + ":" + self.port + "/";
+			else
+				host = "http://" + self.username + "@" + self.url + ":" + self.port + "/";
+		} else {
+			host = "http://" + self.url + ":" + self.port + "/";
+		}
+		return host;	
+	};
+	
+	//--------------------------------------------------------------------------------------------------
+	// Setup Functions
+	//--------------------------------------------------------------------------------------------------
+	
+	var XBMCInstancesArray = new Array();
+	
+	self.retrieveGlobalArray = function() {
+	
+			CF.getJoin(CF.GlobalTokensJoin, function(j,v,t) {
+			try {
+				myArray = JSON.parse(t["[addInstanceArray]"]);
+				XBMCInstancesArray = myArray;
+				CF.listAdd("l25", myArray);
+				
+			} catch ( e ) {
+				myArray = [];  // token value not found (first run?)
+			}
+		});
+	
+	/*
+	// restore an array we saved in the "SavedArray" global token, and the first-time contents of the array is [0,1,2]
+		restorePersistentData("[addInstanceArray]", [0,1,2], function(restoredValue) {
+			// we can now used the contents of the array we saved
+			
+			CF.listAdd("l25", restoredValue);
+		});
+	*/	
+		
+	};
+	
 	self.setup = function() {
+		
 		self.URL = self.getURL();
+		
+		CF.listRemove("l25");				// remove instance list of previous entries
+		self.presetInstance();				// add non-deletable preset instances (hardcoded into JS script). Disable this option if you do not want to load preset instances.
+		self.retrieveGlobalArray();			// add new instances through System settings in the drop down menu (user entry needed)
+		//self.bonjourInstance();			// add new available instances through searching using bonjour lookup
 		
 		TVSerieslistArray = [];
 		RecentEpisodelistArray = [];
@@ -214,112 +281,6 @@ var XBMC_Controller = function(params) {
 		RecentSonglistArray = [];		// Global array for Recent Added Songs
 	};
 
-	self.getURL = function() {
-		var host;
-		if (self.username != null) {
-			if (self.password != null)
-				host = "http://" + self.username + ":" + self.password + "@" + self.url + ":" + self.port + "/";
-			else
-				host = "http://" + self.username + "@" + self.url + ":" + self.port + "/";
-		} else {
-			host = "http://" + self.url + ":" + self.port + "/";
-		}
-		return host;	
-	};
-	
-	/*
-	
-	var XBMCInstances = [];
-
-	function startXBMCLookup() {
-			CF.startLookup("_daap._tcp", "", function(addedServices, removedServices, error) {
-				try {
-					
-					// remove disappearing services
-						XBMCInstances.forEach(function(service, index) {
-							if (removedServices.some(function(item) { return (item.name == service.name); })) {
-								CF.log("Closed XBMC instance [" + index + "]: " + service.name);
-							XBMCInstances.splice(index, 1);
-							}
-						});
-
-					// add new services
-						addedServices.forEach(function(service) {
-							CF.log("New XBMC instance [" + XBMCInstances.length + "]: " + service.name);
-						XBMCInstances.push(service);
-						});
-				}
-				catch (e) {
-					CF.log("Exception in XBMC services processing: " + e);
-				}
-			});
-		}
-
-	function stopXBMCLookup() {
-		CF.stopLookup("_daap._tcp", "");
-		CF.log("Stop looking for XBMC")
-	}
-	
-	self.getXBMCBonjour = function(){
-		// Start looking for XBMC, kill the lookup 1mn later
-		startXBMCLookup();
-		setTimeout(stopXBMCLookup, 60000);
-	};
-	
-	*/
-
-	//--------------------------------------------------------------------------------------------------
-	// Extra functions
-	//--------------------------------------------------------------------------------------------------
-	
-	// 	Passing a variable into regex, using RegExp()
-	//  /g enables "global" matching. When using the replace() method, specify this modifier to replace all matches, rather than only the first one.
-    //	/i makes the regex match case insensitive.
-    //	/m enables "multi-line mode". In this mode, the caret and dollar match before and after newlines in the subject string. 
-	function newCompare(compare_string, search_string){
-		var newRegX = new RegExp(search_string, "gi");
-		return compare_string.match(newRegX);
-	};
-	
-	// maths function - rounding number
-	function round(n,dec) {
-		n = parseFloat(n);
-			if(!isNaN(n)){
-				if(!dec) var dec= 0;
-				var factor= Math.pow(10,dec);
-				return Math.floor(n*factor+((n*factor*10)%10>=5?1:0))/factor;
-			}else{
-			return n;
-			}
-	};
-	
-	//function for decoding string with accents
-	function decode_utf8(string)
-	{
-		return decodeURIComponent(escape(string));
-	};
-	
-	/* Sample function for sorting:
-		
-		To sort it you need to create a comparator function taking two arguments and then call the sort function with that comparator function as follows:
-
-		// a and be are object elements of your array
-		function mycomparator(a,b) {
-		return parseInt(a.price) - parseInt(b.price);
-
-		}
-
-		If you want to sort ascending change parseInt(a.price) - parseInt(b.price) to parseInt(b.price) - parseInt(a.price). Note the change from a to b.
-
-		To do the sort
-
-		homes.sort(mycomparator);
-	
-	http://stackoverflow.com/questions/979256/how-to-sort-an-array-of-javascript-objects
-	
-	*/
-	
-	
 	/*--------------------------------------------------------------------------------------------------
 		TV SHOWS 
 		- Data: TV Series, Season, Episode, Episode Details, Recently Added Episodes
@@ -418,7 +379,60 @@ var XBMC_Controller = function(params) {
 		}
 		CF.listAdd("l"+listJoin, templistArray);
 	};
-
+	
+	// Use the alphabar to filter the list of albums and display the filtered results only.
+	self.alphabarTVShows = function(sliderval, listJoin) {
+	
+				// Calculate the letter based on the slider value (0-27). To allow for better accuracy of the letter, both 0 and 1 slider values will equal "#" in the slider.
+				var letter = "#";
+				if (sliderval > 1) {
+					// Use ascii char code and convert to the letter (letter A = 65, B = 66, and so on). Use parseInt here otherwise the + symbol might concatenate the numbers together, 
+					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
+					letter = String.fromCharCode(63 + parseInt(sliderval));
+				}
+				CF.setJoin("s3333", letter);
+				
+				var templistArray = [];				//initialize temporary array
+				CF.listRemove("l"+listJoin);	//clear list of any previous entries
+			
+				//loop thru all the element in the TV Show Array and display the match
+				for (var i = 0;i<TVSerieslistArray.length;i++)
+				{
+					var searchThumbnail = TVSerieslistArray[i].s1;
+					var searchTitle = TVSerieslistArray[i].s2;
+					var searchTokenId = TVSerieslistArray[i].d1.tokens["[id]"];
+					var searchTokenShowTitle = TVSerieslistArray[i].d1.tokens["[showname]"];
+							
+					if (letter == "#")												// Non-filtered, display everything
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchTitle,
+							d1: {
+								tokens: {
+									"[id]": searchTokenId,
+									"[showname]": searchTokenShowTitle
+									}
+								}
+						});
+					} 
+					else if (letter == searchTitle.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchTitle,
+							d1: {
+								tokens: {
+									"[id]": searchTokenId,
+									"[showname]": searchTokenShowTitle
+									}
+								}
+						});
+					}
+				}// end for
+				CF.listAdd("l"+listJoin, templistArray);
+	};
+	
 	/**
 	 * Function: Get a list of Seasons for a particular show from XBMC
 	 * @Param {integer} ID of the TV show from the XBMC database
@@ -474,7 +488,6 @@ var XBMC_Controller = function(params) {
 	 * Function: Get a list of TV Episodes for a particular show and season from XBMC
 	 * @Param {integer} ID of the season from the XBMC database
 	 */
-	
 	
 	self.getTVEpisodes = function(id, fanart, baseJoin, order, method) {
 		
@@ -804,7 +817,6 @@ var XBMC_Controller = function(params) {
 		CF.listAdd("l"+baseJoin, templistArray);
 	};
 	
-	
 	/*--------------------------------------------------------------------------------------------------
 		MOVIES
 		- Data: Movies, Movie Details, Recently Added Movies
@@ -959,8 +971,6 @@ var XBMC_Controller = function(params) {
 		self.rpc("Playlist.Add", { "playlistid":1, "item":{ "file": file}}, self.logReplyData);	
 	};
 	
-	
-	
 	/*
 	 * Function: Search the array list of TV shows and get the results that matches exactly/contain the characters in the search string
 	 */
@@ -1005,6 +1015,58 @@ var XBMC_Controller = function(params) {
 		
 		CF.listAdd("l"+listJoin, MovieSearchlistArray);
 		});
+	};
+	
+	// Use the alphabar to filter the list of albums and display the filtered results only.
+	self.alphabarMovies = function(sliderval, listJoin) {
+	
+				// Calculate the letter based on the slider value (0-27). To allow for better accuracy of the letter, both 0 and 1 slider values will equal "#" in the slider.
+				var letter = "#";
+				if (sliderval > 1) {
+					// Use ascii char code and convert to the letter (letter A = 65, B = 66, and so on). Use parseInt here otherwise the + symbol might concatenate the numbers together, 
+					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
+					letter = String.fromCharCode(63 + parseInt(sliderval));
+				}
+				CF.setJoin("s1111", letter);
+				
+				var templistArray = [];				//initialize temporary array
+				CF.listRemove("l"+listJoin);	//clear list of any previous entries
+			
+				for (var i = 0;i<MovieslistArray.length;i++)
+				{
+					var searchThumbnail = MovieslistArray[i].s1;
+					var searchTitle = MovieslistArray[i].s2;
+					var searchGenre = MovieslistArray[i].s3;
+					var searchMovieID = MovieslistArray[i].d1.tokens["[id]"];
+									
+					if (letter == "#")												// Non-filtered, display everything
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchTitle,
+							s3: searchGenre,
+							d1: {
+								tokens: {
+									"[id]": searchMovieID
+								}
+							}
+						});
+					} 
+					else if (letter == searchTitle.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchTitle,
+							s3: searchGenre,
+							d1: {
+								tokens: {
+									"[id]": searchMovieID
+								}
+							}
+						});
+					}
+				}// end for
+				CF.listAdd("l"+listJoin, templistArray);
 	};
 	
 	/*
@@ -1651,6 +1713,59 @@ var XBMC_Controller = function(params) {
 		CF.listAdd("l"+listJoin, templistArray);
 	};
 	
+	// Use the alphabar to filter the list of albums and display the filtered results only.
+	self.alphabarArtists = function(sliderval, listJoin) {
+	
+				// Calculate the letter based on the slider value (0-27). To allow for better accuracy of the letter, both 0 and 1 slider values will equal "#" in the slider.
+				var letter = "#";
+				if (sliderval > 1) {
+					// Use ascii char code and convert to the letter (letter A = 65, B = 66, and so on). Use parseInt here otherwise the + symbol might concatenate the numbers together, 
+					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
+					letter = String.fromCharCode(63 + parseInt(sliderval));
+				}
+				CF.setJoin("s5556", letter);
+				
+				var templistArray = [];				//initialize temporary array
+				CF.listRemove("l"+listJoin);	//clear list of any previous entries
+			
+				//loop thru all the element in the TV Show Array and display the match
+				for (var i = 0;i<ArtistlistArray.length;i++)
+				{
+					var searchThumbnail = ArtistlistArray[i].s1;
+					var searchArtist = ArtistlistArray[i].s2;
+					var searchTokenArtistId = ArtistlistArray[i].d1.tokens["[id]"];
+					var searchTokenArtist = ArtistlistArray[i].d1.tokens["[artist]"];
+									
+					if (letter == "#")												// Non-filtered, display everything
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchArtist,
+							d1: {
+								tokens: {
+									"[id]": searchTokenArtistId,
+									"[artist]": searchTokenArtist
+									}
+								}
+							});
+					} 
+					else if (letter == searchArtist.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchArtist,
+							d1: {
+								tokens: {
+									"[id]": searchTokenArtistId,
+									"[artist]": searchTokenArtist
+									}
+								}
+							});
+					}
+				}// end for
+				CF.listAdd("l"+listJoin, templistArray);
+	};
+	
 	/*
 	 * Function: Search the array list of Artists and get the results that matches exactly/contain the characters in the search string
 	 */
@@ -1691,6 +1806,68 @@ var XBMC_Controller = function(params) {
 		CF.listAdd("l"+listJoin, templistArray);
 	};
 	
+	// Use the alphabar to filter the list of albums and display the filtered results only.
+	self.alphabarAlbums = function(sliderval, listJoin) {
+	
+				// Calculate the letter based on the slider value (0-27). To allow for better accuracy of the letter, both 0 and 1 slider values will equal "#" in the slider.
+				var letter = "#";
+				if (sliderval > 1) {
+					// Use ascii char code and convert to the letter (letter A = 65, B = 66, and so on). Use parseInt here otherwise the + symbol might concatenate the numbers together, 
+					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
+					letter = String.fromCharCode(63 + parseInt(sliderval));
+				}
+				CF.setJoin("s5555", letter);
+				
+				var templistArray = [];				//initialize temporary array
+				CF.listRemove("l"+listJoin);	//clear list of any previous entries
+			
+				//loop thru all the element in the TV Show Array and display the match
+				for (var i = 0;i<AlbumlistArray.length;i++)
+				{
+					var searchThumbnail = AlbumlistArray[i].s1;
+					var searchAlbum = AlbumlistArray[i].s2;
+					var searchSortLabel = AlbumlistArray[i].s3;
+					var searchTokenAlbumId = AlbumlistArray[i].d1.tokens["[id]"];
+					var searchTokenFanart = AlbumlistArray[i].d1.tokens["[fanart]"];
+					var searchTokenArtist = AlbumlistArray[i].d1.tokens["[artist]"];
+					var searchTokenAlbum = AlbumlistArray[i].d1.tokens["[albumtitle]"];
+											
+					if (letter == "#")												// Non-filtered, display everything
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchAlbum,
+							s3: searchSortLabel,
+							d1: {
+								tokens: {
+									"[id]": searchTokenAlbumId,
+									"[artist]": searchTokenArtist,
+									"[fanart]": searchTokenFanart,
+									"[albumtitle]": searchTokenAlbum
+									}
+								}
+							});
+					} 
+					else if (letter == searchAlbum.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchAlbum,
+							s3: searchSortLabel,
+							d1: {
+								tokens: {
+									"[id]": searchTokenAlbumId,
+									"[artist]": searchTokenArtist,
+									"[fanart]": searchTokenFanart,
+									"[albumtitle]": searchTokenAlbum
+									}
+								}
+							});
+					}
+				}// end for
+				CF.listAdd("l"+listJoin, templistArray);
+	};
+	
 	/*
 	 * Function: Search the array list of Artists and get the results that matches exactly/contain the characters in the search string
 	 */
@@ -1725,6 +1902,62 @@ var XBMC_Controller = function(params) {
 			}
 		}
 		CF.listAdd("l"+listJoin, templistArray);
+	};
+	
+	// Use the alphabar to filter the list of albums and display the filtered results only.
+	self.alphabarSongs = function(sliderval, listJoin) {
+	
+				// Calculate the letter based on the slider value (0-27). To allow for better accuracy of the letter, both 0 and 1 slider values will equal "#" in the slider.
+				var letter = "#";
+				if (sliderval > 1) {
+					// Use ascii char code and convert to the letter (letter A = 65, B = 66, and so on). Use parseInt here otherwise the + symbol might concatenate the numbers together, 
+					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
+					letter = String.fromCharCode(63 + parseInt(sliderval));
+				}
+				CF.setJoin("s5557", letter);
+				
+				var templistArray = [];				//initialize temporary array
+				CF.listRemove("l"+listJoin);	//clear list of any previous entries
+			
+				//loop thru all the element in the TV Show Array and display the match
+				for (var i = 0;i<SonglistArray.length;i++)
+				{
+					var searchThumbnail = SonglistArray[i].s1;
+					var searchSong = SonglistArray[i].s2;
+					var searchSortLabel = SonglistArray[i].s3;
+					var searchTokenSongId = SonglistArray[i].d1.tokens["[id]"];
+					var searchTokenFile = SonglistArray[i].d1.tokens["[file]"];
+											
+					if (letter == "#")												// Non-filtered, display everything
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchSong,
+							s3: searchSortLabel,
+							d1: {
+								tokens: {
+									"[id]": searchTokenSongId,
+									"[file]": searchTokenFile
+									}
+								}
+							});
+					} 
+					else if (letter == searchSong.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
+					{
+						templistArray.push({				// Add to array to add to list in one go later
+							s1: searchThumbnail,
+							s2: searchSong,
+							s3: searchSortLabel,
+							d1: {
+								tokens: {
+									"[id]": searchTokenSongId,
+									"[file]": searchTokenFile
+									}
+								}
+							});
+					}
+				}// end for
+				CF.listAdd("l"+listJoin, templistArray);
 	};
 	
 	//--------------------------------------------------------------------------------------------------
@@ -2601,6 +2834,10 @@ var XBMC_Controller = function(params) {
 		}								
 	};
 	
+	//--------------------------------------------------------------------------------------------------
+	// Volume Control
+	//--------------------------------------------------------------------------------------------------
+	
 	// Get the current level of the volume
 	self.volGet = function(callback) {
 		
@@ -2651,11 +2888,241 @@ var XBMC_Controller = function(params) {
 		});
 	};
 	
+	//--------------------------------------------------------------------------------------------------
+	// Instances
+	// -> List all available XBMC instances. List will be loaded from preset list, new addition and bonjour lookup
+	//--------------------------------------------------------------------------------------------------
 	
-	//self.introspect = function() {
-	//	self.rpc("Application.setVolume", {"value": Math.min(self.currentVol + 1, 100)}, self.logReplyData);		//Previous XBMC.setVolume
-	//};
-
+	// Load preset instances data on setup. These instances are not able to be deleted - useful for important systems.
+	self.presetInstance = function() {							
+			
+			// Add into global array
+			CF.listAdd("l25", [
+				{
+					s1: "XBMC Notebook",
+					d1: {
+							tokens: {
+								"[instSystem]": "XBMC Notebook",
+								"[instUsername]": "xbmc",
+								"[instPassword]": "xbmc",
+								"[instURL]": "192.168.0.101",
+								"[instPort]": "8080",
+						}
+					},
+					d2: {
+							tokens: {
+								"[instSystem]": "XBMC Notebook",
+								"[instUsername]": "xbmc",
+								"[instPassword]": "xbmc",
+								"[instURL]": "192.168.0.101",
+								"[instPort]": "8080",
+						}
+					},
+				},
+				{	// Manual entry for second instance
+					s1: "XBMC MacMini",
+					d1: {
+							tokens: {
+								"[instSystem]": "XBMC MacMini",
+								"[instUsername]": "xbmc",
+								"[instPassword]": "xbmc",
+								"[instURL]": "192.168.0.105",
+								"[instPort]": "8080",
+						}
+					},
+					d2: {
+							tokens: {
+								"[instSystem]": "XBMC MacMini",
+								"[instUsername]": "xbmc",
+								"[instPassword]": "xbmc",
+								"[instURL]": "192.168.0.105",
+								"[instPort]": "8080",
+						}
+					},
+				},
+				{	// Manual entry for third instance
+					s1: "XBMC HTPC",
+					d1: {
+							tokens: {
+								"[instSystem]": "XBMC HTPC",
+								"[instUsername]": "xbmc",
+								"[instPassword]": "xbmc",
+								"[instURL]": "192.168.0.103",
+								"[instPort]": "8080",
+						}
+					},
+					d2: {
+							tokens: {
+								"[instSystem]": "XBMC HTPC",
+								"[instUsername]": "xbmc",
+								"[instPassword]": "xbmc",
+								"[instURL]": "192.168.0.103",
+								"[instPort]": "8080",
+						}
+					},
+				}
+			]);
+				
+			// Hide the delete buttons so that user can't delete. Depends on the number of peset instances.
+			CF.setProperties([
+				{join: "l25:0:d2", opacity: 0.0},
+				{join: "l25:1:d2", opacity: 0.0},
+				{join: "l25:2:d2", opacity: 0.0}
+			]);
+				
+	};
+	
+	// Show all the settings of the selected instance
+	self.displayInstanceSettings = function(instSystem, instUsername, instPassword, instURL, instPort, listIndex) {
+		// Read the tokens and populate the text field
+		CF.setJoins([
+			{ join:"s60", value: instSystem },							// System Name
+			{ join:"s61", value: instURL },								// URL
+			{ join:"s62", value: instPort },							// Port
+			{ join:"s63", value: instUsername },						// Username
+			{ join:"s64", value: instPassword },						// Password
+			{ join:"d60", tokens: {"[indexList]": listIndex} }			// Password
+		]);	
+	};
+	
+	/*
+	self.editCurrentInstance = function(indexList) {
+		CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
+			CF.listUpdate("l25", [
+				{
+						index: indexList,
+						s1: joins.s60.value,
+						d1: {
+								tokens: {
+									"[instSystem]": joins.s60.value,
+									"[instURL]": joins.s61.value,
+									"[instPort]": joins.s62.value,
+									"[instUsername]": joins.s63.value,
+									"[instPassword]": joins.s64.value
+							}
+						},
+				}
+			]);
+		});	
+	};
+	*/
+	
+	self.addNewInstance = function() {									// Gets the values of the IP settings
+		// Get the values of all the IP Settings at once.
+		//s60 = System Name, s61 = Host Name / IP Add, s62 = port, s63 = username, s64 = password
+		CF.getJoins(["s70", "s71", "s72", "s73", "s74"], function(joins) {
+			
+			// Add into global array
+			XBMCInstancesArray.push({	
+					s1: joins.s70.value,
+					d1: {
+							tokens: {
+								"[instSystem]": joins.s70.value,
+								"[instURL]": joins.s71.value,
+								"[instPort]": joins.s72.value,
+								"[instUsername]": joins.s73.value,
+								"[instPassword]": joins.s74.value
+						}
+					},
+					d2: {
+							tokens: {
+								"[instSystem]": joins.s70.value,
+								"[instURL]": joins.s71.value,
+								"[instPort]": joins.s72.value,
+								"[instUsername]": joins.s73.value,
+								"[instPassword]": joins.s74.value
+						}
+					}
+				});
+			
+			
+			// Add into list to be displayed			
+			CF.listAdd("l25", [
+				{	
+					s1: joins.s70.value,
+					d1: {
+							tokens: {
+								"[instSystem]": joins.s70.value,
+								"[instURL]": joins.s71.value,
+								"[instPort]": joins.s72.value,
+								"[instUsername]": joins.s73.value,
+								"[instPassword]": joins.s74.value
+						}
+					},
+					d2: {
+							tokens: {
+								"[instSystem]": joins.s70.value,
+								"[instURL]": joins.s71.value,
+								"[instPort]": joins.s72.value,
+								"[instUsername]": joins.s73.value,
+								"[instPassword]": joins.s74.value
+						}
+					}
+				}
+			]);	
+					
+		
+		// Save all data to persistent Global Token
+		savePersistentData("[addInstanceArray]", XBMCInstancesArray);
+		
+		});
+	};
+	
+	self.removeSelectedInstance = function(instSystem) {		// using System Name as the unique identifier. Can use others as well i.e. IP Address
+		
+		// initialize temporary array
+		var templistArray = [];															
+		
+		// go through all the elements in the global array
+		for (var i = 0;i<XBMCInstancesArray.length;i++)										
+		{
+			var inst_s1 = XBMCInstancesArray[i].s1;
+			var inst_sys = XBMCInstancesArray[i].d2.tokens["[instSystem]"];
+			var inst_url = XBMCInstancesArray[i].d2.tokens["[instURL]"];
+			var inst_port = XBMCInstancesArray[i].d2.tokens["[instPort]"];
+			var inst_username = XBMCInstancesArray[i].d2.tokens["[instUsername]"];
+			var inst_password = XBMCInstancesArray[i].d2.tokens["[instPassword]"];
+			
+			if(inst_sys != instSystem)										// if the settings if not similar with the one deleted. Make sure this field is unique.
+			{
+				templistArray.push({	
+					s1: inst_s1,
+						d1: {
+								tokens: {
+									"[instSystem]": inst_sys,
+									"[instURL]": inst_url,
+									"[instPort]": inst_port,
+									"[instUsername]": inst_username,
+									"[instPassword]": inst_password
+							}
+						},
+						d2: {
+								tokens: {
+									"[instSystem]": inst_sys,
+									"[instURL]": inst_url,
+									"[instPort]": inst_port,
+									"[instUsername]": inst_username,
+									"[instPassword]": inst_password
+							}
+						}
+				});
+			}
+		}
+		
+		// Reinitialize global array with new values 
+		//XBMCInstancesArray = [];					// delete previous data
+		XBMCInstancesArray = templistArray;			// update data with the latest array
+		
+		// Save all data to persistent Global Token
+		savePersistentData("[addInstanceArray]", XBMCInstancesArray);
+	};
+	
+	
+	
+	//--------------------------------------------------------------------------------------------------
+	// Error logging
+	//--------------------------------------------------------------------------------------------------
+	
 	self.logReplyData = function(data) {
 		CF.logObject(data);
 	};
@@ -2669,36 +3136,3 @@ var XBMC_Controller = function(params) {
 	return self;
 };
 
-
-/*
-//--- Some notes and extra stuff ------------------------------//
-	
-sort method syntax {"jsonrpc":"2.0","method":"AudioLibrary.GetAlbums","id":1,"params":{"sortmethod":"strAlbum","start":0,"end":10}}
-	               "sort": { "method": "foo", "order": "ascending" }
-	
-Start Slideshow {"jsonrpc": "2.0", "method": "XBMC.StartSlideshow","params": { "directory": "/Volumes/Pictures/2008_Afrika/" }, "id": 1}
-
-Show specific picture from directory {"jsonrpc": "2.0", "method": "XBMC.Play", "params": { "file": "/Volumes/Pictures/2008_Afrika/103-0311.JPG" }, "id": 1}
-	 				or {"jsonrpc": "2.0", "method": "XBMC.StartSlideshow","params": { "directory": "/Volumes/Pictures/2008_Afrika/103-0311.JPG" }, "id": 1}
-	
-VideoPlaylist Add {"jsonrpc" : "2.0", "method" : "VideoPlaylist.Add", "params": { "item": {"file": "D:/Media Files/Movie/How to train your dragon (2010) 1080p.avi" }}, "id":1}
-	
-Get directory {"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"directory": ""}, "id": "1"}
-	
-sort {"jsonrpc": "2.0", "method": "AudioLibrary.GetRecentlyAddedAlbums", "params" :{ "sort": { "order": "ascending", "method": "size" } },"id": 1}
-	"enum": [ "none", "label", "date", "size", "file", "drivetype", "track", "duration", "title", "artist", "album", "genre", "year", "videorating", "programcount", "playlist", "episode", "videotitle",
-    "sorttitle", "productioncode", "songrating", "mpaarating", "videoruntime", "studio", "fullpath",
-                  "lastplayed", "unsorted", "max" ]
-				  
-Clock formatting var elapsedString = ("00"+Math.floor((elapsed/1000) / 60)).slice(-2) + ":" + ("00"+(Math.ceil(elapsed/1000)% 60)).slice(-2);
-
-volume control/seek - output formatting
-
-Otherwise a Playlist.Sort(playlist-virtual="foo", order=[5, 0, 1, 2, 3, 4, 6]) could be used but would need some usage cases on that one.
-What would happen if order=[4, 4, 1, 2] and what would happen if list is 0->6 and you do order=[6, 1, 3] and so on. If I get a good spec on that I can probably work something out :)That's exactly what I'm aiming at :). But your suggestion is probably better. In the JS api it could look something like...
-
-Xbmc.AudioPlaylist.move(i_currentlIndex, i_newIndex);or
-Xbmc.AudioPlaylist.moveItem(i_currentlIndex, i_newIndex);or
-Xbmc.AudioPlaylist.setItemIndex(i_currentlIndex, i_newIndex);....and let the api handle the item shifting. I think the last method naming is the most accurate, although setEntryIndex might even be better.
-
-*/

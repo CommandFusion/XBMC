@@ -14,7 +14,7 @@
     </devices>
   </properties>
   <systems>
-    <system name="Loopback" ip="127.0.0.1" port="10210" protocol="tcp" alwayson="1" accept="0" acceptBroadcasts="0" ssl="0" maxconnections="0" heartbeatRx="" heartbeatTx="" heartbeatMode="-1" eom="" connectionStatus="0" disconnectionStatus="0">
+    <system name="Loopback" ip="127.0.0.1" port="10210" protocol="tcp" alwayson="1" offlinequeue="1" accept="0" acceptBroadcasts="0" ssl="0" maxconnections="0" heartbeatRx="" heartbeatTx="" heartbeatMode="-1" eom="" connectionStatus="0" disconnectionStatus="0">
       <cmd name="Show Statusbar" target="d17931" value="1">1</cmd>
       <cmd name="Volume" js="XBMCMacMini.XBMC.setVolume(data)" jsSendsCommand="True">[sliderval]</cmd>
       <cmd name="Page_TVShow">page=10</cmd>
@@ -22,7 +22,6 @@
       <cmd name="Page_Music">page=12</cmd>
       <cmd name="Page_PlayingNow">page=13</cmd>
       <cmd name="Page_Playlist">page=14</cmd>
-      <cmd name="Search_TVShow" js="XBMCMacMini.TVShowSearch(data)" jsSendsCommand="True">[inputval]</cmd>
       <cmd name="set_IPSettings" js="XBMCMacMini.setIPSettings()" jsSendsCommand="False" />
       <cmd name="Page_File">page=15</cmd>
       <cmd name="DropMenu_TVShow_Ascend" folder="TV Show">menu=22</cmd>
@@ -58,6 +57,14 @@
       <cmd name="VideoTimer_Stop" js="XBMCMacMini.XBMC.stopVideoTimer()" jsSendsCommand="False" folder="Playing Now" />
       <cmd name="Search_Album" js="XBMCMacMini.AlbumSearch(data)" jsSendsCommand="True" folder="Music">[inputval]</cmd>
       <cmd name="Search_Song" js="XBMCMacMini.SongSearch(data)" jsSendsCommand="True" folder="Music">[inputval]</cmd>
+      <cmd name="alphasrchTVShows" js="XBMCMacMini.alphasrchTVShows(data)" jsSendsCommand="True" folder="TV Show">[sliderval]</cmd>
+      <cmd name="Search_TVShow" js="XBMCMacMini.TVShowSearch(data)" jsSendsCommand="True" folder="TV Show">[inputval]</cmd>
+      <cmd name="alphasrchMovies" js="XBMCMacMini.alphasrchMovies(data)" jsSendsCommand="True" folder="Movie">[sliderval]</cmd>
+      <cmd name="alphasrchArtists" js="XBMCMacMini.alphasrchArtists(data)" jsSendsCommand="True" folder="Music">[sliderval]</cmd>
+      <cmd name="alphasrchAlbums" js="XBMCMacMini.alphasrchAlbums(data)" jsSendsCommand="True" folder="Music">[sliderval]</cmd>
+      <cmd name="alphasrchSongs" js="XBMCMacMini.alphasrchSongs(data)" jsSendsCommand="True" folder="Music">[sliderval]</cmd>
+      <cmd name="DropMenuSettings_Back" js="CF.setJoin(&quot;d18&quot;,1);" jsSendsCommand="False" target="d19" value="0" />
+      <cmd name="DropMenuSettings_Add_Back" js="CF.setJoin(&quot;d17&quot;,0);" jsSendsCommand="False" target="d18" value="1" />
       <fb name="PageFlip_Icon_Indicator" regex="page=(10)?(11)?(12)?(13)?(14)?(15)?">
         <group index="1" name="" datatype="d" target="d10" onVal="10" />
         <group index="2" name="" datatype="d" target="d11" onVal="11" />
@@ -454,13 +461,21 @@
     <theme type="button" name=".list_menudrop_header_blank_r[state='1']"><![CDATA[padding: 0px 15px 0px 0px; background-image: url(btn_list_header_blank_on.png); color: White; font-size: 16px; font-family: 'Microsoft Sans Serif'; font-weight: normal; font-style: none; text-decoration: none; text-align: right; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
     <theme type="text" name=".menu_dropdown_title_r"><![CDATA[ text-shadow: rgba(0,0,0,0.78) 1px 0px 1px; color: White; font-size: 18px; font-family: 'Microsoft Sans Serif'; text-align: right; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
     <theme type="text" name=".Large_C"><![CDATA[ text-shadow: rgba(0,0,0,1) 1px -1px 1px; color: White; font-size: 34px; font-family: 'Arial'; text-align: center; vertical-align: middle; font-weight: bold; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="gauge" name=".alphabar[state='0']"><![CDATA[ background-image: url(alphabet.png);]]></theme>
+    <theme type="gauge" name=".alphabar[state='1']"><![CDATA[]]></theme>
+    <theme type="button" name=".list_dropmenu_btn_single_l_copy[state='0']"><![CDATA[padding: 0px 0px 0px 15px; background-image: url(btn_list_single_off.png); color: Black; font-size: 16px; font-family: 'MS Reference Sans Serif'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".list_dropmenu_btn_single_l_copy[state='1']"><![CDATA[padding: 0px 0px 0px 15px; background-image: url(btn_list_single_on.png); color: White; font-size: 16px; font-family: 'MS Reference Sans Serif'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="text" name=".menu_dropdown_title_l_copy"><![CDATA[ text-shadow: rgba(0,0,0,0.78) 1px 1px 1px; color: White; font-size: 18px; font-family: 'Microsoft Sans Serif'; text-align: left; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="button" name=".list_menudrop_body_blank_l_v2[state='0']"><![CDATA[padding: 0px 0px 0px 50px; background-image: url(btn_list_blank_off.png); color: Black; font-size: 16px; font-family: 'Microsoft Sans Serif'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".list_menudrop_body_blank_l_v2[state='1']"><![CDATA[padding: 0px 0px 0px 50px; background-image: url(btn_list_blank_on.png); color: White; font-size: 16px; font-family: 'Microsoft Sans Serif'; font-weight: normal; font-style: none; text-decoration: none; text-align: left; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
   </themes>
   <tokens>
     <token name="[inputURL]" value="192.168.0.101" persist="1" />
     <token name="[inputPort]" value="8080" persist="1" />
     <token name="[inputUsername]" value="xbmc" persist="1" />
     <token name="[inputPassword]" value="xbmc" persist="1" />
-    <token name="[inputSysName]" value="HTPC" persist="1" />
+    <token name="[inputSystem]" value="XBMC Notebook" persist="1" />
+    <token name="[addInstanceArray]" value="" persist="1" />
   </tokens>
   <scripts>
     <script name="xbmcapp.js" />
@@ -478,9 +493,9 @@
       <subpage name="wifi" x="2" y="17" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="transport_video" x="51" y="28" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
       <subpage name="vol" x="278" y="24" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
-      <subpage name="TVShow_Series_List" x="10" y="154" j="3001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
+      <subpage name="TVShow_Series_List" x="10" y="154" j="3001" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="0" />
       <subpage name="TVShow_Season_List" x="10" y="154" j="3002" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
-      <subpage name="TVShow_Episode_List" x="10" y="154" j="3003" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="1" l="1" />
+      <subpage name="TVShow_Episode_List" x="10" y="154" j="3003" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="TV_DropMenu_Series" x="0" y="0" j="20" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="TVShow_RecentEpisodes_List" x="10" y="154" j="3004" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="TVShow_Genre_Details_List" x="10" y="154" j="3006" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
@@ -843,7 +858,6 @@ Settings</active>
         <active s="0">
         </active>
       </btn>
-      <subpage name="Menu_DropMenu_Settings" x="0" y="0" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
       <subpage name="Main_RecentMovie_List" x="352" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Main_RecentAlbum_List" x="689" y="191" j="9103" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
       <subpage name="Main_RecentEpisode_List" x="14" y="191" j="0" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="1" />
@@ -868,6 +882,9 @@ Settings</active>
       <img x="689" y="191" w="318" h="24" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_main3_top_shadow.png</img>
       <img x="14" y="191" w="318" h="24" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_main1_top_shadow.png</img>
       <img x="352" y="191" w="318" h="24" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_main2_top_shadow.png</img>
+      <subpage name="Menu_DropMenu_Settings_Main" x="0" y="0" j="18" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
+      <subpage name="Menu_DropMenu_Settings" x="0" y="0" j="19" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="1" v="0" l="1" />
+      <subpage name="Menu_DropMenu_Settings_Add" x="0" y="0" j="17" transition1="None" subtype1="None" time1="0" ease1="" transition2="None" subtype2="None" time2="0" ease2="" clickthrough="0" topmost="0" v="0" l="0" />
     </landscape>
   </page>
   <page name="File" j="0" transition="" subtype="" time="0" ease="">
@@ -1003,7 +1020,7 @@ Settings</active>
     <img x="1" y="229" w="588" h="114" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">content_menu_bg.png</img>
     <img x="5" y="243" w="121" h="87" j="4001" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="1" clearOnURLChange="1" />
     <txt j="4003" x="133" y="243" w="448" h="35" t="EpisodeNameLarge" wrap="True" l="1">episode title</txt>
-    <txt j="4004" x="5" y="337" w="581" h="170" t="EpDetails" wrap="False" l="1">plot</txt>
+    <txt j="4004" x="5" y="337" w="581" h="170" t="EpDetails" wrap="True" l="1">plot</txt>
     <btn j="0" x="310" y="515" w="181" h="44" t="cf_black_bottom_button" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.playSelectedEpisode()">
       <inactive s="0">Play Episode</inactive>
       <active s="0">Play Episode</active>
@@ -2012,12 +2029,6 @@ Settings</active>
   </subpage>
   <subpage name="Menu_DropMenu_Settings" w="1024" h="768" clip="1">
     <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
-    <btn j="18" x="0" y="0" w="1114" h="819" t="btn_transparent" flip="None" sim="2" l="1" s="1">
-      <inactive s="0">
-      </inactive>
-      <active s="0">
-      </active>
-    </btn>
     <img x="670" y="78" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
     <btn j="0" x="690" y="179" w="302" h="45" t="list_menudrop_header_blank_l" flip="None" sim="1" l="1" s="1">
       <inactive s="0">Description :</inactive>
@@ -2039,22 +2050,34 @@ Settings</active>
       <inactive s="0">  Password : </inactive>
       <active s="0">  Password : </active>
     </btn>
-    <txt j="0" x="704" y="142" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="1">Settings</txt>
-    <btn j="0" x="943" y="106" w="54" h="30" t="list_dropmenu_btn_edit" flip="None" sim="1" l="1" s="1">
-      <inactive s="0">Edit</inactive>
-      <active s="0">Edit</active>
+    <txt j="0" x="704" y="142" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="1">System Settings</txt>
+    <input j="0" s="61" x="804" y="224" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <input j="0" s="62" x="804" y="269" w="185" h="45" pass="0" autoFocus="0" f="4" t="search_black" l="1">
+    </input>
+    <input j="0" s="63" x="804" y="314" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <input j="0" s="64" x="804" y="359" w="185" h="45" pass="1" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <input j="0" s="60" x="804" y="179" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <btn j="0" x="684" y="106" w="54" h="30" t="list_dropmenu_btn_back" flip="None" sim="1" l="1" s="1" cmd="DropMenuSettings_Back">
+      <inactive s="0"> Back</inactive>
+      <active s="0"> Back</active>
     </btn>
-    <input j="60" s="60" x="804" y="179" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" command="set_IPSettings" l="1">(description)</input>
-    <input j="61" s="61" x="804" y="224" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" command="set_IPSettings" l="1">(host name)</input>
-    <input j="62" s="62" x="804" y="269" w="185" h="45" pass="0" autoFocus="0" f="4" t="search_black" command="set_IPSettings" l="1">(port)</input>
-    <input j="63" s="63" x="804" y="314" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" command="set_IPSettings" l="1">(username)</input>
-    <input j="64" s="64" x="804" y="359" w="185" h="45" pass="1" autoFocus="0" f="0" t="search_black" command="set_IPSettings" l="1">(password)</input>
-  </subpage>
-  <subpage name="Movie_DropMenu_Genre_Item" w="320" h="44" clip="1">
-    <btn j="1" x="0" y="0" w="320" h="44" t="list_menudrop_body_blank_l" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.searchMoviesGenre(list, listIndex, join)">
-      <inactive s="2">Text</inactive>
-      <active s="2">Text</active>
+    <btn j="0" x="690" y="485" w="302" h="46" t="list_menudrop_body_blank_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.setIPSettings()">
+      <inactive s="0">Select This Instance</inactive>
+      <active s="0">Select This Instance</active>
     </btn>
+    <btn j="0" x="690" y="531" w="302" h="46" t="list_menudrop_footer_blank_l" flip="None" sim="1" l="0" s="1" cmd="DropMenuSettings_Back">
+      <inactive s="0">Cancel</inactive>
+      <active s="0">Cancel</active>
+    </btn>
+    <btn j="60" x="690" y="439" w="302" h="46" t="list_menudrop_header_blank_l" flip="None" sim="1" l="0" s="1" js="disabled_XBMCMacMini.updateInstance()">
+      <inactive s="0">Update the Settings </inactive>
+      <active s="0">Update the Settings </active>
+    </btn>
+    <txt j="0" x="704" y="404" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Actions</txt>
   </subpage>
   <subpage name="Main_RecentMovie_Item" w="320" h="98" clip="1">
     <img x="4" y="0" w="79" h="92" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
@@ -3286,9 +3309,81 @@ Are you sure you want to proceed?</txt>
     <img x="639" y="16" w="186" h="29" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">menu_search.png</img>
     <input j="0" s="52" x="667" y="16" w="158" h="29" pass="0" autoFocus="0" f="0" t="search_black" changeCommand="Search_Song" l="1">(search Song)</input>
   </subpage>
+  <subpage name="Movie_DropMenu_Genre_Item" w="320" h="44" clip="1">
+    <btn j="1" x="0" y="0" w="320" h="44" t="list_menudrop_body_blank_l" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.searchMoviesGenre(list, listIndex, join)">
+      <inactive s="2">Text</inactive>
+      <active s="2">Text</active>
+    </btn>
+  </subpage>
+  <subpage name="Menu_DropMenu_Settings_Main_Item" w="320" h="44" clip="1">
+    <btn j="1" x="0" y="0" w="320" h="44" t="list_menudrop_body_blank_l_v2" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.displayInstance(list, listIndex, join)">
+      <inactive s="1">Text</inactive>
+      <active s="1">Text</active>
+    </btn>
+    <btn j="2" x="6" y="7" w="38" h="30" t="list_dropmenu_btn_edit" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.removeInstance(list, listIndex, join)">
+      <inactive s="0">Del</inactive>
+      <active s="0">Del</active>
+    </btn>
+  </subpage>
+  <subpage name="Menu_DropMenu_Settings_Add" w="1024" h="768" clip="1">
+    <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
+    <img x="670" y="78" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
+    <btn j="0" x="690" y="179" w="302" h="45" t="list_menudrop_header_blank_l" flip="None" sim="1" l="1" s="1">
+      <inactive s="0">Description :</inactive>
+      <active s="0">Description :</active>
+    </btn>
+    <btn j="0" x="690" y="224" w="302" h="45" t="list_menudrop_body_blank_l" flip="None" sim="1" l="1" s="1">
+      <inactive s="0">           Host :</inactive>
+      <active s="0">           Host :</active>
+    </btn>
+    <btn j="0" x="690" y="269" w="302" h="45" t="list_menudrop_body_blank_l" flip="None" sim="1" l="1" s="1">
+      <inactive s="0">            Port : </inactive>
+      <active s="0">            Port : </active>
+    </btn>
+    <btn j="0" x="690" y="314" w="302" h="45" t="list_menudrop_body_blank_l" flip="None" sim="1" l="1" s="1">
+      <inactive s="0"> Username :</inactive>
+      <active s="0"> Username :</active>
+    </btn>
+    <btn j="0" x="690" y="359" w="302" h="45" t="list_menudrop_footer_blank_l" flip="None" sim="1" l="1" s="1">
+      <inactive s="0">  Password : </inactive>
+      <active s="0">  Password : </active>
+    </btn>
+    <txt j="0" x="704" y="142" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="1">Add New System Settings</txt>
+    <input j="0" s="71" x="804" y="224" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <input j="0" s="72" x="804" y="269" w="185" h="45" pass="0" autoFocus="0" f="4" t="search_black" l="1">
+    </input>
+    <input j="0" s="73" x="804" y="314" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <input j="0" s="74" x="804" y="359" w="185" h="45" pass="1" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <input j="0" s="70" x="804" y="179" w="185" h="45" pass="0" autoFocus="0" f="0" t="search_black" l="1">
+    </input>
+    <btn j="0" x="684" y="106" w="54" h="30" t="list_dropmenu_btn_back" flip="None" sim="1" l="1" s="1" cmd="DropMenuSettings_Add_Back">
+      <inactive s="0"> Back</inactive>
+      <active s="0"> Back</active>
+    </btn>
+    <btn j="0" x="690" y="485" w="302" h="46" t="list_menudrop_footer_blank_l" flip="None" sim="1" l="0" s="1" cmd="DropMenuSettings_Add_Back">
+      <inactive s="0">Cancel</inactive>
+      <active s="0">Cancel</active>
+    </btn>
+    <btn j="0" x="690" y="439" w="302" h="46" t="list_menudrop_header_blank_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.XBMC.addNewInstance()">
+      <inactive s="0">Add the Settings </inactive>
+      <active s="0">Add the Settings </active>
+    </btn>
+    <txt j="0" x="704" y="404" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Actions</txt>
+  </subpage>
+  <subpage name="Menu_DropMenu_Settings_Main_Header" w="320" h="44" clip="1">
+    <btn j="1" x="0" y="0" w="320" h="44" t="list_menudrop_body_blank_l_v2" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.displayInstance(list, listIndex, join)">
+      <inactive s="1">Text</inactive>
+      <active s="1">Text</active>
+    </btn>
+  </subpage>
   <subpage name="TVShow_Series_List" w="387" h="605" clip="1">
     <list j="3001" x="11" y="38" w="365" h="564" headerSub="" titleSub="" contentSub="TVShow_Series_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
     <txt j="3001" x="0" y="0" w="387" h="37" t="cfblue2_small_lighter_c" wrap="True" l="1">ARTIST</txt>
+    <slider j="0" d="0" x="339" y="48" w="48" h="545" min="0" max="27" decimals="0" pressCmd="alphasrchTVShows" dragCmd="alphasrchTVShows" unit="decimal" t="alphabar" invert="1" sim="1" l="0" />
+    <txt j="3333" x="339" y="0" w="48" h="37" t="cfblue2_small_lighter_c" wrap="True" l="0">#</txt>
   </subpage>
   <subpage name="TVShow_Season_List" w="387" h="605" clip="1">
     <list j="3002" x="11" y="126" w="365" h="476" headerSub="" titleSub="" contentSub="TVShow_Season_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
@@ -3325,6 +3420,8 @@ Are you sure you want to proceed?</txt>
   <subpage name="Music_Artist_All_List" w="387" h="605" clip="1">
     <list j="5001" x="11" y="38" w="365" h="564" headerSub="" titleSub="" contentSub="Music_Artist_All_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
     <txt j="5001" x="0" y="0" w="387" h="37" t="cfblue2_small_lighter_c" wrap="True" l="1">All Artists</txt>
+    <slider j="0" d="0" x="339" y="48" w="48" h="545" min="0" max="27" decimals="0" pressCmd="alphasrchArtists" dragCmd="alphasrchArtists" unit="decimal" t="alphabar" invert="1" sim="0" l="0" />
+    <txt j="5556" x="339" y="0" w="48" h="37" t="cfblue2_small_lighter_c" wrap="True" l="0">#</txt>
   </subpage>
   <subpage name="Music_Artist_Album_List" w="387" h="605" clip="1">
     <list j="5002" x="11" y="125" w="365" h="477" headerSub="" titleSub="" contentSub="Music_Artist_Album_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
@@ -3372,6 +3469,8 @@ Are you sure you want to proceed?</txt>
   <subpage name="Movie_List" w="387" h="605" clip="1">
     <list j="1001" x="11" y="39" w="365" h="563" headerSub="" titleSub="" contentSub="Movie_List_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
     <txt j="1001" x="0" y="0" w="387" h="37" t="cfblue2_small_lighter_c" wrap="True" l="1">Movie List</txt>
+    <slider j="0" d="0" x="339" y="48" w="48" h="545" min="0" max="27" decimals="0" pressCmd="alphasrchMovies" dragCmd="alphasrchMovies" unit="decimal" t="alphabar" invert="1" sim="0" l="0" />
+    <txt j="1111" x="339" y="0" w="48" h="37" t="cfblue2_small_lighter_c" wrap="True" l="0">#</txt>
   </subpage>
   <subpage name="Movie_RecentMovie_List" w="387" h="605" clip="1">
     <list j="1003" x="11" y="39" w="365" h="560" headerSub="" titleSub="" contentSub="Movie_RecentMovie_Item" footerSub="" orientation="v" l="1" swipedelete="1" />
@@ -3487,9 +3586,41 @@ ALBUMS</active>
   <subpage name="Music_Song_All_List" w="387" h="605" clip="1">
     <list j="5009" x="11" y="38" w="365" h="564" headerSub="" titleSub="" contentSub="Music_Song_All_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
     <txt j="5009" x="0" y="0" w="387" h="37" t="cfblue2_small_lighter_c" wrap="True" l="1">ALL SONGS</txt>
+    <slider j="0" d="0" x="339" y="48" w="48" h="545" min="0" max="27" decimals="0" pressCmd="alphasrchSongs" dragCmd="alphasrchSongs" unit="decimal" t="alphabar" invert="1" sim="0" l="0" />
+    <txt j="5557" x="339" y="0" w="48" h="37" t="cfblue2_small_lighter_c" wrap="True" l="0">#</txt>
   </subpage>
   <subpage name="Music_Album_All_List" w="387" h="605" clip="1">
     <list j="5007" x="11" y="38" w="365" h="564" headerSub="" titleSub="" contentSub="Music_Album_All_Item" footerSub="" orientation="v" l="1" swipedelete="0" />
     <txt j="5007" x="0" y="0" w="387" h="37" t="cfblue2_small_lighter_c" wrap="True" l="1">All Albums</txt>
+    <slider j="0" d="0" x="339" y="48" w="48" h="545" min="0" max="27" decimals="0" pressCmd="alphasrchAlbums" dragCmd="alphasrchAlbums" unit="decimal" t="alphabar" invert="1" sim="0" l="0" />
+    <txt j="5555" x="339" y="0" w="48" h="37" t="cfblue2_small_lighter_c" wrap="True" l="0">#</txt>
+  </subpage>
+  <subpage name="Menu_DropMenu_Settings_Main" w="1024" h="768" clip="1">
+    <img x="0" y="0" w="1024" h="768" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_dark_overlay.png</img>
+    <btn j="18" x="0" y="0" w="1114" h="819" t="btn_transparent" flip="None" sim="2" l="1" s="1">
+      <inactive s="0">
+      </inactive>
+      <active s="0">
+      </active>
+    </btn>
+    <img x="670" y="78" w="342" h="574" j="0" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0">bg_drop_down_menu.png</img>
+    <btn j="17" x="943" y="106" w="54" h="30" t="list_dropmenu_btn_edit" flip="None" sim="2" l="1" s="1">
+      <inactive s="0">Add</inactive>
+      <active s="0">Add</active>
+    </btn>
+    <list j="25" x="682" y="264" w="318" h="265" headerSub="" titleSub="" contentSub="Menu_DropMenu_Settings_Main_Item" footerSub="" orientation="v" l="0" swipedelete="1" />
+    <txt j="0" x="704" y="226" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Available XBMC Instances</txt>
+    <btn j="0" x="690" y="567" w="302" h="45" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.setup()">
+      <inactive s="0">Refresh</inactive>
+      <active s="0">Refresh</active>
+    </btn>
+    <txt j="0" x="704" y="530" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Refresh Current Database</txt>
+    <txt j="0" x="704" y="145" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Current XBMC Instance</txt>
+    <btn j="0" x="690" y="181" w="302" h="45" t="list_dropmenu_btn_single_l" flip="None" sim="0" l="0" s="1">
+      <inactive s="80">
+      </inactive>
+      <active s="80">
+      </active>
+    </btn>
   </subpage>
 </gui>

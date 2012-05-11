@@ -43,6 +43,7 @@ var XBMC_GUI = function(params) {
 		joinmenuTVShowsOrder:		21,
 		joinmenuTVShowsAscend:		22,
 		joinmenuTVShowsDescend:		23,
+		joinSettings:				25,
 		
 		// GUI definitions
 		joinTVShows:				3001,
@@ -140,6 +141,7 @@ var XBMC_GUI = function(params) {
 			{join: "l"+self.joinAllAlbums, value: "0x"},
 			{join: "l"+self.joinAlbumSongs, value: "0x"},
 			{join: "l"+self.joinAllSongs, value: "0x"},
+			{join: "l25", value: "0x"},
 			
 			{join: "l9101", value: "0x"},
 			{join: "l9102", value: "0x"},
@@ -161,6 +163,9 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinCurrentAudioPlaylist, 1);	// Show Playlist subpage - Audio Playlist list
 		CF.setJoin("d"+self.joinCurrentVideoPlaylist, 1);	// Show Playlist subpage - Video Playlist list
 		CF.setJoin("d"+self.joinFileList, 1);				// Show file subpage - File list
+		
+		// retrieve global array
+		//self.XBMC.retrieveGlobalArray();
 		
 		// Call the setup function on the XBMC instance
 		self.XBMC.setup();
@@ -339,6 +344,19 @@ var XBMC_GUI = function(params) {
 		self.XBMC.searchTVShows(search_string, self.joinTVShows);
 	};
 	
+	// Alphabar Search options is available for TV Series only 
+	self.alphasrchTVShows = function(sliderval) {					// data passed is assigned as string_search
+		CF.setJoin("d"+self.joinTVShows, 1);						// Show TV Show subpage
+		CF.setJoin("d"+self.joinTVSeasons, 0);						// Hide TV Seasons list
+		CF.setJoin("d"+self.joinTVEpisodes, 0);						// Hide TV Episodes list
+		CF.setJoin("d"+self.joinRecentEpisodes, 0);					// Hide Recently Added Episodes list
+		CF.setJoin("d"+self.joinTVShowSortLabel, 0);			// Hide Genre detail's subpage
+		CF.setJoin("d"+self.joinTVEpisodeDetails, 0);				// Hide Episode Details subpage
+		
+		self.XBMC.alphabarTVShows(sliderval, self.joinTVShows);
+	};
+	
+	
 	// Shows a list of all the TV Shows under the selected Genre categories (for TV Shows only)
 	self.searchTVShowsGenre = function(list, listIndex, join){
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
@@ -481,6 +499,17 @@ var XBMC_GUI = function(params) {
 		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
 		
 		self.XBMC.getSearchedMovieArray(search_string, self.joinMovies);
+	};
+	
+	// Alphabar Search options is available for Movie Titles only 
+	self.alphasrchMovies = function(sliderval) {					// data passed is assigned as string_search
+		CF.setJoin("d"+self.joinMovies, 1);						// Show Movie list subpage	
+		CF.setJoin("d"+self.joinMovieWall, 0);					// Hide Movie Wall subpage
+		CF.setJoin("d"+self.joinRecentMovies, 0);				// Hide Recently Added Movie subpage
+		CF.setJoin("d"+self.joinMoviesGenre, 0);				// Hide Movie Genre subpage
+		CF.setJoin("d"+self.joinMoviesGenreDetails, 0);			// Hide Movie Genre Details subpage
+		
+		self.XBMC.alphabarMovies(sliderval, self.joinMovies);
 	};
 	
 	self.showUnwatchedMovies = function(){
@@ -887,6 +916,52 @@ var XBMC_GUI = function(params) {
 		self.XBMC.searchSong(search_string, self.joinAllSongs);
 	};
 	
+	// Alphabar Search options is available for Artist, Albums and Songs 
+	self.alphasrchArtists = function(sliderval) {					// data passed is assigned as string_search
+			CF.setJoin("d"+self.joinMusicArtist, 1);				// Show Artist subpage
+			CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+			CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+			CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+			CF.setJoin("d"+self.joinRecentAlbumSongs, 0);		// Hide Recently Added Albums -> Songs subpage
+			CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+			CF.setJoin("d"+self.joinMusicDetails, 0);			// Hide Song Details subpage
+			CF.setJoin("d"+self.joinAllAlbums, 0);				// Hide All Albums subpage
+			CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
+			CF.setJoin("d"+self.joinAllSongs, 0);				// Hide All Songs subpage
+		
+		self.XBMC.alphabarArtists(sliderval, self.joinMusicArtist);
+	};
+	
+	self.alphasrchAlbums = function(sliderval) {					// data passed is assigned as string_search
+			CF.setJoin("d"+self.joinMusicArtist, 0);				// Show Artist subpage
+			CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+			CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+			CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+			CF.setJoin("d"+self.joinRecentAlbumSongs, 0);		// Hide Recently Added Albums -> Songs subpage
+			CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+			CF.setJoin("d"+self.joinMusicDetails, 0);			// Hide Song Details subpage
+			CF.setJoin("d"+self.joinAllAlbums, 1);				// Hide All Albums subpage
+			CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
+			CF.setJoin("d"+self.joinAllSongs, 0);				// Hide All Songs subpage
+		
+		self.XBMC.alphabarAlbums(sliderval, self.joinAllAlbums);
+	};
+	
+	self.alphasrchSongs = function(sliderval) {					// data passed is assigned as string_search
+			CF.setJoin("d"+self.joinMusicArtist, 0);				// Show Artist subpage
+			CF.setJoin("d"+self.joinMusicAlbum, 0);				// Hide Album subpage
+			CF.setJoin("d"+self.joinMusicSong, 0);				// Hide Song subpage
+			CF.setJoin("d"+self.joinRecentAlbums, 0);			// Hide Recently Added Albums subpage
+			CF.setJoin("d"+self.joinRecentAlbumSongs, 0);		// Hide Recently Added Albums -> Songs subpage
+			CF.setJoin("d"+self.joinRecentSongs, 0);			// Hide Recently Added Songs subpage
+			CF.setJoin("d"+self.joinMusicDetails, 0);			// Hide Song Details subpage
+			CF.setJoin("d"+self.joinAllAlbums, 0);				// Hide All Albums subpage
+			CF.setJoin("d"+self.joinAlbumSongs, 0);				// Hide All Albums -> Songs subpage
+			CF.setJoin("d"+self.joinAllSongs, 1);				// Hide All Songs subpage
+		
+		self.XBMC.alphabarSongs(sliderval, self.joinAllSongs);
+	};
+	
 	//================================================================================================================================
 	/* PLAYLISTS																													*/
 	//================================================================================================================================
@@ -981,6 +1056,10 @@ var XBMC_GUI = function(params) {
 		//self.XBMC.playPause(self.playStatus);
 	//};
 	
+	//================================================================================================================================
+	/* VOLUME CONTROL COMMANDS																														*/
+	//================================================================================================================================
+	
 	self.volGet = function() {											// Get the current state of muting for volume
 		self.XBMC.volGet(self.setMuteState);
 	};
@@ -999,35 +1078,62 @@ var XBMC_GUI = function(params) {
 		}
 	};
 	
+	//================================================================================================================================
+	/* XBMC INSTANCES COMMANDS																														*/
+	//================================================================================================================================
+	
+	self.removeInstance = function(list, listIndex, join) {			// Remove instance from list by index
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			CF.listRemove("l25", listIndex, 1);
+			self.XBMC.removeSelectedInstance(t["[instSystem]"]);
+			//setTimeout(function(){self.XBMC.removeSelectedInstance();}, 3000);
+			//self.XBMC.retrieveGlobalArray();
+		});
+	};
+	
+	self.displayInstance = function(list, listIndex, join) {			// Edit the settings of the selected instance 
+		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
+			CF.setJoin("d19", 1);
+			CF.setJoin("d18", 0);
+			self.XBMC.displayInstanceSettings(t["[instSystem]"], t["[instUsername]"], t["[instPassword]"], t["[instURL]"], t["[instPort]"], listIndex);
+		});
+	};
+	
+	/*
+	self.editInstance = function() {			// Edit the settings of the selected instance 
+		CF.getJoin("d60", function(j,v,t) {
+			self.XBMC.editCurrentInstance(t["[indexList]"]);
+		});
+	};
+	
+	
 	self.searchInstances = function() {									// Search for all XBMC instances in the bonjour network : Still in progress
 		self.XBMC.getXBMCBonjour();
 	};
-
-	self.setIPSettings = function() {									// Gets the values of the IP settings
-		// Get the values of all the IP Settings at once.
-		//s60 = System Name, s61 = Host Name / IP Add, s62 = port, s63 = username, s64 = password
+	*/
+	
+	// Select new instance to connect - get the values of all the IP Settings, switch and connect to the new system.
+	self.setIPSettings = function() {						
 		CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
 			
-			//CF.log("System name: " + joins.s60.value);
-			//CF.log("Host name/IP address: " + joins.s61.value);
-			//CF.log("Port: " + joins.s62.value);
-			//CF.log("Username: " + joins.s63.value);
-			//CF.log("Password: " + joins.s64.value);
-
-			//	Set all these values as global tokens and persist, use CF.setToken(CF.GlobalTokensJoin)
-			CF.setToken(CF.GlobalTokensJoin, "[inputSysName]", joins.s60.value);
-			CF.setToken(CF.GlobalTokensJoin, "[inputURL]", joins.s61.value);
-			CF.setToken(CF.GlobalTokensJoin, "[inputPort]", joins.s62.value);				
-			CF.setToken(CF.GlobalTokensJoin, "[inputUsername]", joins.s63.value);
-			CF.setToken(CF.GlobalTokensJoin, "[inputPassword]", joins.s64.value);
-				
-			
-			// once changed all the settings, switch and connect to the new system.
+			// s60 = System Name, s61 = Host Name / IP Add, s62 = port, s63 = username, s64 = password
+			self.XBMC.sysname = joins.s60.value;
 			self.XBMC.url = joins.s61.value;
 			self.XBMC.port = joins.s62.value;
 			self.XBMC.username = joins.s63.value;
 			self.XBMC.password = joins.s64.value;
 			
+			// Label the starting instance
+			CF.setJoin("s80", joins.s60.value);
+			
+			// Set global tokens to remember last selected instances if app is minimised or exit. 
+			CF.setToken(CF.GlobalTokensJoin, "[inputSystem]", joins.s60.value);
+			CF.setToken(CF.GlobalTokensJoin, "[inputURL]", joins.s61.value);
+			CF.setToken(CF.GlobalTokensJoin, "[inputPort]", joins.s62.value);
+			CF.setToken(CF.GlobalTokensJoin, "[inputUsername]", joins.s63.value);
+			CF.setToken(CF.GlobalTokensJoin, "[inputPassword]", joins.s64.value);
+			
+			// Run the setup
 			self.setup();
 		});
 	};
@@ -1044,28 +1150,27 @@ var newPort;
 var newUsername;
 var newPassword;
 
+var GUI = {};
 CF.userMain = function() {
 	
-	// On startup, check for global tokens via CF.getJoin(CF.GlobalTokensJoin) and get the values for all the paramaters.
 	
-	//Get the global tokens values. Can set the default value of the tokens via Global Token Manager.
+	// On startup, check for global tokens via CF.getJoin(CF.GlobalTokensJoin) and get the values for all the paramaters. Default values for tokens are set via Global Token Manager.
 	CF.getJoin(CF.GlobalTokensJoin, function(join, values, tokens) {
 	
-		//Read the tokens, if accidentally deleted the settings of the tokens then use default values.
-		this.newSysName = tokens["inputSysName"]|| "HTPC";
-		this.newURL = tokens["[inputURL]"] || "192.168.0.100";
-		this.newPort = tokens["[inputPort]"] || "8080";
-		this.newUsername = tokens["[inputUsername]"];
-		this.newPassword = tokens["[inputPassword]"];
+		//Read the tokens, if accidentally deleted the settings of the tokens then use default values
+		var newSysName = tokens["[inputSystem]"] || "XBMC Theatre";
+		var newURL = tokens["[inputURL]"] || "192.168.168.201";
+		var newPort = tokens["[inputPort]"] || "8080";
+		var newUsername = tokens["[inputUsername]"];
+		var newPassword = tokens["[inputPassword]"];
 		
-		CF.setJoins([{join: "s60", value: this.newSysName}, {join: "s61", value: this.newURL}, {join: "s62", value: this.newPort}, {join: "s63", value: this.newUsername}, {join: "s64", value: this.newPassword}]);
+		CF.setJoin("s80", newSysName);
+		
+		//Assign system settings i.e. XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port: 8080}); 
+		XBMCMacMini = new XBMC_GUI({sysname: newSysName, username: newUsername, password: newPassword, url: newURL, port: newPort});
+		
+		// Run the setup
+		XBMCMacMini.setup();
 	
-		this.XBMCMacMini = new XBMC_GUI({username: this.newUsername, password: this.newPassword, url: this.newURL, port: this.newPort});
-		
-		//Manually assign IP address and settings of the system
-		//this.XBMCMacMini = new XBMC_GUI({username: "xbmc", password: "xbmc", url: "192.168.0.100", port: 8080}); 
-		
-		this.XBMCMacMini.setup();
 	});
-	
 };
