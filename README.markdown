@@ -8,11 +8,12 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 ### Test Setup that was used to run this module:
 1. Windows Workstation, Windows XP Professional, [XBMC Nightly version Oct 25](http://mirrors.xbmc.org/nightlies/win32/XBMCSetup-20111025-cfa1a05-master.exe)
 1. Windows HTPC, Windows 7 Ultimate 64-bit, XBMC Nightly version Oct 26 
-1. Mac Mini, Mac OS X 10.7, XBMC Nightly version Oct 26 
+1. Mac Mini, Mac OS X 10.7, XBMC Nightly version Oct 26
+1. Latest XBMC 11.0 Eden beta version installed on both Windows Workstation and HTPC.
 
 ### Basic setup for module usage:
 * Make sure the XBMC is setup first before loading the gui file.
-* Make sure that the latest nightlies are used.
+* Make sure that the latest nightlies are used. The latest XBMC 11.0 Eden beta version can also be used.
 * Please use minimum iViewer 4 for this module.
 
 ### Setup Video
@@ -49,7 +50,6 @@ Demo for controlling XBMC using the JSON-RPC Protocol with CommandFusion's JavaS
 
 ### Additional notes
 Since this is only a beta version of the module, not all the features are implemented yet.
-* The wifi LED status will remain red.
 * Buttons for "Video Player Options" and "Audio Player Options" under the Playing Now page are not assigned actions yet.
 * Gestures are only available on Main Menu page in portrait mode at the moment.
 
