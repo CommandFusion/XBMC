@@ -2065,19 +2065,23 @@ Settings</active>
       <inactive s="0"> Back</inactive>
       <active s="0"> Back</active>
     </btn>
-    <btn j="0" x="690" y="485" w="302" h="46" t="list_menudrop_body_blank_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.setIPSettings()">
-      <inactive s="0">Select This Instance</inactive>
-      <active s="0">Select This Instance</active>
+    <btn j="65" x="690" y="438" w="302" h="46" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.setIPSettings()">
+      <inactive s="0">Select Instance</inactive>
+      <active s="0">Select Instance</active>
     </btn>
-    <btn j="0" x="690" y="531" w="302" h="46" t="list_menudrop_footer_blank_l" flip="None" sim="1" l="0" s="1" cmd="DropMenuSettings_Back">
+    <btn j="66" x="690" y="487" w="302" h="46" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" js="disabled_XBMCMacMini.updateInstance()">
+      <inactive s="0">Update Instance</inactive>
+      <active s="0">Update Instance</active>
+    </btn>
+    <txt j="0" x="704" y="404" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Actions</txt>
+    <btn j="67" x="690" y="537" w="302" h="46" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.removeInstance()">
+      <inactive s="0">Delete Instance </inactive>
+      <active s="0">Delete Instance </active>
+    </btn>
+    <btn j="0" x="690" y="586" w="302" h="46" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" cmd="DropMenuSettings_Back">
       <inactive s="0">Cancel</inactive>
       <active s="0">Cancel</active>
     </btn>
-    <btn j="60" x="690" y="439" w="302" h="46" t="list_menudrop_header_blank_l" flip="None" sim="1" l="0" s="1" js="disabled_XBMCMacMini.updateInstance()">
-      <inactive s="0">Update the Settings </inactive>
-      <active s="0">Update the Settings </active>
-    </btn>
-    <txt j="0" x="704" y="404" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Actions</txt>
   </subpage>
   <subpage name="Main_RecentMovie_Item" w="320" h="98" clip="1">
     <img x="4" y="0" w="79" h="92" j="1" clickthrough="0" refresh="0" l="1" noCache="0" downloadIndicator="0" clearOnURLChange="0" />
@@ -3315,14 +3319,10 @@ Are you sure you want to proceed?</txt>
       <active s="2">Text</active>
     </btn>
   </subpage>
-  <subpage name="Menu_DropMenu_Settings_Main_Item" w="320" h="44" clip="1">
-    <btn j="1" x="0" y="0" w="320" h="44" t="list_menudrop_body_blank_l_v2" flip="None" sim="1" l="1" s="1" js="XBMCMacMini.displayInstance(list, listIndex, join)">
+  <subpage name="Menu_DropMenu_Settings_Main_Item" w="302" h="44" clip="1">
+    <btn j="1" x="0" y="0" w="302" h="44" t="list_menudrop_body_blank_l" flip="None" sim="0" l="1" s="1" js="XBMCMacMini.displayInstance(list, listIndex, join)">
       <inactive s="1">Text</inactive>
       <active s="1">Text</active>
-    </btn>
-    <btn j="2" x="6" y="7" w="38" h="30" t="list_dropmenu_btn_edit" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.removeInstance(list, listIndex, join)">
-      <inactive s="0">Del</inactive>
-      <active s="0">Del</active>
     </btn>
   </subpage>
   <subpage name="Menu_DropMenu_Settings_Add" w="1024" h="768" clip="1">
@@ -3608,7 +3608,7 @@ ALBUMS</active>
       <inactive s="0">Add</inactive>
       <active s="0">Add</active>
     </btn>
-    <list j="25" x="682" y="264" w="318" h="265" headerSub="" titleSub="" contentSub="Menu_DropMenu_Settings_Main_Item" footerSub="" orientation="v" l="0" swipedelete="1" />
+    <list j="25" x="690" y="264" w="302" h="265" headerSub="" titleSub="" contentSub="Menu_DropMenu_Settings_Main_Item" footerSub="" orientation="v" l="0" swipedelete="1" />
     <txt j="0" x="704" y="226" w="294" h="35" t="menu_dropdown_title_l" wrap="True" l="0">Available XBMC Instances</txt>
     <btn j="0" x="690" y="567" w="302" h="45" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.setup()">
       <inactive s="0">Refresh</inactive>

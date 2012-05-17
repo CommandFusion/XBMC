@@ -1085,9 +1085,9 @@ var XBMC_GUI = function(params) {
 	self.removeInstance = function(list, listIndex, join) {			// Remove instance from list by index
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
 			CF.listRemove("l25", listIndex, 1);
-			self.XBMC.removeSelectedInstance(t["[instSystem]"]);
-			//setTimeout(function(){self.XBMC.removeSelectedInstance();}, 3000);
-			//self.XBMC.retrieveGlobalArray();
+			CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
+				self.XBMC.removeSelectedInstance(joins.s60.value);
+			});
 		});
 	};
 	
@@ -1095,7 +1095,7 @@ var XBMC_GUI = function(params) {
 		CF.getJoin(list+":"+listIndex+":"+join, function(j,v,t) {
 			CF.setJoin("d19", 1);
 			CF.setJoin("d18", 0);
-			self.XBMC.displayInstanceSettings(t["[instSystem]"], t["[instUsername]"], t["[instPassword]"], t["[instURL]"], t["[instPort]"], listIndex);
+			self.XBMC.displayInstanceSettings(t["[instSystem]"], t["[instUsername]"], t["[instPassword]"], t["[instURL]"], t["[instPort]"], t["[type]"], listIndex);
 		});
 	};
 	

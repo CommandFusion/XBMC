@@ -24,7 +24,6 @@ HELP:
 
 TODO
 - update settings
-- bonjour lookup
 
 =========================================================================
 */
@@ -119,46 +118,77 @@ var XBMC_Controller = function(params) {
 		});
 	};
 	
-	/*
-	
-	var XBMCInstances = [];
+	// XBMC Bonjour lookup
+	var BonjourInstances = new Array();
 
 	function startXBMCLookup() {
-			CF.startLookup("_daap._tcp", "", function(addedServices, removedServices, error) {
+			
+			BonjourInstances = [];
+			
+			CF.startLookup("_xbmc-jsonrpc-h._tcp", "", function(addedServices, removedServices, error) {
 				try {
 					
 					// remove disappearing services
-						XBMCInstances.forEach(function(service, index) {
+						BonjourInstances.forEach(function(service, index) {
 							if (removedServices.some(function(item) { return (item.name == service.name); })) {
 								CF.log("Closed XBMC instance [" + index + "]: " + service.name);
-							XBMCInstances.splice(index, 1);
+							BonjourInstances.splice(index, 1);
+							
+							//update the instance 
+							//CF.listRemove("l25");
+							//self.presetInstance();				
+							//self.retrieveGlobalArray();			
 							}
 						});
 
 					// add new services
 						addedServices.forEach(function(service) {
-							CF.log("New XBMC instance [" + XBMCInstances.length + "]: " + service.name);
-						XBMCInstances.push(service);
+							BonjourInstances.push(service);
+							
+							// Logging
+							CF.logObject(service);
+							CF.log("New XBMC instance [" + BonjourInstances.length + "]: " + service.name);
+							CF.log("New XBMC address [" + BonjourInstances.length + "]: " + service.addresses);
+							CF.log("New XBMC hostname [" + BonjourInstances.length + "]: " + service.hostname);
+							CF.log("New XBMC instance [" + BonjourInstances.length + "]: " + service.port);
+							
+							// Add bonjour instances to lists directly
+							CF.listAdd("l25", [
+									{	
+									s1: service.name,
+									d1: {
+											tokens: {
+												"[instSystem]": service.name,
+												"[instURL]": service.addresses[0],
+												"[instPort]": service.port,
+												"[instUsername]": "xbmc",
+												"[instPassword]": "xbmc",
+												"[type]": "bonjour"
+										}
+									}
+								}
+							]);
 						});
 				}
 				catch (e) {
 					CF.log("Exception in XBMC services processing: " + e);
 				}
 			});
-		}
+	};
 
 	function stopXBMCLookup() {
-		CF.stopLookup("_daap._tcp", "");
+		CF.stopLookup("_xbmc-jsonrpc-h._tcp", "");
 		CF.log("Stop looking for XBMC")
-	}
-	
-	self.getXBMCBonjour = function(){
-		// Start looking for XBMC, kill the lookup 1mn later
-		startXBMCLookup();
-		setTimeout(stopXBMCLookup, 60000);
 	};
 	
-	*/
+	
+	self.getXBMCBonjour = function(join, value, tokens) {
+			CF.listRemove("l25");
+			self.presetInstance();				
+			self.retrieveGlobalArray();	
+			startXBMCLookup();
+			setTimeout(stopXBMCLookup, 10000);		
+	};
 	
 	//--------------------------------------------------------------------------------------------------
 	// Main Program starts here
@@ -261,10 +291,19 @@ var XBMC_Controller = function(params) {
 		
 		self.URL = self.getURL();
 		
-		CF.listRemove("l25");				// remove instance list of previous entries
+		// Stop unwatching any previous watch events on the join (if any)
+		CF.unwatch(CF.JoinChangeEvent, "d18");
+		
+		// Start watching changes to d18
+		CF.watch(CF.JoinChangeEvent, "d18", self.getXBMCBonjour);
+		
+		// Update XBMC Instances list population everytime setup is run.
+		CF.listRemove("l25");				// remove list of previous entries
 		self.presetInstance();				// add non-deletable preset instances (hardcoded into JS script). Disable this option if you do not want to load preset instances.
 		self.retrieveGlobalArray();			// add new instances through System settings in the drop down menu (user entry needed)
-		//self.bonjourInstance();			// add new available instances through searching using bonjour lookup
+		startXBMCLookup();					// add new available instances through searching using bonjour lookup
+		setTimeout(stopXBMCLookup, 10000);	// stop bonjour lookup after 10s
+		
 		
 		TVSerieslistArray = [];
 		RecentEpisodelistArray = [];
@@ -2907,17 +2946,9 @@ var XBMC_Controller = function(params) {
 								"[instPassword]": "xbmc",
 								"[instURL]": "192.168.0.101",
 								"[instPort]": "8080",
+								"[type]": "preset"
 						}
-					},
-					d2: {
-							tokens: {
-								"[instSystem]": "XBMC Notebook",
-								"[instUsername]": "xbmc",
-								"[instPassword]": "xbmc",
-								"[instURL]": "192.168.0.101",
-								"[instPort]": "8080",
-						}
-					},
+					}
 				},
 				{	// Manual entry for second instance
 					s1: "XBMC MacMini",
@@ -2928,17 +2959,9 @@ var XBMC_Controller = function(params) {
 								"[instPassword]": "xbmc",
 								"[instURL]": "192.168.0.105",
 								"[instPort]": "8080",
+								"[type]": "preset"
 						}
-					},
-					d2: {
-							tokens: {
-								"[instSystem]": "XBMC MacMini",
-								"[instUsername]": "xbmc",
-								"[instPassword]": "xbmc",
-								"[instURL]": "192.168.0.105",
-								"[instPort]": "8080",
-						}
-					},
+					}
 				},
 				{	// Manual entry for third instance
 					s1: "XBMC HTPC",
@@ -2949,40 +2972,54 @@ var XBMC_Controller = function(params) {
 								"[instPassword]": "xbmc",
 								"[instURL]": "192.168.0.103",
 								"[instPort]": "8080",
+								"[type]": "preset"
 						}
-					},
-					d2: {
-							tokens: {
-								"[instSystem]": "XBMC HTPC",
-								"[instUsername]": "xbmc",
-								"[instPassword]": "xbmc",
-								"[instURL]": "192.168.0.103",
-								"[instPort]": "8080",
-						}
-					},
+					}
 				}
-			]);
-				
-			// Hide the delete buttons so that user can't delete. Depends on the number of peset instances.
-			CF.setProperties([
-				{join: "l25:0:d2", opacity: 0.0},
-				{join: "l25:1:d2", opacity: 0.0},
-				{join: "l25:2:d2", opacity: 0.0}
 			]);
 				
 	};
 	
 	// Show all the settings of the selected instance
-	self.displayInstanceSettings = function(instSystem, instUsername, instPassword, instURL, instPort, listIndex) {
-		// Read the tokens and populate the text field
-		CF.setJoins([
-			{ join:"s60", value: instSystem },							// System Name
-			{ join:"s61", value: instURL },								// URL
-			{ join:"s62", value: instPort },							// Port
-			{ join:"s63", value: instUsername },						// Username
-			{ join:"s64", value: instPassword },						// Password
-			{ join:"d60", tokens: {"[indexList]": listIndex} }			// Password
-		]);	
+	self.displayInstanceSettings = function(instSystem, instUsername, instPassword, instURL, instPort, type, listIndex) {
+		// Read the tokens and populate the text field. Hide certain buttons according to the type of instances
+		// - Preset and bonjour instances - No delete and editing allowed. Hide "Delete Instance" and "Update Instance" buttons.
+		// - User instances - Allow delete and editing. Show all buttons.
+		
+		if ( type == "preset" || type == "bonjour" ) {
+			
+			// Hide the "Delete" and "Update" buttons and input fields so that user can't change the settings. Only can select the instance.
+			CF.setProperties([
+				{join: "d66", opacity: 0.0},
+				{join: "d67", opacity: 0.0},
+			]);
+			
+			CF.setJoins([
+				{ join:"s60", value: instSystem },							// System Name
+				{ join:"s61", value: instURL },								// URL
+				{ join:"s62", value: instPort },							// Port
+				{ join:"s63", value: instUsername },						// Username
+				{ join:"s64", value: instPassword },						// Password
+				{ join:"d60", tokens: {"[indexList]": listIndex} }			// Password
+			]);
+		
+		} else {
+		
+		// Show all buttons
+			CF.setProperties([
+				{join: "d66", opacity: 1.0},
+				{join: "d67", opacity: 1.0},
+			]);
+			
+			CF.setJoins([
+				{ join:"s60", value: instSystem },							// System Name
+				{ join:"s61", value: instURL },								// URL
+				{ join:"s62", value: instPort },							// Port
+				{ join:"s63", value: instUsername },						// Username
+				{ join:"s64", value: instPassword },						// Password
+				{ join:"d60", tokens: {"[indexList]": listIndex} }			// Password
+			]);
+		}
 	};
 	
 	/*
@@ -3021,16 +3058,8 @@ var XBMC_Controller = function(params) {
 								"[instURL]": joins.s71.value,
 								"[instPort]": joins.s72.value,
 								"[instUsername]": joins.s73.value,
-								"[instPassword]": joins.s74.value
-						}
-					},
-					d2: {
-							tokens: {
-								"[instSystem]": joins.s70.value,
-								"[instURL]": joins.s71.value,
-								"[instPort]": joins.s72.value,
-								"[instUsername]": joins.s73.value,
-								"[instPassword]": joins.s74.value
+								"[instPassword]": joins.s74.value,
+								"[type]": "user"
 						}
 					}
 				});
@@ -3046,16 +3075,8 @@ var XBMC_Controller = function(params) {
 								"[instURL]": joins.s71.value,
 								"[instPort]": joins.s72.value,
 								"[instUsername]": joins.s73.value,
-								"[instPassword]": joins.s74.value
-						}
-					},
-					d2: {
-							tokens: {
-								"[instSystem]": joins.s70.value,
-								"[instURL]": joins.s71.value,
-								"[instPort]": joins.s72.value,
-								"[instUsername]": joins.s73.value,
-								"[instPassword]": joins.s74.value
+								"[instPassword]": joins.s74.value,
+								"[type]": "user"
 						}
 					}
 				}
@@ -3077,11 +3098,12 @@ var XBMC_Controller = function(params) {
 		for (var i = 0;i<XBMCInstancesArray.length;i++)										
 		{
 			var inst_s1 = XBMCInstancesArray[i].s1;
-			var inst_sys = XBMCInstancesArray[i].d2.tokens["[instSystem]"];
-			var inst_url = XBMCInstancesArray[i].d2.tokens["[instURL]"];
-			var inst_port = XBMCInstancesArray[i].d2.tokens["[instPort]"];
-			var inst_username = XBMCInstancesArray[i].d2.tokens["[instUsername]"];
-			var inst_password = XBMCInstancesArray[i].d2.tokens["[instPassword]"];
+			var inst_sys = XBMCInstancesArray[i].d1.tokens["[instSystem]"];
+			var inst_url = XBMCInstancesArray[i].d1.tokens["[instURL]"];
+			var inst_port = XBMCInstancesArray[i].d1.tokens["[instPort]"];
+			var inst_username = XBMCInstancesArray[i].d1.tokens["[instUsername]"];
+			var inst_password = XBMCInstancesArray[i].d1.tokens["[instPassword]"];
+			var inst_type = XBMCInstancesArray[i].d1.tokens["[type"];
 			
 			if(inst_sys != instSystem)										// if the settings if not similar with the one deleted. Make sure this field is unique.
 			{
@@ -3093,16 +3115,8 @@ var XBMC_Controller = function(params) {
 									"[instURL]": inst_url,
 									"[instPort]": inst_port,
 									"[instUsername]": inst_username,
-									"[instPassword]": inst_password
-							}
-						},
-						d2: {
-								tokens: {
-									"[instSystem]": inst_sys,
-									"[instURL]": inst_url,
-									"[instPort]": inst_port,
-									"[instUsername]": inst_username,
-									"[instPassword]": inst_password
+									"[instPassword]": inst_password,
+									"[type]": inst_type
 							}
 						}
 				});
