@@ -23,7 +23,6 @@ Module Test Setup:
 HELP:
 
 TODO
-- update settings
 
 =========================================================================
 */
@@ -63,6 +62,13 @@ var XBMC_Controller = function(params) {
 		currentSongFile: 	null,		//Song File
 		
 		joinLEDfeedback:	1111,		// join number for LED feedback
+		
+		//system parameters
+		glbSystem: "",
+		glbURL: "",
+		glbPort: "",
+		glbUsername: "",
+		glbPassword: "",
 	};
 
 	//--------------------------------------------------------------------------------------------------
@@ -2982,6 +2988,9 @@ var XBMC_Controller = function(params) {
 	
 	// Show all the settings of the selected instance
 	self.displayInstanceSettings = function(instSystem, instUsername, instPassword, instURL, instPort, type, listIndex) {
+		
+		self.glbSystem = instSystem;
+		
 		// Read the tokens and populate the text field. Hide certain buttons according to the type of instances
 		// - Preset and bonjour instances - No delete and editing allowed. Hide "Delete Instance" and "Update Instance" buttons.
 		// - User instances - Allow delete and editing. Show all buttons.
@@ -3000,11 +3009,10 @@ var XBMC_Controller = function(params) {
 				{ join:"s62", value: instPort },							// Port
 				{ join:"s63", value: instUsername },						// Username
 				{ join:"s64", value: instPassword },						// Password
-				{ join:"d60", tokens: {"[indexList]": listIndex} }			// Password
+				//{ join:"d60", tokens: {"[indexList]": listIndex} }		// Update button
 			]);
 		
-		} else {
-		
+		} else {		//type = user or anything else
 		// Show all buttons
 			CF.setProperties([
 				{join: "d66", opacity: 1.0},
@@ -3017,32 +3025,39 @@ var XBMC_Controller = function(params) {
 				{ join:"s62", value: instPort },							// Port
 				{ join:"s63", value: instUsername },						// Username
 				{ join:"s64", value: instPassword },						// Password
-				{ join:"d60", tokens: {"[indexList]": listIndex} }			// Password
+				//{ join:"d66", tokens: {"[currentSystem]": instSystem} }			// Update button
 			]);
 		}
 	};
 	
-	/*
-	self.editCurrentInstance = function(indexList) {
+	self.updateCurrentInstance = function() {
 		CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
-			CF.listUpdate("l25", [
-				{
-						index: indexList,
-						s1: joins.s60.value,
-						d1: {
-								tokens: {
-									"[instSystem]": joins.s60.value,
-									"[instURL]": joins.s61.value,
-									"[instPort]": joins.s62.value,
-									"[instUsername]": joins.s63.value,
-									"[instPassword]": joins.s64.value
-							}
-						},
-				}
-			]);
-		});	
+		
+		//CF.logObject("XBMCInstancesArray before", XBMCInstancesArray);	
+		
+		// Remove selected index
+		self.removeSelectedInstance(self.glbSystem);
+		
+		// Push new data into array as new item
+			XBMCInstancesArray.push({	
+					s1: joins.s60.value,
+					d1: {
+							tokens: {
+								"[instSystem]": joins.s60.value,
+								"[instURL]": joins.s61.value,
+								"[instPort]": joins.s62.value,
+								"[instUsername]": joins.s63.value,
+								"[instPassword]": joins.s64.value,
+								"[type]": "user"
+						}
+					}
+				});
+		
+		// Save all data to persistent Global Token
+		savePersistentData("[addInstanceArray]", XBMCInstancesArray);
+		
+		});
 	};
-	*/
 	
 	self.addNewInstance = function() {									// Gets the values of the IP settings
 		// Get the values of all the IP Settings at once.

@@ -2069,7 +2069,7 @@ Settings</active>
       <inactive s="0">Select Instance</inactive>
       <active s="0">Select Instance</active>
     </btn>
-    <btn j="66" x="690" y="487" w="302" h="46" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" js="disabled_XBMCMacMini.updateInstance()">
+    <btn j="66" x="690" y="487" w="302" h="46" t="list_dropmenu_btn_single_l" flip="None" sim="1" l="0" s="1" js="XBMCMacMini.updateInstance()">
       <inactive s="0">Update Instance</inactive>
       <active s="0">Update Instance</active>
     </btn>

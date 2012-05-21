@@ -1099,18 +1099,22 @@ var XBMC_GUI = function(params) {
 		});
 	};
 	
-	/*
-	self.editInstance = function() {			// Edit the settings of the selected instance 
-		CF.getJoin("d60", function(j,v,t) {
-			self.XBMC.editCurrentInstance(t["[indexList]"]);
-		});
+	
+	self.updateInstance = function() {			// Edit the settings of the selected instance 
+		//CF.getJoin("d66", function(j,v,t) {
+			//self.XBMC.updateCurrentInstance(t["[currentSystem]"]);
+		//});
+		self.XBMC.updateCurrentInstance();
 	};
 	
+	//self.updateInstance = function() {			// Edit the settings of the selected instance 
+		//CF.getJoin("d66", function(j,v,t) {
+		//	self.XBMC.updateCurrentInstance(t["[currentSystem]"]);
+		//});
+	//};
 	
-	self.searchInstances = function() {									// Search for all XBMC instances in the bonjour network : Still in progress
-		self.XBMC.getXBMCBonjour();
-	};
-	*/
+	
+	
 	
 	// Select new instance to connect - get the values of all the IP Settings, switch and connect to the new system.
 	self.setIPSettings = function() {						
