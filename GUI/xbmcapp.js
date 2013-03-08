@@ -61,7 +61,7 @@ var XBMC_Controller = function(params) {
 		currentSongID:		null,		//Song id
 		currentSongFile: 	null,		//Song File
 		
-		joinLEDfeedback:	1111,		// join number for LED feedback
+		joinLEDStatus:		4006,		// join number for LED feedback
 		
 		//system parameters
 		glbSystem: "",
@@ -141,7 +141,7 @@ var XBMC_Controller = function(params) {
 							BonjourInstances.splice(index, 1);
 							
 							//update the instance 
-							//CF.listRemove("l25");
+							//CF.listRemove("l4060");
 							//self.presetInstance();				
 							//self.retrieveGlobalArray();			
 							}
@@ -159,10 +159,10 @@ var XBMC_Controller = function(params) {
 							CF.log("New XBMC instance [" + BonjourInstances.length + "]: " + service.port);
 							
 							// Add bonjour instances to lists directly
-							CF.listAdd("l25", [
+							CF.listAdd("l4060", [
 									{	
-									s1: service.name,
-									d1: {
+									s4060: service.name,
+									d4060: {
 											tokens: {
 												"[instSystem]": service.name,
 												"[instURL]": service.addresses[0],
@@ -189,8 +189,8 @@ var XBMC_Controller = function(params) {
 	
 	
 	self.getXBMCBonjour = function(join, value, tokens) {
-			CF.listRemove("l25");
-			self.presetInstance();				
+			CF.listRemove("l4060");
+			//self.presetInstance();				
 			self.retrieveGlobalArray();	
 			startXBMCLookup();
 			setTimeout(stopXBMCLookup, 10000);		
@@ -222,7 +222,9 @@ var XBMC_Controller = function(params) {
 				try {
 					if (status == 200) {
 						
-						CF.setJoin("d"+self.joinLEDfeedback, 1);	// Reply ok, XBMC is connected, LED fb status is on (green)
+						CF.setJoin("d"+self.joinLEDStatus, 1);	// Reply ok, XBMC is connected, LED fb status is on (green)
+						CF.setJoin("d4018", 0);					// Show the disable page
+						stopXBMCLookup();						// Stop bonjour lookup 
 						
 						var data = JSON.parse(body);
 						if (data.error !== undefined) {
@@ -234,7 +236,14 @@ var XBMC_Controller = function(params) {
 						}
 					} else {
                         
-						CF.setJoin("d"+self.joinLEDfeedback, 0);	// Reply not ok, XBMC disconnected, LED fb status is off (red)
+						CF.setJoin("d"+self.joinLEDStatus, 0);	// Reply not ok, XBMC disconnected, LED fb status is off (red)
+						CF.setJoin("d4018", 1);					// Hide the disable page
+						
+						// Start bonjour lookup for other available instances of XBMC to switch to 
+						CF.listRemove("l4060");
+						//self.presetInstance();				
+						//self.retrieveGlobalArray();	
+						startXBMCLookup();
 						
 						self.lastError = (typeof(body)=="string" && body.length>0) ? body : "HTTP status: " + status;
 						CF.log("ERROR REPLY ---------");
@@ -275,7 +284,7 @@ var XBMC_Controller = function(params) {
 			try {
 				myArray = JSON.parse(t["[addInstanceArray]"]);
 				XBMCInstancesArray = myArray;
-				CF.listAdd("l25", myArray);
+				CF.listAdd("l4060", myArray);
 				
 			} catch ( e ) {
 				myArray = [];  // token value not found (first run?)
@@ -287,7 +296,7 @@ var XBMC_Controller = function(params) {
 		restorePersistentData("[addInstanceArray]", [0,1,2], function(restoredValue) {
 			// we can now used the contents of the array we saved
 			
-			CF.listAdd("l25", restoredValue);
+			CF.listAdd("l4060", restoredValue);
 		});
 	*/	
 		
@@ -298,18 +307,17 @@ var XBMC_Controller = function(params) {
 		self.URL = self.getURL();
 		
 		// Stop unwatching any previous watch events on the join (if any)
-		CF.unwatch(CF.JoinChangeEvent, "d18");
+		CF.unwatch(CF.JoinChangeEvent, "d4056");
 		
-		// Start watching changes to d18
-		CF.watch(CF.JoinChangeEvent, "d18", self.getXBMCBonjour);
+		// Start watching changes to d4056
+		CF.watch(CF.JoinChangeEvent, "d4056", self.getXBMCBonjour);
 		
 		// Update XBMC Instances list population everytime setup is run.
-		CF.listRemove("l25");				// remove list of previous entries
-		self.presetInstance();				// add non-deletable preset instances (hardcoded into JS script). Disable this option if you do not want to load preset instances.
+		CF.listRemove("l4060");				// remove list of previous entries
+		//self.presetInstance();			// add non-deletable preset instances (hardcoded into JS script). Disable this option if you do not want to load preset instances.
 		self.retrieveGlobalArray();			// add new instances through System settings in the drop down menu (user entry needed)
 		startXBMCLookup();					// add new available instances through searching using bonjour lookup
 		setTimeout(stopXBMCLookup, 10000);	// stop bonjour lookup after 10s
-		
 		
 		TVSerieslistArray = [];
 		RecentEpisodelistArray = [];
@@ -325,7 +333,9 @@ var XBMC_Controller = function(params) {
 		RecentAlbumlistArray = [];		// Global array for Recent Added Albums
 		RecentSonglistArray = [];		// Global array for Recent Added Songs
 	};
-
+	
+	
+	
 	/*--------------------------------------------------------------------------------------------------
 		TV SHOWS 
 		- Data: TV Series, Season, Episode, Episode Details, Recently Added Episodes
@@ -342,9 +352,9 @@ var XBMC_Controller = function(params) {
 	/*
 	 * Function: Get a list of TV shows from XBMC, sorted in alphabetical order by default
 	 */
-	self.getTVShows = function(baseJoin, order, method) {
-		CF.setJoin("s20", order);
-		CF.setJoin("s21", method);
+	self.getTVShows = function(baseJoin, order, method, sort_order, sort_method) {
+		CF.setJoin("s4020", order);
+		CF.setJoin("s4021", method);
 				
 		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre"]}, function(data) {
 				TVSerieslistArray = [];			//initialize array
@@ -371,22 +381,22 @@ var XBMC_Controller = function(params) {
 				} 
 				
 				TVSerieslistArray.push({				// Add to array to add to list in one go later
-					s1: thumbnail,
-					s2: title,
-					s3: genre,
-					s4: sortlabel,
-					s5: sortlabel,
-					d1: {
+					s4031: thumbnail,
+					s4032: title,
+					s4033: genre,
+					s4034: sortlabel,
+					s4035: sortlabel,
+					d4031: {
 						tokens: {
 							"[id]": showID,
-							"[fanart]": fanart
+							"[fanart]": fanart,
+							"[series]": title
 						}
 					}
 				});
 			}
+			CF.setJoin("s"+baseJoin, "TV SHOWS" + " (" + data.result.limits.total + ")");
 			CF.listAdd("l"+baseJoin, TVSerieslistArray);
-		
-		CF.setJoin("s"+baseJoin, "TV SHOWS" + " (" + data.result.limits.total + ")");
 		});
 	};
 	
@@ -403,17 +413,17 @@ var XBMC_Controller = function(params) {
 		//loop thru all the element in the TV Show Array and display the match
 		for (var i = 0;i<TVSerieslistArray.length;i++)
 		{
-			var searchThumbnail = TVSerieslistArray[i].s1;
-			var searchTitle = TVSerieslistArray[i].s2;
-			var searchTokenId = TVSerieslistArray[i].d1.tokens["[id]"];
-			var searchTokenShowTitle = TVSerieslistArray[i].d1.tokens["[showname]"];
+			var searchThumbnail = TVSerieslistArray[i].s4031;
+			var searchTitle = TVSerieslistArray[i].s4032;
+			var searchTokenId = TVSerieslistArray[i].d4031.tokens["[id]"];
+			var searchTokenShowTitle = TVSerieslistArray[i].d4031.tokens["[showname]"];
 			
-			if(newCompare(TVSerieslistArray[i].s2, search_string))			// refer to newCompare() from customised function section
+			if(newCompare(TVSerieslistArray[i].s4032, search_string))			// refer to newCompare() from customised function section
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: searchThumbnail,
-					s2: searchTitle,
-					d1: {
+					s4031: searchThumbnail,
+					s4032: searchTitle,
+					d4031: {
 						tokens: {
 							"[id]": searchTokenId,
 							"[showname]": searchTokenShowTitle
@@ -435,7 +445,7 @@ var XBMC_Controller = function(params) {
 					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
 					letter = String.fromCharCode(63 + parseInt(sliderval));
 				}
-				CF.setJoin("s3333", letter);
+				CF.setJoin("s4120", letter);
 				
 				var templistArray = [];				//initialize temporary array
 				CF.listRemove("l"+listJoin);	//clear list of any previous entries
@@ -443,17 +453,17 @@ var XBMC_Controller = function(params) {
 				//loop thru all the element in the TV Show Array and display the match
 				for (var i = 0;i<TVSerieslistArray.length;i++)
 				{
-					var searchThumbnail = TVSerieslistArray[i].s1;
-					var searchTitle = TVSerieslistArray[i].s2;
-					var searchTokenId = TVSerieslistArray[i].d1.tokens["[id]"];
-					var searchTokenShowTitle = TVSerieslistArray[i].d1.tokens["[showname]"];
+					var searchThumbnail = TVSerieslistArray[i].s4031;
+					var searchTitle = TVSerieslistArray[i].s4032;
+					var searchTokenId = TVSerieslistArray[i].d4031.tokens["[id]"];
+					var searchTokenShowTitle = TVSerieslistArray[i].d4031.tokens["[showname]"];
 							
 					if (letter == "#")												// Non-filtered, display everything
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchTitle,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchTitle,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenId,
 									"[showname]": searchTokenShowTitle
@@ -464,9 +474,9 @@ var XBMC_Controller = function(params) {
 					else if (letter == searchTitle.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchTitle,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchTitle,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenId,
 									"[showname]": searchTokenShowTitle
@@ -483,9 +493,10 @@ var XBMC_Controller = function(params) {
 	 * @Param {integer} ID of the TV show from the XBMC database
 	 */
 	
-	self.getTVSeasons = function(id, fanart, baseJoin, order, method) {
+	self.getTVSeasons = function(id, fanart, series, baseJoin, order, method) {
 	
-		CF.setJoin("s11000", fanart);
+		CF.setJoin("s4121", fanart);
+		CF.setJoin("s"+baseJoin, "");		// clear previous data in the list label
 	
 		self.currentShowID = parseInt(id);					
 		
@@ -507,10 +518,10 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				listArray.push({
-					s1: thumbnail,
-					s2: season,
-					s3: showtitle + " (" +episodes + " Episodes)",
-					d1: {
+					s4031: thumbnail,
+					s4032: season,
+					s4033: showtitle + " (" +episodes + " Episodes)",
+					d4031: {
 						tokens: {
 							"[id]": seasonID,
 							"[fanart]": fanart
@@ -518,14 +529,17 @@ var XBMC_Controller = function(params) {
 					}
 				});
 			}
+			
+			// Set the header label list
+			if(data.result.limits.total < 2){
+			CF.setJoin("s"+baseJoin, "["+series+"]" + " (" + data.result.limits.total+ " Season)");
+			}else{
+			CF.setJoin("s"+baseJoin, "["+series+"]" + " (" + data.result.limits.total+ " Seasons)");
+			}
+			
 			// Use the array to push all new list items in one go
 			CF.listAdd("l"+baseJoin, listArray);
 		
-			if(data.result.limits.total == 1){
-			CF.setJoin("s"+baseJoin, "["+showtitle+"]" + " (" + data.result.limits.total+ " Season)");
-			}else{
-			CF.setJoin("s"+baseJoin, "["+showtitle+"]" + " (" + data.result.limits.total+ " Seasons)");
-			}
 		});
 	};
 
@@ -536,7 +550,9 @@ var XBMC_Controller = function(params) {
 	
 	self.getTVEpisodes = function(id, fanart, baseJoin, order, method) {
 		
-		CF.setJoin("s11000", fanart);
+		CF.setJoin("s4121", fanart);
+		CF.setJoin("s"+baseJoin, "");		// clear previous data in the list label
+		
 		self.currentSeasonID = parseInt(id);
 		
 		self.rpc("VideoLibrary.GetEpisodes", { "tvshowid": self.currentShowID, "season": self.currentSeasonID, "sort": {"order": order, "method": method}, 
@@ -560,27 +576,29 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				WatchedEpisodelistArray.push({
-					s1: thumbnail,
-					s2: label,
-					s3: season + " Episode " + episodenum,
-					s4: playcount,
-					d1: {
+					s4031: thumbnail,
+					s4032: label,
+					s4033: season + " Episode " + episodenum,
+					s4034: playcount,
+					d4031: {
 						tokens: {
 							"[id]": episodeID
 						}
 					},
-					d2: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
+					d4032: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
 				});
 			}
-			CF.listAdd("l"+baseJoin, WatchedEpisodelistArray);
+			
 			CF.setJoin("s"+baseJoin, "[" + showtitle + "] " + season + " (" + data.result.limits.total + " eps)");				// Hide TVShow Details subpage
+			CF.listAdd("l"+baseJoin, WatchedEpisodelistArray);
+			
 		});
 	};
 	
 	self.sortTVEpisodes = function(baseJoin, order, method) {
 		
-		CF.setJoin("s20", order);
-		CF.setJoin("s21", method);
+		CF.setJoin("s4020", order);	 
+		CF.setJoin("s4021", method);
 		
 		self.rpc("VideoLibrary.GetEpisodes", { "tvshowid": self.currentShowID, "season": self.currentSeasonID, "sort": {"order": order, "method": method}, 
 		"properties": ["thumbnail", "episode", "playcount", "firstaired", "showtitle", "season", "rating", "runtime"]}, function(data) {
@@ -619,16 +637,16 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				WatchedEpisodelistArray.push({
-					s1: thumbnail,
-					s2: label,
-					s3: season + sortlabel,
-					s4: playcount,
-					d1: {
+					s4031: thumbnail,
+					s4032: label,
+					s4033: season + sortlabel,
+					s4034: playcount,
+					d4031: {
 						tokens: {
 							"[id]": episodeID
 						}
 					},
-					d2: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
+					d4032: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
 				});
 			}
 			CF.listAdd("l"+baseJoin, WatchedEpisodelistArray);
@@ -660,8 +678,7 @@ var XBMC_Controller = function(params) {
 			self.currentEpisodeFile = decode_utf8(data.result.episodedetails.file);
 			
 			CF.setJoins([
-				{join: "s"+baseJoin, value: thumbnail},			// Thumbnail
-				//{join: "s"+(baseJoin+1), value: fanart},		// Fan Art
+				{join: "s"+(baseJoin+1), value: thumbnail},			// Thumbnail
 				{join: "s"+(baseJoin+2), value: title},			// Title
 				{join: "s"+(baseJoin+3), value: plot},			// Plot
 				{join: "s"+(baseJoin+4), value: showtitle},		// Showtitle
@@ -673,7 +690,7 @@ var XBMC_Controller = function(params) {
 				{join: "d"+baseJoin, value: 1}					// Show Subpage
 			]);
 			
-			CF.setJoin("s11000", fanart);
+			CF.setJoin("s4121", fanart);
 		});
 	};
 	
@@ -697,7 +714,7 @@ var XBMC_Controller = function(params) {
 	/**
 	 * Function: Get Recently Added Episodes list from XBMC
 	 */
-	self.getRecentEpisodes = function(baseJoin, baseJoinMainPage) {
+	self.getRecentEpisodes = function(baseJoin) {
 	
 		self.rpc("VideoLibrary.GetRecentlyAddedEpisodes", {"properties":["thumbnail", "season", "showtitle", "file"]}, function(data) {
 					//CF.logObject(data);
@@ -707,7 +724,6 @@ var XBMC_Controller = function(params) {
 												
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
-						CF.listRemove("l"+baseJoinMainPage);
 						
 						// Loop through all returned playlist item
 						for (var i = 0; i<data.result.limits.total; i++) {
@@ -720,10 +736,10 @@ var XBMC_Controller = function(params) {
 						
 						// Add to array to add to list in one go later
 						RecentEpisodelistArray.push({
-							s1: thumbnail,
-							s2: label,
-							s3: "["+showtitle+"] "+"Season "+season,
-							d1: {
+							s4031: thumbnail,
+							s4032: label,
+							s4033: "["+showtitle+"] "+"Season "+season,
+							d4031: {
 								tokens: {
 								"[id]": episodeid,
 								"[file]": file
@@ -734,10 +750,7 @@ var XBMC_Controller = function(params) {
 					}
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+baseJoin, RecentEpisodelistArray);
-					CF.listAdd("l"+baseJoinMainPage, RecentEpisodelistArray);
-				
 					CF.setJoin("s"+baseJoin, "RECENT ADDED EPISODES " + "(" + data.result.limits.total + ")" );
-					CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED EPISODES " + "(" + data.result.limits.total + ")" );
 				});	
 	};
 	
@@ -758,8 +771,8 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				listArray.push({
-					s2: label,
-					d1: {
+					s4031: label,
+					d4031: {
 						tokens: {
 							"[genre]": label
 						}
@@ -777,19 +790,19 @@ var XBMC_Controller = function(params) {
 		
 		for (var i = 0;i<TVSerieslistArray.length;i++)
 		{
-			var searchThumbnail = TVSerieslistArray[i].s1;
-			var searchTitle = TVSerieslistArray[i].s2;
-			var searchGenre = TVSerieslistArray[i].s3;
-			var searchTVSeriesID = TVSerieslistArray[i].d1.tokens["[id]"];
-			//var searchTokenShowTitle = TVSerieslistArray[i].d1.tokens["[showname]"];
+			var searchThumbnail = TVSerieslistArray[i].s4031;
+			var searchTitle = TVSerieslistArray[i].s4032;
+			var searchGenre = TVSerieslistArray[i].s4033;
+			var searchTVSeriesID = TVSerieslistArray[i].d4031.tokens["[id]"];
+			//var searchTokenShowTitle = TVSerieslistArray[i].d4031.tokens["[showname]"];
 			
-			if(newCompare(TVSerieslistArray[i].s3, genre))			// refer to newCompare() from customised function section
+			if(newCompare(TVSerieslistArray[i].s4033, genre))			// refer to newCompare() from customised function section
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: searchThumbnail,
-					s2: searchTitle,
-					s5: searchGenre,
-					d1: {
+					s4031: searchThumbnail,
+					s4032: searchTitle,
+					s4035: searchGenre,
+					d4031: {
 						tokens: {
 							"[id]": searchTVSeriesID
 							//"[showname]": searchTokenShowTitle
@@ -809,24 +822,24 @@ var XBMC_Controller = function(params) {
 		
 		for (var i = 0;i<WatchedEpisodelistArray.length;i++)
 		{
-			var watchedThumbnail = WatchedEpisodelistArray[i].s1;
-			var watchedTitle = WatchedEpisodelistArray[i].s2;
-			var watchedDesc = WatchedEpisodelistArray[i].s3;
-			var watchedPlaycount = WatchedEpisodelistArray[i].s4;
-			var watchedTVEpisodeID = WatchedEpisodelistArray[i].d1.tokens["[id]"];
+			var watchedThumbnail = WatchedEpisodelistArray[i].s4031;
+			var watchedTitle = WatchedEpisodelistArray[i].s4032;
+			var watchedDesc = WatchedEpisodelistArray[i].s4033;
+			var watchedPlaycount = WatchedEpisodelistArray[i].s4034;
+			var watchedTVEpisodeID = WatchedEpisodelistArray[i].d4031.tokens["[id]"];
 			
-			if(WatchedEpisodelistArray[i].s4 == 0)			// Only episodes that are unwatched
+			if(WatchedEpisodelistArray[i].s4034 == 0)			// Only episodes that are unwatched
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: watchedThumbnail,
-					s2: watchedTitle,
-					s3: watchedDesc,
-					d1: {
+					s4031: watchedThumbnail,
+					s4032: watchedTitle,
+					s4033: watchedDesc,
+					d4031: {
 						tokens: {
 							"[id]": watchedTVEpisodeID
 						}
 					},
-					//d2: (playcount > 0) ? 1 : 0,
+					//d4032: (playcount > 0) ? 1 : 0,
 				});
 			}
 		}
@@ -841,22 +854,22 @@ var XBMC_Controller = function(params) {
 		
 		for (var i = 0;i<WatchedEpisodelistArray.length;i++)
 		{
-			var watchedThumbnail = WatchedEpisodelistArray[i].s1;
-			var watchedTitle = WatchedEpisodelistArray[i].s2;
-			var watchedDesc = WatchedEpisodelistArray[i].s3;
-			var watchedPlaycount = WatchedEpisodelistArray[i].s4;
-			var watchedTVEpisodeID = WatchedEpisodelistArray[i].d1.tokens["[id]"];
+			var watchedThumbnail = WatchedEpisodelistArray[i].s4031;
+			var watchedTitle = WatchedEpisodelistArray[i].s4032;
+			var watchedDesc = WatchedEpisodelistArray[i].s4033;
+			var watchedPlaycount = WatchedEpisodelistArray[i].s4034;
+			var watchedTVEpisodeID = WatchedEpisodelistArray[i].d4031.tokens["[id]"];
 			
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: watchedThumbnail,
-					s2: watchedTitle,
-					s3: watchedDesc,
-					d1: {
+					s4031: watchedThumbnail,
+					s4032: watchedTitle,
+					s4033: watchedDesc,
+					d4031: {
 						tokens: {
 							"[id]": watchedTVEpisodeID
 						}
 					},
-					d2: (watchedPlaycount > 0) ? 1 : 0,
+					d4032: (watchedPlaycount > 0) ? 1 : 0,
 				});
 		}
 		CF.listAdd("l"+baseJoin, templistArray);
@@ -880,8 +893,8 @@ var XBMC_Controller = function(params) {
 	 */
 	self.getMovies = function(baseJoin, order, method) {
 		
-		CF.setJoin("s31", order);
-		CF.setJoin("s32", method);
+		CF.setJoin("s4051", order);
+		CF.setJoin("s4052", method);
 		
 		self.rpc("VideoLibrary.GetMovies", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "genre", "playcount", "mpaa", "rating", "runtime", "year"]}, function(data) {
 			//CF.logObject(data);
@@ -916,17 +929,17 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				MovieslistArray.push({
-					s1: thumbnail,
-					s2: label,
-					s3: genre,
-					s4: playcount,
-					s5: "[Movies] " +sortlabel,
-					d1: {
+					s4031: thumbnail,
+					s4032: label,
+					s4033: genre,
+					s4034: playcount,
+					s4035: "[Movies] " +sortlabel,
+					d4031: {
 						tokens: {
 							"[id]": movieID
 						}
 					},
-					d2: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
+					d4032: (playcount > 0) ? 1 : 0,				// sets watched/unwatcehd status
 				});
 			}
 								
@@ -946,11 +959,11 @@ var XBMC_Controller = function(params) {
 				for (j=0; j<3; j++) {
 					if ((i+j) < MovieslistArray.length) {
 					
-					sub["s"+(j+1)]= MovieslistArray[i+j].s1;
-					sub["s"+(j+4)]= MovieslistArray[i+j].s2;
-					sub["d"+(j+1)] = { 
+					sub["s"+(j+4031)]= MovieslistArray[i+j].s4031;
+					sub["s"+(j+4034)]= MovieslistArray[i+j].s4032;
+					sub["d"+(j+4031)] = { 
 										tokens : { 
-											"[id]": MovieslistArray[i+j].d1.tokens["[id]"]
+											"[id]": MovieslistArray[i+j].d4031.tokens["[id]"]
 											} 
 										};
 					}// end (i+j) loop
@@ -985,17 +998,17 @@ var XBMC_Controller = function(params) {
 			self.currentMovieFile = decode_utf8(data.result.moviedetails.file);
 			
 			CF.setJoins([
-				{join: "s"+baseJoin, value: thumbnail},		// Thumbnail
-				{join: "s"+(baseJoin+1), value: fanart},	// Fan Art
-				{join: "s"+(baseJoin+2), value: title},		// Title
-				{join: "s"+(baseJoin+3), value: plot},		// Plot
-				{join: "s"+(baseJoin+4), value: genre},		// Genre
-				{join: "s"+(baseJoin+5), value: year},		// Year
-				{join: "s"+(baseJoin+6), value: rating},	// Rating
-				{join: "s"+(baseJoin+7), value: runtime},	// Runtime
-				{join: "s"+(baseJoin+8), value: director},	// Director
-				{join: "s"+(baseJoin+9), value: writer},	// Writer
-				{join: "d"+baseJoin, value: 1}				// Show Subpage
+				{join: "s"+(baseJoin+1), value: thumbnail},		// Thumbnail
+				{join: "s"+(baseJoin+2), value: fanart},		// Fan Art
+				{join: "s"+(baseJoin+3), value: title},			// Title
+				{join: "s"+(baseJoin+4), value: plot},			// Plot
+				{join: "s"+(baseJoin+5), value: genre},			// Genre
+				{join: "s"+(baseJoin+6), value: year},			// Year
+				{join: "s"+(baseJoin+7), value: rating},		// Rating
+				{join: "s"+(baseJoin+8), value: runtime},		// Runtime
+				{join: "s"+(baseJoin+9), value: director},		// Director
+				{join: "s"+(baseJoin+10), value: writer},		// Writer
+				{join: "d"+baseJoin, value: 1}					// Show Subpage
 			]);
 		});
 	};
@@ -1043,16 +1056,16 @@ var XBMC_Controller = function(params) {
 				//CF.log(title);
 				
 				MovieSearchlistArray.push({				// Add to array to add to list in one go later
-					s1: thumbnail,
-					s2: title,
-					s5: "[MOVIES] All Movies",
-					d1: {
+					s4031: thumbnail,
+					s4032: title,
+					s4035: "[MOVIES] All Movies",
+					d4031: {
 						tokens: {
 							"[id]": movieid,
 							"[showname]": title
 							}
 						},
-					d2: (playcount > 0) ? 1 : 0,
+					d4032: (playcount > 0) ? 1 : 0,
 					});
 			}
 			
@@ -1072,25 +1085,25 @@ var XBMC_Controller = function(params) {
 					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
 					letter = String.fromCharCode(63 + parseInt(sliderval));
 				}
-				CF.setJoin("s1111", letter);
+				CF.setJoin("s4221", letter);
 				
 				var templistArray = [];				//initialize temporary array
 				CF.listRemove("l"+listJoin);	//clear list of any previous entries
 			
 				for (var i = 0;i<MovieslistArray.length;i++)
 				{
-					var searchThumbnail = MovieslistArray[i].s1;
-					var searchTitle = MovieslistArray[i].s2;
-					var searchGenre = MovieslistArray[i].s3;
-					var searchMovieID = MovieslistArray[i].d1.tokens["[id]"];
+					var searchThumbnail = MovieslistArray[i].s4031;
+					var searchTitle = MovieslistArray[i].s4032;
+					var searchGenre = MovieslistArray[i].s4033;
+					var searchMovieID = MovieslistArray[i].d4031.tokens["[id]"];
 									
 					if (letter == "#")												// Non-filtered, display everything
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchTitle,
-							s3: searchGenre,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchTitle,
+							s4033: searchGenre,
+							d4031: {
 								tokens: {
 									"[id]": searchMovieID
 								}
@@ -1100,10 +1113,10 @@ var XBMC_Controller = function(params) {
 					else if (letter == searchTitle.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchTitle,
-							s3: searchGenre,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchTitle,
+							s4033: searchGenre,
+							d4031: {
 								tokens: {
 									"[id]": searchMovieID
 								}
@@ -1137,8 +1150,8 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				listArray.push({
-					s2: label,
-					d1: {
+					s4031: label,
+					d4031: {
 						tokens: {
 							"[genre]": label
 						}
@@ -1160,18 +1173,18 @@ var XBMC_Controller = function(params) {
 		//loop thru all the element in the TV Show Array and display the match
 		for (var i = 0;i<MovieslistArray.length;i++)
 		{
-			var searchThumbnail = MovieslistArray[i].s1;
-			var searchTitle = MovieslistArray[i].s2;
-			var searchGenre = MovieslistArray[i].s3;
-			var searchMovieID = MovieslistArray[i].d1.tokens["[id]"];
+			var searchThumbnail = MovieslistArray[i].s4031;
+			var searchTitle = MovieslistArray[i].s4032;
+			var searchGenre = MovieslistArray[i].s4033;
+			var searchMovieID = MovieslistArray[i].d4031.tokens["[id]"];
 			
-			if(newCompare(MovieslistArray[i].s3, genre))			// refer to newCompare() from customised function section
+			if(newCompare(MovieslistArray[i].s4033, genre))			// refer to newCompare() from customised function section
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: searchThumbnail,
-					s2: searchTitle,
-					s3: searchGenre,
-					d1: {
+					s4031: searchThumbnail,
+					s4032: searchTitle,
+					s4033: searchGenre,
+					d4031: {
 						tokens: {
 							"[id]": searchMovieID
 						}
@@ -1179,14 +1192,15 @@ var XBMC_Controller = function(params) {
 				});
 			}
 		}
+		CF.setJoin("s"+baseJoin, genre);
 		CF.listAdd("l"+baseJoin, templistArray);
 	};
 	
 	/**
 	 * Function: Get Recently Added Movies list from XBMC
 	 */
-	self.getRecentMovies = function(baseJoin, baseJoinMainPage) {
-	
+	//self.getRecentMovies = function(baseJoin, baseJoinMainPage) {
+	self.getRecentMovies = function(baseJoin) {
 		self.rpc("VideoLibrary.GetRecentlyAddedMovies", {"properties":["thumbnail", "file"]}, function(data) {
 					//CF.logObject(data);
 				
@@ -1195,7 +1209,7 @@ var XBMC_Controller = function(params) {
 					
 						// Clear the list
 						CF.listRemove("l"+baseJoin);
-						CF.listRemove("l"+baseJoinMainPage);
+						//CF.listRemove("l"+baseJoinMainPage);
 						
 						// Loop through all returned playlist item
 						for (var i = 0; i<data.result.limits.total; i++) {
@@ -1207,9 +1221,9 @@ var XBMC_Controller = function(params) {
 						
 						// Add to array to add to list in one go later
 						RecentMovieslistArray.push({
-							s1: thumbnail,
-							s2: label,
-							d1: {
+							s4031: thumbnail,
+							s4032: label,
+							d4031: {
 								tokens: {
 								"[id]": movieid,
 								"[file]": file
@@ -1220,10 +1234,10 @@ var XBMC_Controller = function(params) {
 					}
 					// Use the array to push all new list items in one go
 					CF.listAdd("l"+baseJoin, RecentMovieslistArray);
-					CF.listAdd("l"+baseJoinMainPage, RecentMovieslistArray);
+					//CF.listAdd("l"+baseJoinMainPage, RecentMovieslistArray);
 				
 				CF.setJoin("s"+baseJoin, "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
-				CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
+				//CF.setJoin("s"+baseJoinMainPage, "RECENT ADDED MOVIES " + "(" + data.result.limits.total + ")" );
 				});	
 	};
 	
@@ -1235,23 +1249,23 @@ var XBMC_Controller = function(params) {
 		
 		for (var i = 0;i<MovieslistArray.length;i++)
 		{
-			var watchedThumbnail = MovieslistArray[i].s1;
-			var watchedTitle = MovieslistArray[i].s2;
-			var watchedSortLabel = MovieslistArray[i].s5;
-			var watchedTVEpisodeID = MovieslistArray[i].d1.tokens["[id]"];
+			var watchedThumbnail = MovieslistArray[i].s4031;
+			var watchedTitle = MovieslistArray[i].s4032;
+			var watchedSortLabel = MovieslistArray[i].s4035;
+			var watchedTVEpisodeID = MovieslistArray[i].d4031.tokens["[id]"];
 			
-			if(MovieslistArray[i].s4 == 0)			// Only episodes that are unwatched
+			if(MovieslistArray[i].s4034 == 0)			// Only episodes that are unwatched
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: watchedThumbnail,
-					s2: watchedTitle,
-					s5: watchedSortLabel,
-					d1: {
+					s4031: watchedThumbnail,
+					s4032: watchedTitle,
+					s4035: watchedSortLabel,
+					d4031: {
 						tokens: {
 							"[id]": watchedTVEpisodeID
 						}
 					},
-					//d2: (playcount > 0) ? 1 : 0,
+					//d4032: (playcount > 0) ? 1 : 0,
 				});
 			}
 		}
@@ -1266,22 +1280,22 @@ var XBMC_Controller = function(params) {
 		
 		for (var i = 0;i<MovieslistArray.length;i++)
 		{
-			var watchedThumbnail = MovieslistArray[i].s1;
-			var watchedTitle = MovieslistArray[i].s2;
-			var watchedSortLabel = MovieslistArray[i].s5;
-			var watchedPlaycount = MovieslistArray[i].s4;
-			var watchedTVEpisodeID = MovieslistArray[i].d1.tokens["[id]"];
+			var watchedThumbnail = MovieslistArray[i].s4031;
+			var watchedTitle = MovieslistArray[i].s4032;
+			var watchedSortLabel = MovieslistArray[i].s4035;
+			var watchedPlaycount = MovieslistArray[i].s4034;
+			var watchedTVEpisodeID = MovieslistArray[i].d4031.tokens["[id]"];
 			
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: watchedThumbnail,
-					s2: watchedTitle,
-					s5: watchedSortLabel,
-					d1: {
+					s4031: watchedThumbnail,
+					s4032: watchedTitle,
+					s4035: watchedSortLabel,
+					d4031: {
 						tokens: {
 							"[id]": watchedTVEpisodeID
 						}
 					},
-					d2: (watchedPlaycount > 0) ? 1 : 0,
+					d4032: (watchedPlaycount > 0) ? 1 : 0,
 				});
 		}
 		CF.listAdd("l"+baseJoin, templistArray);
@@ -1308,8 +1322,8 @@ var XBMC_Controller = function(params) {
 	 * @Param {integer} ID of the Artist from the XBMC database
 	 */
 	self.getMusicArtist = function(baseJoin, order, method) {
-		CF.setJoin("s41", order);						//FB on Options list: Check sort order
-		CF.setJoin("s42", method);						//FB on Options list: Check sort method
+		CF.setJoin("s4041", order);						//FB on Options list: Check sort order
+		CF.setJoin("s4042", method);					//FB on Options list: Check sort method
 		
 		self.rpc("AudioLibrary.GetArtists", {"sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart"]}, function(data) {
 			//CF.logObject(data);
@@ -1327,9 +1341,15 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				ArtistlistArray.push({
-					s1: thumbnail,
-					s2: artist,
-					d1: {
+					s4031: thumbnail,
+					s4032: artist,
+					d4031: {
+						tokens: {
+							"[id]": artistID,
+							"[fanart]": fanart
+						}
+					},
+					d4032: {
 						tokens: {
 							"[id]": artistID,
 							"[fanart]": fanart
@@ -1349,8 +1369,8 @@ var XBMC_Controller = function(params) {
 	 */
 	 
 	self.getMusicAlbum = function(id, fanart, baseJoin) {
-		//CF.setJoin("s200", artist);
-		CF.setJoin("s10000", fanart);
+		
+		CF.setJoin("s4326", fanart);
 	
 		self.currentArtistID = parseInt(id);
 		self.rpc("AudioLibrary.GetAlbums", { "artistid": self.currentArtistID, "properties": ["thumbnail", "title", "fanart", "artist"] }, function(data) {
@@ -1371,10 +1391,18 @@ var XBMC_Controller = function(params) {
 								
 				// Add to array to add to list in one go later
 				listArray.push({
-					s1: thumbnail,
-					s2: albumtitle,
-					s3: artist,
-					d1: {
+					s4031: thumbnail,
+					s4032: albumtitle,
+					s4033: artist,
+					d4031: {
+						tokens: {
+							"[id]": albumID,
+							"[albumtitle]": albumtitle,
+							"[artist]": artist,
+							"[fanart]": fanart
+						}
+					},
+					d4032: {
 						tokens: {
 							"[id]": albumID,
 							"[albumtitle]": albumtitle,
@@ -1382,6 +1410,7 @@ var XBMC_Controller = function(params) {
 							"[fanart]": fanart
 						}
 					}
+					
 				});
 			}
 			// Use the array to push all new list items in one go
@@ -1404,7 +1433,7 @@ var XBMC_Controller = function(params) {
 	self.getMusicSong = function(id, artist, albumtitle, fanart, baseJoin) {
 	
 		CF.setJoin("s"+baseJoin, "["+artist+"] " + albumtitle);
-		CF.setJoin("s10000", fanart);
+		CF.setJoin("s4326", fanart);
 		
 		self.currentAlbumID = parseInt(id);
 		self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"order": "ascending", "method": "track"}, "properties": ["thumbnail", "title", "track", "file"]}, function(data) {
@@ -1424,10 +1453,16 @@ var XBMC_Controller = function(params) {
 												
 				// Add to array to add to list in one go later
 				listArray.push({
-					s1: thumbnail,
-					s2: title,
-					s3: tracknum,
-					d1: {
+					s4031: thumbnail,
+					s4032: title,
+					s4033: tracknum,
+					d4031: {
+						tokens: {
+							"[id]": songID,
+							"[file]": songfile
+						}
+					},
+					d4032: {
 						tokens: {
 							"[id]": songID,
 							"[file]": songfile
@@ -1493,7 +1528,7 @@ var XBMC_Controller = function(params) {
 				{join: "s"+(baseJoin+7), value: duration},	// Runtime
 			]);
 			
-			CF.setJoin("s10000", fanart);
+			CF.setJoin("s4326", fanart);
 		});
 	};
 	
@@ -1503,8 +1538,8 @@ var XBMC_Controller = function(params) {
 	 */
 	self.getAllAlbums = function(baseJoin, order, method) {
 		
-		CF.setJoin("s41", order);						//FB on Options list: Check sort order
-		CF.setJoin("s42", method);						//FB on Options list: Check sort method
+		CF.setJoin("s4041", order);						//FB on Options list: Check sort order
+		CF.setJoin("s4042", method);						//FB on Options list: Check sort method
 		
 		self.rpc("AudioLibrary.GetAlbums", { "sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist", "year", "albumlabel"]}, function(data) {
 			//CF.logObject(data);
@@ -1534,10 +1569,18 @@ var XBMC_Controller = function(params) {
 				
 				// Add to array to add to list in one go later
 				AlbumlistArray.push({
-					s1: thumbnail,
-					s2: label,
-					s3: sortlabel,
-					d1: {
+					s4031: thumbnail,
+					s4032: label,
+					s4033: sortlabel,
+					d4031: {
+						tokens: {
+							"[id]": albumID,
+							"[fanart]": fanart,
+							"[artist]": artist,
+							"[albumtitle]": label
+						}
+					},
+					d4032: {
 						tokens: {
 							"[id]": albumID,
 							"[fanart]": fanart,
@@ -1560,8 +1603,8 @@ var XBMC_Controller = function(params) {
 	 */
 	self.getAllSongs = function(baseJoin, order, method) {
 		
-		CF.setJoin("s41", order);						//FB on Options list: Check sort order
-		CF.setJoin("s42", method);						//FB on Options list: Check sort method
+		CF.setJoin("s4041", order);						//FB on Options list: Check sort order
+		CF.setJoin("s4042", method);						//FB on Options list: Check sort method
 		
 		self.rpc("AudioLibrary.GetSongs", {"sort": {"order": order, "method": method}, "properties": ["thumbnail", "fanart", "artist", "file", "duration", "year", "track", "album"]}, function(data) {
 			//CF.logObject(data);
@@ -1599,15 +1642,21 @@ var XBMC_Controller = function(params) {
 				
 			// Add to array to add to list in one go later
 				SonglistArray.push({
-					s1: thumbnail,
-					s2: label,
-					s3: sortlabel,
-					d1: {
+					s4031: thumbnail,
+					s4032: label,
+					s4033: sortlabel,
+					d4031: {
 						tokens: {
 							"[id]": songID,
 							"[file]": file
 						}
 					},
+					d4032: {
+						tokens: {
+							"[id]": songID,
+							"[file]": file
+						}
+					}
 				});
 			}
 			CF.listAdd("l"+baseJoin, SonglistArray);		//By default disable options for all songs. Usually for All Artists and All Albums only.
@@ -1642,9 +1691,9 @@ var XBMC_Controller = function(params) {
 						
 						// Add to array to add to list in one go later
 						RecentAlbumlistArray.push({
-							s1: thumbnail,
-							s2: label,
-							d1: {
+							s4031: thumbnail,
+							s4032: label,
+							d4031: {
 								tokens: {
 								"[id]": albumid,
 								"[artist]": artist,
@@ -1652,6 +1701,14 @@ var XBMC_Controller = function(params) {
 								"[fanart]": fanart
 								}
 							},
+							d4032: {
+								tokens: {
+								"[id]": albumid,
+								"[artist]": artist,
+								"[albumtitle]": label,
+								"[fanart]": fanart
+								}
+							}
 						});
 					}
 					// Use the array to push all new list items in one go
@@ -1687,15 +1744,20 @@ var XBMC_Controller = function(params) {
 						
 						// Add to array to add to list in one go later
 						RecentSonglistArray.push({
-							s1: thumbnail,
-							s2: label,
-							d1: {
+							s4031: thumbnail,
+							s4032: label,
+							d4031: {
 								tokens: {
 								"[id]": songid,
 								"[file]": file
 								}
 							},
-							
+							d4032: {
+								tokens: {
+								"[id]": songid,
+								"[file]": file
+								}
+							}
 						});
 					}
 					// Use the array to push all new list items in one go
@@ -1736,23 +1798,31 @@ var XBMC_Controller = function(params) {
 		//loop thru all the element in the TV Show Array and display the match
 		for (var i = 0;i<ArtistlistArray.length;i++)
 		{
-			var searchThumbnail = ArtistlistArray[i].s1;
-			var searchArtist = ArtistlistArray[i].s2;
-			var searchTokenArtistId = ArtistlistArray[i].d1.tokens["[id]"];
-			var searchTokenArtist = ArtistlistArray[i].d1.tokens["[artist]"];
+			var searchThumbnail = ArtistlistArray[i].s4031;
+			var searchArtist = ArtistlistArray[i].s4032;
+			var searchTokenArtistId = ArtistlistArray[i].d4031.tokens["[id]"];
+			var searchTokenArtist = ArtistlistArray[i].d4031.tokens["[artist]"];
+			var searchToken2ArtistId = ArtistlistArray[i].d4032.tokens["[id]"];
+			var searchToken2Artist = ArtistlistArray[i].d4032.tokens["[artist]"];
 			
 			if(newCompare(searchArtist, search_string))			// refer to newCompare() from customised function section
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: searchThumbnail,
-					s2: searchArtist,
-					d1: {
+					s4031: searchThumbnail,
+					s4032: searchArtist,
+					d4031: {
 						tokens: {
 							"[id]": searchTokenArtistId,
 							"[artist]": searchTokenArtist
 							}
-						}
-					});
+					},
+					d4032: {
+						tokens: {
+							"[id]": searchToken2ArtistId,
+							"[artist]": searchToken2Artist
+							}
+					}
+				});
 			}
 		}
 		CF.listAdd("l"+listJoin, templistArray);
@@ -1768,7 +1838,7 @@ var XBMC_Controller = function(params) {
 					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
 					letter = String.fromCharCode(63 + parseInt(sliderval));
 				}
-				CF.setJoin("s5556", letter);
+				CF.setJoin("s4323", letter);
 				
 				var templistArray = [];				//initialize temporary array
 				CF.listRemove("l"+listJoin);	//clear list of any previous entries
@@ -1776,20 +1846,29 @@ var XBMC_Controller = function(params) {
 				//loop thru all the element in the TV Show Array and display the match
 				for (var i = 0;i<ArtistlistArray.length;i++)
 				{
-					var searchThumbnail = ArtistlistArray[i].s1;
-					var searchArtist = ArtistlistArray[i].s2;
-					var searchTokenArtistId = ArtistlistArray[i].d1.tokens["[id]"];
-					var searchTokenArtist = ArtistlistArray[i].d1.tokens["[artist]"];
-									
+					var searchThumbnail = ArtistlistArray[i].s4031;
+					var searchArtist = ArtistlistArray[i].s4032;
+					var searchTokenArtistId = ArtistlistArray[i].d4031.tokens["[id]"];
+					var searchTokenArtist = ArtistlistArray[i].d4031.tokens["[artist]"];
+					var searchToken2ArtistId = ArtistlistArray[i].d4032.tokens["[id]"];
+					var searchToken2Artist = ArtistlistArray[i].d4032.tokens["[artist]"];
+										
+					
 					if (letter == "#")												// Non-filtered, display everything
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchArtist,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchArtist,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenArtistId,
 									"[artist]": searchTokenArtist
+									}
+								},
+							d4032: {
+								tokens: {
+									"[id]": searchToken2ArtistId,
+									"[artist]": searchToken2Artist
 									}
 								}
 							});
@@ -1797,12 +1876,18 @@ var XBMC_Controller = function(params) {
 					else if (letter == searchArtist.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchArtist,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchArtist,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenArtistId,
 									"[artist]": searchTokenArtist
+									}
+								},
+							d4032: {
+								tokens: {
+									"[id]": searchToken2ArtistId,
+									"[artist]": searchToken2Artist
 									}
 								}
 							});
@@ -1823,26 +1908,38 @@ var XBMC_Controller = function(params) {
 		//loop thru all the element in the TV Show Array and display the match
 		for (var i = 0;i<AlbumlistArray.length;i++)
 		{
-			var searchThumbnail = AlbumlistArray[i].s1;
-			var searchAlbum = AlbumlistArray[i].s2;
-			var searchSortLabel = AlbumlistArray[i].s3;
-			var searchTokenAlbumId = AlbumlistArray[i].d1.tokens["[id]"];
-			var searchTokenFanart = AlbumlistArray[i].d1.tokens["[fanart]"];
-			var searchTokenArtist = AlbumlistArray[i].d1.tokens["[artist]"];
-			var searchTokenAlbum = AlbumlistArray[i].d1.tokens["[albumtitle]"];
+			var searchThumbnail = AlbumlistArray[i].s4031;
+			var searchAlbum = AlbumlistArray[i].s4032;
+			var searchSortLabel = AlbumlistArray[i].s4033;
+			var searchTokenAlbumId = AlbumlistArray[i].d4031.tokens["[id]"];
+			var searchTokenFanart = AlbumlistArray[i].d4031.tokens["[fanart]"];
+			var searchTokenArtist = AlbumlistArray[i].d4031.tokens["[artist]"];
+			var searchTokenAlbum = AlbumlistArray[i].d4031.tokens["[albumtitle]"];
+			var searchToken2AlbumId = AlbumlistArray[i].d4032.tokens["[id]"];
+			var searchToken2Fanart = AlbumlistArray[i].d4032.tokens["[fanart]"];
+			var searchToken2Artist = AlbumlistArray[i].d4032.tokens["[artist]"];
+			var searchToken2Album = AlbumlistArray[i].d4032.tokens["[albumtitle]"];
 			
 			if(newCompare(searchAlbum, search_string))			// refer to newCompare() from customised function section
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: searchThumbnail,
-					s2: searchAlbum,
-					s3: searchSortLabel,
-					d1: {
+					s4031: searchThumbnail,
+					s4032: searchAlbum,
+					s4033: searchSortLabel,
+					d4031: {
 						tokens: {
 							"[id]": searchTokenAlbumId,
 							"[artist]": searchTokenArtist,
 							"[fanart]": searchTokenFanart,
 							"[albumtitle]": searchTokenAlbum
+							}
+						},
+					d4032: {
+						tokens: {
+							"[id]": searchToken2AlbumId,
+							"[artist]": searchToken2Artist,
+							"[fanart]": searchToken2Fanart,
+							"[albumtitle]": searchToken2Album
 							}
 						}
 					});
@@ -1861,7 +1958,7 @@ var XBMC_Controller = function(params) {
 					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
 					letter = String.fromCharCode(63 + parseInt(sliderval));
 				}
-				CF.setJoin("s5555", letter);
+				CF.setJoin("s4324", letter);
 				
 				var templistArray = [];				//initialize temporary array
 				CF.listRemove("l"+listJoin);	//clear list of any previous entries
@@ -1869,26 +1966,38 @@ var XBMC_Controller = function(params) {
 				//loop thru all the element in the TV Show Array and display the match
 				for (var i = 0;i<AlbumlistArray.length;i++)
 				{
-					var searchThumbnail = AlbumlistArray[i].s1;
-					var searchAlbum = AlbumlistArray[i].s2;
-					var searchSortLabel = AlbumlistArray[i].s3;
-					var searchTokenAlbumId = AlbumlistArray[i].d1.tokens["[id]"];
-					var searchTokenFanart = AlbumlistArray[i].d1.tokens["[fanart]"];
-					var searchTokenArtist = AlbumlistArray[i].d1.tokens["[artist]"];
-					var searchTokenAlbum = AlbumlistArray[i].d1.tokens["[albumtitle]"];
+					var searchThumbnail = AlbumlistArray[i].s4031;
+					var searchAlbum = AlbumlistArray[i].s4032;
+					var searchSortLabel = AlbumlistArray[i].s4033;
+					var searchTokenAlbumId = AlbumlistArray[i].d4031.tokens["[id]"];
+					var searchTokenFanart = AlbumlistArray[i].d4031.tokens["[fanart]"];
+					var searchTokenArtist = AlbumlistArray[i].d4031.tokens["[artist]"];
+					var searchTokenAlbum = AlbumlistArray[i].d4031.tokens["[albumtitle]"];
+					var searchToken2AlbumId = AlbumlistArray[i].d4032.tokens["[id]"];
+					var searchToken2Fanart = AlbumlistArray[i].d4032.tokens["[fanart]"];
+					var searchToken2Artist = AlbumlistArray[i].d4032.tokens["[artist]"];
+					var searchToken2Album = AlbumlistArray[i].d4032.tokens["[albumtitle]"];
 											
 					if (letter == "#")												// Non-filtered, display everything
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchAlbum,
-							s3: searchSortLabel,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchAlbum,
+							s4033: searchSortLabel,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenAlbumId,
 									"[artist]": searchTokenArtist,
 									"[fanart]": searchTokenFanart,
 									"[albumtitle]": searchTokenAlbum
+									}
+								},
+							d4032: {
+								tokens: {
+									"[id]": searchToken2AlbumId,
+									"[artist]": searchToken2Artist,
+									"[fanart]": searchToken2Fanart,
+									"[albumtitle]": searchToken2Album
 									}
 								}
 							});
@@ -1896,15 +2005,23 @@ var XBMC_Controller = function(params) {
 					else if (letter == searchAlbum.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchAlbum,
-							s3: searchSortLabel,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchAlbum,
+							s4033: searchSortLabel,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenAlbumId,
 									"[artist]": searchTokenArtist,
 									"[fanart]": searchTokenFanart,
 									"[albumtitle]": searchTokenAlbum
+									}
+								},
+							d4032: {
+								tokens: {
+									"[id]": searchToken2AlbumId,
+									"[artist]": searchToken2Artist,
+									"[fanart]": searchToken2Fanart,
+									"[albumtitle]": searchToken2Album
 									}
 								}
 							});
@@ -1925,22 +2042,30 @@ var XBMC_Controller = function(params) {
 		//loop thru all the element in the TV Show Array and display the match
 		for (var i = 0;i<SonglistArray.length;i++)
 		{
-			var searchThumbnail = SonglistArray[i].s1;
-			var searchSong = SonglistArray[i].s2;
-			var searchSortLabel = SonglistArray[i].s3;
-			var searchTokenSongId = SonglistArray[i].d1.tokens["[id]"];
-			var searchTokenFile = SonglistArray[i].d1.tokens["[file]"];
+			var searchThumbnail = SonglistArray[i].s4031;
+			var searchSong = SonglistArray[i].s4032;
+			var searchSortLabel = SonglistArray[i].s4033;
+			var searchTokenSongId = SonglistArray[i].d4031.tokens["[id]"];
+			var searchTokenFile = SonglistArray[i].d4031.tokens["[file]"];
+			var searchToken2SongId = SonglistArray[i].d4032.tokens["[id]"];
+			var searchToken2File = SonglistArray[i].d4032.tokens["[file]"];
 			
 			if(newCompare(searchSong, search_string))			// refer to newCompare() from customised function section
 			{
 				templistArray.push({				// Add to array to add to list in one go later
-					s1: searchThumbnail,
-					s2: searchSong,
-					s3: searchSortLabel,
-					d1: {
+					s4031: searchThumbnail,
+					s4032: searchSong,
+					s4033: searchSortLabel,
+					d4031: {
 						tokens: {
 							"[id]": searchTokenSongId,
 							"[file]": searchTokenFile
+							}
+						},
+					d4032: {
+						tokens: {
+							"[id]": searchToken2SongId,
+							"[file]": searchToken2File
 							}
 						}
 					});
@@ -1959,7 +2084,7 @@ var XBMC_Controller = function(params) {
 					// rather than add them. This is because parameters may be passed as strings from tokens such as [sliderval]
 					letter = String.fromCharCode(63 + parseInt(sliderval));
 				}
-				CF.setJoin("s5557", letter);
+				CF.setJoin("s4325", letter);
 				
 				var templistArray = [];				//initialize temporary array
 				CF.listRemove("l"+listJoin);	//clear list of any previous entries
@@ -1967,22 +2092,30 @@ var XBMC_Controller = function(params) {
 				//loop thru all the element in the TV Show Array and display the match
 				for (var i = 0;i<SonglistArray.length;i++)
 				{
-					var searchThumbnail = SonglistArray[i].s1;
-					var searchSong = SonglistArray[i].s2;
-					var searchSortLabel = SonglistArray[i].s3;
-					var searchTokenSongId = SonglistArray[i].d1.tokens["[id]"];
-					var searchTokenFile = SonglistArray[i].d1.tokens["[file]"];
+					var searchThumbnail = SonglistArray[i].s4031;
+					var searchSong = SonglistArray[i].s4032;
+					var searchSortLabel = SonglistArray[i].s4033;
+					var searchTokenSongId = SonglistArray[i].d4031.tokens["[id]"];
+					var searchTokenFile = SonglistArray[i].d4031.tokens["[file]"];
+					var searchToken2SongId = SonglistArray[i].d4032.tokens["[id]"];
+					var searchToken2File = SonglistArray[i].d4032.tokens["[file]"];
 											
 					if (letter == "#")												// Non-filtered, display everything
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchSong,
-							s3: searchSortLabel,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchSong,
+							s4033: searchSortLabel,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenSongId,
 									"[file]": searchTokenFile
+									}
+								},
+							d4032: {
+								tokens: {
+									"[id]": searchToken2SongId,
+									"[file]": searchToken2File
 									}
 								}
 							});
@@ -1990,13 +2123,19 @@ var XBMC_Controller = function(params) {
 					else if (letter == searchSong.charAt(0))						// compare the first alphabet of feedback string with the letter selected from slider
 					{
 						templistArray.push({				// Add to array to add to list in one go later
-							s1: searchThumbnail,
-							s2: searchSong,
-							s3: searchSortLabel,
-							d1: {
+							s4031: searchThumbnail,
+							s4032: searchSong,
+							s4033: searchSortLabel,
+							d4031: {
 								tokens: {
 									"[id]": searchTokenSongId,
 									"[file]": searchTokenFile
+									}
+								},
+							d4032: {
+								tokens: {
+									"[id]": searchToken2SongId,
+									"[file]": searchToken2File
 									}
 								}
 							});
@@ -2015,8 +2154,8 @@ var XBMC_Controller = function(params) {
 	var playnow_timer;		//setTimeout ID
 	
 	// This is the function that creates the loop, runs every 3 seconds. Alternatively can use setInterval.
-	self.loopPlayNowTimer = function(){
-		playnow_timer = setTimeout(function(){self.getNowPlaying(8000);}, 3000);
+	self.loopPlayNowTimer = function(baseJoin){
+		playnow_timer = setTimeout(function(){self.getNowPlaying(baseJoin);}, 3000);
 	};
 	
 	// This is the function that stops the loop from running. Alternatively should use clearInterval.
@@ -2075,7 +2214,7 @@ var XBMC_Controller = function(params) {
 					}
 			}
 		});
-		self.loopPlayNowTimer();		 // Check player status and report feedback according to specified interval. digital join 8000
+		self.loopPlayNowTimer(baseJoin);		 // Check player status and report feedback according to specified interval.
 	};
 	
 	/**
@@ -2094,24 +2233,24 @@ var XBMC_Controller = function(params) {
 			var year = data.result.item.year;
 			
 			CF.setJoins([
-				{join: "s"+(baseJoin+201), value: thumbnail},		// Thumbnail
-				{join: "s"+(baseJoin+202), value: title},			// Fan Art
-				{join: "s"+(baseJoin+203), value: track},			// Title
-				{join: "s"+(baseJoin+204), value: album},			// Plot
-				{join: "s"+(baseJoin+205), value: artist},			// Artist
-				{join: "s"+(baseJoin+206), value: year}				// Year
+				{join: "s"+(baseJoin+11), value: thumbnail},		// Thumbnail
+				{join: "s"+(baseJoin+12), value: title},			// Fan Art
+				{join: "s"+(baseJoin+13), value: track},			// Title
+				{join: "s"+(baseJoin+14), value: album},			// Plot
+				{join: "s"+(baseJoin+15), value: artist},			// Artist
+				{join: "s"+(baseJoin+16), value: year}				// Year
 				]);
 			});
-
+			
 			//Initiate the playing timer
-			self.startAudioPlayerTime();
+			self.startAudioPlayerTime(baseJoin);
 	};
 	
 	var audio_timer;		//setTimeout ID
 	
 	// This is the function that creates the loop, runs every second. Alternatively should use setInterval.
-	self.loopAudioTime = function(){
-		audio_timer = setTimeout(function(){self.startAudioPlayerTime();}, 1000);
+	self.loopAudioTime = function(baseJoin){
+		audio_timer = setTimeout(function(){self.startAudioPlayerTime(baseJoin);}, 1000);
 	};
 	
 	// This is the function that stops the loop from running. Alternatively should use clearInterval.
@@ -2122,7 +2261,7 @@ var XBMC_Controller = function(params) {
 	/**
 	 * Function: Get Now Playing Audio item's playing time and duration from XBMC, time is updated every second.
 	 */
-	self.startAudioPlayerTime = function() {
+	self.startAudioPlayerTime = function(baseJoin) {
 		
 		/*------------------------------------------------------------------------------------------------------------------------------------
 		|		Previously: Player.GetTime, Player.GetPercentage
@@ -2145,27 +2284,27 @@ var XBMC_Controller = function(params) {
 			// This portion is to check and provide real feedback for player's repeat status
 			if(data.result.repeat == "off")
 			{
-				CF.setJoin("d8201", 1);
-				CF.setJoin("d8202", 0);
-				CF.setJoin("d8203", 0);
+				CF.setJoin("d"+(baseJoin+51), 1);
+				CF.setJoin("d"+(baseJoin+52), 0);
+				CF.setJoin("d"+(baseJoin+53), 0);
 			}else if(data.result.repeat == "one"){
-				CF.setJoin("d8201", 0);
-				CF.setJoin("d8202", 1);
-				CF.setJoin("d8203", 0);
+				CF.setJoin("d"+(baseJoin+51), 0);
+				CF.setJoin("d"+(baseJoin+52), 1);
+				CF.setJoin("d"+(baseJoin+53), 0);
 			}else if(data.result.repeat == "all"){
-				CF.setJoin("d8201", 0);
-				CF.setJoin("d8202", 0);
-				CF.setJoin("d8203", 1);
+				CF.setJoin("d"+(baseJoin+51), 0);
+				CF.setJoin("d"+(baseJoin+52), 0);
+				CF.setJoin("d"+(baseJoin+53), 1);
 			}
 			
 			// This portion is to check and provide real feedback for player's shuffled status
 			if(data.result.shuffled == false)
 			{
-				CF.setJoin("d8204", 0);
-				CF.setJoin("d8205", 1);
+				CF.setJoin("d"+(baseJoin+54), 0);
+				CF.setJoin("d"+(baseJoin+55), 1);
 			}else if(data.result.shuffled == true){
-				CF.setJoin("d8204", 1);
-				CF.setJoin("d8205", 0);
+				CF.setJoin("d"+(baseJoin+54), 1);
+				CF.setJoin("d"+(baseJoin+55), 0);
 			}
 			
 			//self.ItemTimeHour = ("00"+data.result.time.hours).slice(-2);					*not commonly used for music files
@@ -2179,11 +2318,11 @@ var XBMC_Controller = function(params) {
 			self.ItemTime = self.ItemTimeMinutes + ":" + self.ItemTimeSeconds;			// this will be updated every second
 			self.TotalTime = self.TotalTimeMinutes + ":" + self.TotalTimeSeconds;		// this will be static
 			
-			CF.setJoin("s8207", self.ItemTime);											
-			CF.setJoin("s8208", self.TotalTime);										
-			CF.setJoin("a8100", self.timePercentage);
+			CF.setJoin("s"+(baseJoin+17), self.ItemTime);											
+			CF.setJoin("s"+(baseJoin+18), self.TotalTime);										
+			CF.setJoin("a"+(baseJoin+20), self.timePercentage);
 			
-			self.loopAudioTime(); // To cause the function to loop every second and update the timer
+			self.loopAudioTime(baseJoin); // To cause the function to loop every second and update the timer
 			
 		});
 	}; 
@@ -2200,7 +2339,7 @@ var XBMC_Controller = function(params) {
 		
 		var clockTime = ("00"+Math.floor((self.newlevel) / 60)).slice(-2) + ":" + ("00"+(Math.ceil(self.newlevel)% 60)).slice(-2);
 		
-		CF.setJoin("s8210", clockTime);						
+		CF.setJoin("s4419", clockTime);						
 		
 		self.rpc("Player.Seek", {"playerid": 0, "value": self.newlevel2}, self.logReplyData);
 	
@@ -2231,23 +2370,23 @@ var XBMC_Controller = function(params) {
 			var plot = decode_utf8(data.result.item.plot);
 			
 			CF.setJoins([
-				{join: "s"+(baseJoin+301), value: picture},			// Episode thumbnail or Movie Fanart
-				{join: "s"+(baseJoin+302), value: title},			// Title
-				{join: "s"+(baseJoin+303), value: rating},			// Rating
-				{join: "s"+(baseJoin+304), value: year},			// Year
-				{join: "s"+(baseJoin+305), value: plot}				// Plot
+				{join: "s"+(baseJoin+21), value: picture},			// Episode thumbnail or Movie Fanart
+				{join: "s"+(baseJoin+22), value: title},			// Title
+				{join: "s"+(baseJoin+23), value: rating},			// Rating
+				{join: "s"+(baseJoin+24), value: year},			// Year
+				{join: "s"+(baseJoin+25), value: plot}				// Plot
 				]);
 			}
 		);
 		
 		//Initiate the playing timer
-		self.startVideoPlayerTime();		
+		self.startVideoPlayerTime(baseJoin);		
 	};
 	
 	var video_timer;
 	
-	self.loopVideoTime = function(){
-		video_timer = setTimeout(function(){self.startVideoPlayerTime();}, 1000);
+	self.loopVideoTime = function(baseJoin){
+		video_timer = setTimeout(function(){self.startVideoPlayerTime(baseJoin);}, 1000);
 	};
 	
 	// This is the function that stops the loop from running. Alternatively should use clearInterval.
@@ -2258,33 +2397,33 @@ var XBMC_Controller = function(params) {
 	/**
 	 * Function: Get Now Playing Video item's playing time and duration from XBMC, time is updated every second.
 	 */
-	self.startVideoPlayerTime = function() {
+	self.startVideoPlayerTime = function(baseJoin) {
 		self.rpc("Player.GetProperties", {"playerid": 1, "properties": ["time", "percentage", "totaltime", "repeat", "shuffled"]}, function(data) {
 		
 			// This portion is to check and provide real feedback for player's repeat status
 			if(data.result.repeat == "off")
 			{
-				CF.setJoin("d8301", 1);
-				CF.setJoin("d8302", 0);
-				CF.setJoin("d8303", 0);
+				CF.setJoin("d"+(baseJoin+61), 1);
+				CF.setJoin("d"+(baseJoin+62), 0);
+				CF.setJoin("d"+(baseJoin+63), 0);
 			}else if(data.result.repeat == "one"){
-				CF.setJoin("d8301", 0);
-				CF.setJoin("d8302", 1);
-				CF.setJoin("d8303", 0);
+				CF.setJoin("d"+(baseJoin+61), 0);
+				CF.setJoin("d"+(baseJoin+62), 1);
+				CF.setJoin("d"+(baseJoin+63), 0);
 			}else if(data.result.repeat == "all"){
-				CF.setJoin("d8301", 0);
-				CF.setJoin("d8302", 0);
-				CF.setJoin("d8303", 1);
+				CF.setJoin("d"+(baseJoin+61), 0);
+				CF.setJoin("d"+(baseJoin+62), 0);
+				CF.setJoin("d"+(baseJoin+63), 1);
 			}
 			
 			// This portion is to check and provide real feedback for player's shuffled status
 			if(data.result.shuffled == false)
 			{
-				CF.setJoin("d8304", 0);
-				CF.setJoin("d8305", 1);
+				CF.setJoin("d"+(baseJoin+64), 0);
+				CF.setJoin("d"+(baseJoin+65), 1);
 			}else if(data.result.shuffled == true){
-				CF.setJoin("d8304", 1);
-				CF.setJoin("d8305", 0);
+				CF.setJoin("d"+(baseJoin+64), 1);
+				CF.setJoin("d"+(baseJoin+65), 0);
 			}
 			
 			// This portion is for the real time feedback of the timer
@@ -2298,14 +2437,13 @@ var XBMC_Controller = function(params) {
 			self.ItemTime = self.ItemTimeHour + ":" +self.ItemTimeMinutes + ":" + self.ItemTimeSeconds;
 			self.TotalTime = self.TotalTimeHour + ":" + self.TotalTimeMinutes + ":" + self.TotalTimeSeconds;
 			
-			CF.setJoin("s8306", self.ItemTime);		
-			CF.setJoin("s8307", self.TotalTime);	
+			CF.setJoin("s"+(baseJoin+26), self.ItemTime);		
+			CF.setJoin("s"+(baseJoin+27), self.TotalTime);	
 			
 			self.video = Math.round((data.result.percentage/100)*(65535));
-			CF.setJoin("a8300", self.video);
-			CF.setJoin("a8400", self.video);
+			CF.setJoin("a"+(baseJoin+30), self.video);
 			
-			self.loopVideoTime(); // To cause the function to loop every second and update the timer
+			self.loopVideoTime(baseJoin); // To cause the function to loop every second and update the timer
 		});
 	};
 	
@@ -2326,12 +2464,7 @@ var XBMC_Controller = function(params) {
 		
 		var clockTime = ("00"+hours).slice(-2) + ":" + ("00"+minutes).slice(-2) + ":" + ("00"+seconds).slice(-2);
 		
-		CF.setJoin("s8400", self.TotalTimeHour);							
-		CF.setJoin("s8401", self.TotalTimeMinutes);							
-		CF.setJoin("s8402", self.TotalTimeSeconds);							
-		CF.setJoin("s8403", self.TotalTimeSeconds);							
-		CF.setJoin("s8320", self.TotalTime);
-		CF.setJoin("s8310", clockTime);		// display the seek time value
+		CF.setJoin("s4428", clockTime);		// display the seek time value
 		
 		self.rpc("Player.Seek", {"playerid": 1, "value":self.newlevel2}, self.logReplyData);  // Previously Player.SeekTime
 		
@@ -2362,8 +2495,8 @@ var XBMC_Controller = function(params) {
 			
 			// Add to array to add to list in one go later
 				listArray.push({
-					s2: label,
-					d1: {
+					s4031: label,
+					d4031: {
 						tokens: {
 							"[file]": source,
 							}
@@ -2375,7 +2508,7 @@ var XBMC_Controller = function(params) {
 	};
 	
 	/**
-	 * Function: Scroll and enter into the folders and subdirectories according to media : video
+	 * Function: Scroll and enter into the folders and subdirectories according to media
 	 */
 	self.getSubDirectory = function(file, listJoin){
 		self.currentDirectory = file;
@@ -2390,8 +2523,8 @@ var XBMC_Controller = function(params) {
 				var source = decode_utf8(data.result.files[i].file);
 				// Add to array to add to list in one go later
 				listArray.push({
-					s2: label,
-					d1: {
+					s4031: label,
+					d4031: {
 						tokens: {
 							"[file]": source,
 							}
@@ -2436,10 +2569,10 @@ var XBMC_Controller = function(params) {
 						
 						// Add to array to add to list in one go later
 						listArray.push({
-							s1: thumbnail,
-							s2: label,
-							s3: track,
-							d1: {
+							s4031: thumbnail,
+							s4032: label,
+							s4033: track,
+							d4031: {
 								tokens: {
 								"[file]": songfile,
 								"[index]": index
@@ -2481,9 +2614,9 @@ var XBMC_Controller = function(params) {
 						{
 							// Add to array to add to list in one go later
 							listArray.push({
-								s1: thumbnail,		// serial join for episode's thumbnail
-								s2: label,			// serial join for episode's label
-								d1: {
+								s4031: thumbnail,		// serial join for episode's thumbnail
+								s4032: label,			// serial join for episode's label
+								d4031: {
 									tokens: {
 									"[file]": videofile,
 									"[index]": index
@@ -2493,9 +2626,9 @@ var XBMC_Controller = function(params) {
 						}else {
 							// movie's thumbnail orientation is potrait
 							listArray.push({
-								s3: thumbnail,		// serial join for movie's thumbnail
-								s4: label,			// serial join for movie's label
-								d1: {
+								s4033: thumbnail,		// serial join for movie's thumbnail
+								s4034: label,			// serial join for movie's label
+								d4031: {
 									tokens: {
 									"[file]": videofile,
 									"[index]": index
@@ -2576,15 +2709,16 @@ var XBMC_Controller = function(params) {
 		});	
 	};
 	
+	
 	self.getAudioPlayerStatus = function() {				// Play/Pause										
 		// Check playback status for Audio Player 	
 		self.rpc("Player.GetProperties", {"playerid":0, "properties": ["speed"]}, function(data) {
 					//CF.logObject(data);
 			
 			if(data.result.speed == 0){
-				CF.setJoin("d5555", 1);		// Show Recent Albums list on the Main Page
+				CF.setJoin("d4314", 1);		// Show Recent Albums list on the Main Page
 			}else{
-				CF.setJoin("d5555", 0);		// Show Recent Albums list on the Main Page
+				CF.setJoin("d4314", 0);		// Show Recent Albums list on the Main Page
 			}
 		});			
 	};
@@ -2828,25 +2962,34 @@ var XBMC_Controller = function(params) {
 		}								
 	};
 	
-	self.SystemAction = function(action) {
+	self.SystemAction = function(action, join) {
+		// close the subpage
+		CF.setJoin(join, 0); 	
+		
+		// execute the action
 		switch(action)
 		{
 		case "shutdown":
 				self.rpc("System.Shutdown", {}, self.logReplyData);  	// XBMC System : Shutdown 
+				//CF.setJoin(join, 0);
 				break;
 		case "suspend":
 				self.rpc("System.Suspend", {}, self.logReplyData);  	// XBMC System : Suspend 
+				//CF.setJoin(join, 0);
 				break;
 		case "hibernate":
 				self.rpc("System.Hibernate", {}, self.logReplyData);  	// XBMC System : Hibernate 
+				//CF.setJoin(join, 0);
 				break;
 		case "reboot":
 				self.rpc("System.Reboot", {}, self.logReplyData);  		// XBMC System : Reboot 
+				//CF.setJoin(join, 0);
 				break;
 		case "exit":
-				self.rpc("Application.Quit", {}, self.logReplyData);  	// XBMC System : Quit 
+				self.rpc("Application.Quit", {}, self.logReplyData);  	// XBMC System : Quit
+				//CF.setJoin(join, 0);	
 				break;
-		}								
+		}
 	};
 	
 	self.AudioLibrary = function(action) {
@@ -2894,7 +3037,7 @@ var XBMC_Controller = function(params) {
 			self.currentVol = data.result.volume;
 			self.currentMute = data.result.muted;
 			
-			CF.setJoin("a90", Math.round((self.currentVol/100)*65535));
+			CF.setJoin("a4007", Math.round((self.currentVol/100)*65535));
 			
 			callback();
 		});
@@ -2942,10 +3085,10 @@ var XBMC_Controller = function(params) {
 	self.presetInstance = function() {							
 			
 			// Add into global array
-			CF.listAdd("l25", [
+			CF.listAdd("l4060", [
 				{
-					s1: "XBMC Notebook",
-					d1: {
+					s4060: "XBMC Notebook",
+					d4060: {
 							tokens: {
 								"[instSystem]": "XBMC Notebook",
 								"[instUsername]": "xbmc",
@@ -2957,8 +3100,8 @@ var XBMC_Controller = function(params) {
 					}
 				},
 				{	// Manual entry for second instance
-					s1: "XBMC MacMini",
-					d1: {
+					s4060: "XBMC MacMini",
+					d4060: {
 							tokens: {
 								"[instSystem]": "XBMC MacMini",
 								"[instUsername]": "xbmc",
@@ -2970,8 +3113,8 @@ var XBMC_Controller = function(params) {
 					}
 				},
 				{	// Manual entry for third instance
-					s1: "XBMC HTPC",
-					d1: {
+					s4060: "XBMC HTPC",
+					d4060: {
 							tokens: {
 								"[instSystem]": "XBMC HTPC",
 								"[instUsername]": "xbmc",
@@ -3004,11 +3147,11 @@ var XBMC_Controller = function(params) {
 			]);
 			
 			CF.setJoins([
-				{ join:"s60", value: instSystem },							// System Name
-				{ join:"s61", value: instURL },								// URL
-				{ join:"s62", value: instPort },							// Port
-				{ join:"s63", value: instUsername },						// Username
-				{ join:"s64", value: instPassword },						// Password
+				{ join:"s4480", value: instSystem },							// System Name
+				{ join:"s4481", value: instURL },								// URL
+				{ join:"s4482", value: instPort },							// Port
+				{ join:"s4483", value: instUsername },						// Username
+				{ join:"s4484", value: instPassword },						// Password
 				//{ join:"d60", tokens: {"[indexList]": listIndex} }		// Update button
 			]);
 		
@@ -3020,18 +3163,18 @@ var XBMC_Controller = function(params) {
 			]);
 			
 			CF.setJoins([
-				{ join:"s60", value: instSystem },							// System Name
-				{ join:"s61", value: instURL },								// URL
-				{ join:"s62", value: instPort },							// Port
-				{ join:"s63", value: instUsername },						// Username
-				{ join:"s64", value: instPassword },						// Password
+				{ join:"s4480", value: instSystem },							// System Name
+				{ join:"s4481", value: instURL },								// URL
+				{ join:"s4482", value: instPort },							// Port
+				{ join:"s4483", value: instUsername },						// Username
+				{ join:"s4484", value: instPassword },						// Password
 				//{ join:"d66", tokens: {"[currentSystem]": instSystem} }			// Update button
 			]);
 		}
 	};
 	
 	self.updateCurrentInstance = function() {
-		CF.getJoins(["s60", "s61", "s62", "s63", "s64"], function(joins) {
+		CF.getJoins(["s4480", "s4481", "s4482", "s4483", "s4484"], function(joins) {
 		
 		//CF.logObject("XBMCInstancesArray before", XBMCInstancesArray);	
 		
@@ -3040,14 +3183,14 @@ var XBMC_Controller = function(params) {
 		
 		// Push new data into array as new item
 			XBMCInstancesArray.push({	
-					s1: joins.s60.value,
-					d1: {
+					s4060: joins.s4480.value,
+					d4060: {
 							tokens: {
-								"[instSystem]": joins.s60.value,
-								"[instURL]": joins.s61.value,
-								"[instPort]": joins.s62.value,
-								"[instUsername]": joins.s63.value,
-								"[instPassword]": joins.s64.value,
+								"[instSystem]": joins.s4480.value,
+								"[instURL]": joins.s4481.value,
+								"[instPort]": joins.s4482.value,
+								"[instUsername]": joins.s4483.value,
+								"[instPassword]": joins.s4484.value,
 								"[type]": "user"
 						}
 					}
@@ -3061,19 +3204,19 @@ var XBMC_Controller = function(params) {
 	
 	self.addNewInstance = function() {									// Gets the values of the IP settings
 		// Get the values of all the IP Settings at once.
-		//s60 = System Name, s61 = Host Name / IP Add, s62 = port, s63 = username, s64 = password
-		CF.getJoins(["s70", "s71", "s72", "s73", "s74"], function(joins) {
+		//s4480 = System Name, s4481 = Host Name / IP Add, s4482 = port, s4483 = username, s4484 = password
+		CF.getJoins(["s4490", "s4491", "s4492", "s4493", "s4494"], function(joins) {
 			
 			// Add into global array
 			XBMCInstancesArray.push({	
-					s1: joins.s70.value,
-					d1: {
+					s4060: joins.s4490.value,
+					d4060: {
 							tokens: {
-								"[instSystem]": joins.s70.value,
-								"[instURL]": joins.s71.value,
-								"[instPort]": joins.s72.value,
-								"[instUsername]": joins.s73.value,
-								"[instPassword]": joins.s74.value,
+								"[instSystem]": joins.s4490.value,
+								"[instURL]": joins.s4491.value,
+								"[instPort]": joins.s4492.value,
+								"[instUsername]": joins.s4493.value,
+								"[instPassword]": joins.s4494.value,
 								"[type]": "user"
 						}
 					}
@@ -3081,16 +3224,16 @@ var XBMC_Controller = function(params) {
 			
 			
 			// Add into list to be displayed			
-			CF.listAdd("l25", [
+			CF.listAdd("l4060", [
 				{	
-					s1: joins.s70.value,
-					d1: {
+					s4060: joins.s4490.value,
+					d4060: {
 							tokens: {
-								"[instSystem]": joins.s70.value,
-								"[instURL]": joins.s71.value,
-								"[instPort]": joins.s72.value,
-								"[instUsername]": joins.s73.value,
-								"[instPassword]": joins.s74.value,
+								"[instSystem]": joins.s4490.value,
+								"[instURL]": joins.s4491.value,
+								"[instPort]": joins.s4492.value,
+								"[instUsername]": joins.s4493.value,
+								"[instPassword]": joins.s4494.value,
 								"[type]": "user"
 						}
 					}
@@ -3112,19 +3255,19 @@ var XBMC_Controller = function(params) {
 		// go through all the elements in the global array
 		for (var i = 0;i<XBMCInstancesArray.length;i++)										
 		{
-			var inst_s1 = XBMCInstancesArray[i].s1;
-			var inst_sys = XBMCInstancesArray[i].d1.tokens["[instSystem]"];
-			var inst_url = XBMCInstancesArray[i].d1.tokens["[instURL]"];
-			var inst_port = XBMCInstancesArray[i].d1.tokens["[instPort]"];
-			var inst_username = XBMCInstancesArray[i].d1.tokens["[instUsername]"];
-			var inst_password = XBMCInstancesArray[i].d1.tokens["[instPassword]"];
-			var inst_type = XBMCInstancesArray[i].d1.tokens["[type"];
+			var inst_s1 = XBMCInstancesArray[i].s4060;
+			var inst_sys = XBMCInstancesArray[i].d4060.tokens["[instSystem]"];
+			var inst_url = XBMCInstancesArray[i].d4060.tokens["[instURL]"];
+			var inst_port = XBMCInstancesArray[i].d4060.tokens["[instPort]"];
+			var inst_username = XBMCInstancesArray[i].d4060.tokens["[instUsername]"];
+			var inst_password = XBMCInstancesArray[i].d4060.tokens["[instPassword]"];
+			var inst_type = XBMCInstancesArray[i].d4060.tokens["[type"];
 			
 			if(inst_sys != instSystem)										// if the settings if not similar with the one deleted. Make sure this field is unique.
 			{
 				templistArray.push({	
-					s1: inst_s1,
-						d1: {
+					s4060: inst_s1,
+						d4060: {
 								tokens: {
 									"[instSystem]": inst_sys,
 									"[instURL]": inst_url,
