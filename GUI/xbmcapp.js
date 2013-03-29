@@ -356,14 +356,16 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s4020", order);
 		CF.setJoin("s4021", method);
 				
-		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre"]}, function(data) {
+//		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre"]}, function(data) {		// for Eden
+		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre", "art"]}, function(data) {		// for Frodo
 				TVSerieslistArray = [];			//initialize array
 				CF.listRemove("l"+baseJoin);	//clear list of any previous entries
 			
 				for (var i = 0; i<data.result.limits.total; i++) {							
 				
 				var showID = data.result.tvshows[i].tvshowid;
-				var thumbnail = self.URL + "vfs/" + data.result.tvshows[i].thumbnail;
+				//var thumbnail = self.URL + "vfs/" + data.result.tvshows[i].thumbnail;		// for Eden
+				var thumbnail = self.URL + "vfs/" + data.result.tvshows[i].art.banner;		// For Frodo
 				var fanart = self.URL + "vfs/" + data.result.tvshows[i].fanart;
 				var title = decode_utf8(data.result.tvshows[i].title);
 				var year = data.result.tvshows[i].year;
@@ -2702,9 +2704,9 @@ var XBMC_Controller = function(params) {
 					//CF.logObject(data);
 			
 			if(data.result.speed == 0){
-				CF.setJoin("d6666", 1);		// Show Recent Albums list on the Main Page
+				CF.setJoin("d4408", 1);		// Show Recent Albums list on the Main Page
 			}else{
-				CF.setJoin("d6666", 0);		// Show Recent Albums list on the Main Page
+				CF.setJoin("d4408", 0);		// Show Recent Albums list on the Main Page
 			}
 		});	
 	};
@@ -2716,9 +2718,9 @@ var XBMC_Controller = function(params) {
 					//CF.logObject(data);
 			
 			if(data.result.speed == 0){
-				CF.setJoin("d4314", 1);		// Show Recent Albums list on the Main Page
+				CF.setJoin("d4405", 1);		// Show Recent Albums list on the Main Page
 			}else{
-				CF.setJoin("d4314", 0);		// Show Recent Albums list on the Main Page
+				CF.setJoin("d4405", 0);		// Show Recent Albums list on the Main Page
 			}
 		});			
 	};
