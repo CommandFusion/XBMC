@@ -356,7 +356,7 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s4020", order);
 		CF.setJoin("s4021", method);
 				
-//		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre"]}, function(data) {		// for Eden
+//		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre"]}, function(data) {				// for Eden
 		self.rpc("VideoLibrary.GetTVShows", {"sort": { "order": order, "method": method}, "properties": ["thumbnail", "fanart", "title", "year", "episode", "genre", "art"]}, function(data) {		// for Frodo
 				TVSerieslistArray = [];			//initialize array
 				CF.listRemove("l"+baseJoin);	//clear list of any previous entries
@@ -1375,8 +1375,9 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s4326", fanart);
 	
 		self.currentArtistID = parseInt(id);
-		self.rpc("AudioLibrary.GetAlbums", { "artistid": self.currentArtistID, "properties": ["thumbnail", "title", "fanart", "artist"] }, function(data) {
-			//CF.logObject(data);
+	//	self.rpc("AudioLibrary.GetAlbums", { "artistid": self.currentArtistID, "properties": ["thumbnail", "title", "fanart", "artist"] }, function(data) {			// Eden
+		self.rpc("AudioLibrary.GetAlbums", { "filter":{"artistid": self.currentArtistID}, "properties": ["thumbnail", "title", "fanart", "artist"] }, function(data) {			// Frodo
+		//CF.logObject(data);
 			
 			// Create array to push all new items in
 			var listArray = [];
@@ -1438,8 +1439,9 @@ var XBMC_Controller = function(params) {
 		CF.setJoin("s4326", fanart);
 		
 		self.currentAlbumID = parseInt(id);
-		self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"order": "ascending", "method": "track"}, "properties": ["thumbnail", "title", "track", "file"]}, function(data) {
-			//CF.logObject(data);
+	//  self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"order": "ascending", "method": "track"}, "properties": ["thumbnail", "title", "track", "file"]}, function(data) {
+	    self.rpc("AudioLibrary.GetSongs", { "filter":{"albumid": self.currentAlbumID}, "sort": {"order": "ascending", "method": "track"}, "properties": ["thumbnail", "title", "track", "file"]}, function(data) {
+		//CF.logObject(data);
 			
 			// Loop through all returned TV Episodes
 			var listArray = [];
@@ -1487,7 +1489,8 @@ var XBMC_Controller = function(params) {
 		self.rpc("Player.Stop", {"playerid":0}, self.logReplyData);																	
 		
 		//Sort the songs by track and insert one by one, according to the position.
-		self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"method": "track"}}, function(data) {
+	//	self.rpc("AudioLibrary.GetSongs", { "albumid": self.currentAlbumID, "sort": {"method": "track"}}, function(data) {
+		self.rpc("AudioLibrary.GetSongs", { "filter":{"albumid": self.currentAlbumID}, "sort": {"method": "track"}}, function(data) {
 			for (var i = 0; i<data.result.limits.total; i++) {
 				setTimeout(self.rpc("Playlist.Insert",{"playlistid":0, "item": {"songid": data.result.songs[i].songid}, "position": i}, self.logReplyData), 400);	
 			}
